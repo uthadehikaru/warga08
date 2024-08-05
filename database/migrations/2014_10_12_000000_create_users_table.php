@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->unsignedTinyInteger('rt')->nullable();
+            $table->string('role')->nullable();
         });
     }
 
