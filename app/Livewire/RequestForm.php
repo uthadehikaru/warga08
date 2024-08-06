@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Request;
 use App\Models\User;
+use App\Notifications\RequestCreated;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -29,6 +30,8 @@ class RequestForm extends Component
         $data = $this->request;
         $data['code'] = strtoupper(Str::random(5));
         $request = Request::create($data);
+        $rt = User::rt()->where('rt',$request->rt)->first();
+        $rt->notify(new RequestCreated($request));
         $this->redirect(route('request.show',$request->code));
     }
 

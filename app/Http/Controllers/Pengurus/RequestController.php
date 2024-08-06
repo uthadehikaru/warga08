@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurus;
 use App\Http\Controllers\Controller;
 use App\Models\Request as ModelsRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
@@ -13,7 +14,11 @@ class RequestController extends Controller
      */
     public function index()
     {
-        $data['requests'] = ModelsRequest::latest()->paginate();
+        $request = ModelsRequest::latest();
+        if(Auth::user()->role=='rt'){
+            $request->where('rt',Auth::user()->rt);
+        }
+        $data['requests'] = $request->paginate();
         return view('pengurus.request.index', $data);
     }
 

@@ -16,6 +16,16 @@ class Request extends Model
 
     public function scopeRw($query):void
     {
-        $query->where('status','rt');
+        $query->where('status','approve_rt');
+    }
+
+    public function scopeDone($query):void
+    {
+        $query->where('status','approve_rw');
+    }
+
+    public function scopeCanceled($query):void
+    {
+        $query->where('status','canceled');
     }
 }

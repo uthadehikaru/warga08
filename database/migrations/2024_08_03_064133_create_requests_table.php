@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('code')->unique();
+            $table->string('document_no')->nullable();
             $table->string('nik');
             $table->string('name');
             $table->string('phone');

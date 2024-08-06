@@ -3,6 +3,9 @@
 <div class="grid grid-col-1 gap-2 px-2">
     <h1 class="font-bold text-lg">Status Pengajuan</h1>
     <p>Kode Pengajuan : {{ $request->code }}</p>
+    @if($request->document_no)
+    <p>No. Surat Pengantar : {{ $request->document_no }}</p>
+    @endif
     <p>RT : {{ $request->rt }}</p>
     <p>Nama : {{ $request->name }}</p>
     <p>Telp : {{ $request->phone }}</p>

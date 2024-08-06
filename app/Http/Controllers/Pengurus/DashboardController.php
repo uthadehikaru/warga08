@@ -14,8 +14,11 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $data['total_rt'] = User::rt()->count();
+        $data['total'] = Request::count();
         $data['approve_rt'] = Request::rt()->count();
         $data['approve_rw'] = Request::rw()->count();
+        $data['done'] = Request::done()->count();
+        $data['canceled'] = Request::canceled()->count();
         return view('pengurus.dashboard', $data);
     }
 }

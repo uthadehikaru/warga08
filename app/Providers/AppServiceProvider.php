@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\RequestCreated;
+use App\Listeners\SendRequestNotification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+
+        Event::listen(
+            RequestCreated::class,
+            SendRequestNotification::class,
+        );
     }
 }

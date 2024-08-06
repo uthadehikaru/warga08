@@ -1,3 +1,6 @@
 {
-    "status.new" : "Menunggu Persetujuan"
+    "status.new" : "Menunggu Persetujuan RT",
+    "status.approve_rt" : "Disetujui RT",
+    "status.approve_rw" : "Disetujui RW",
+    "status.canceled" : "Ditolak"
 }
