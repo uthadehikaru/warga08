@@ -43,7 +43,7 @@ class RequestCreated extends Notification implements ShouldQueue
                     ->line('Alamat : '.$this->request->address)
                     ->line('Telp : '.$this->request->phone)
                     ->line('Email : '.$this->request->email)
-                    ->line('Maksud/Tujuan : '.$this->request->description)
+                    ->line('Keperluan : '.$this->request->description)
                     ->action('Lihat Pengajuan', route('pengurus.request.index'));
     }
 

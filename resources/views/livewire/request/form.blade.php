@@ -19,7 +19,7 @@
     </label>
     <label class="form-control">
     <div class="label">
-        <span class="label-text">Maksud/Tujuan</span>
+        <span class="label-text">Keperluan</span>
     </div>
     <textarea wire:model="request.description" class="textarea textarea-bordered h-24" placeholder="masukkan keterangan"></textarea>
     </label>

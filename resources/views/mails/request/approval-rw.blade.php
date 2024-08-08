@@ -9,7 +9,7 @@
 <p>Alamat : {{ $request->address }}</p>
 <p>Telp : {{ $request->phone }}</p>
 <p>Email : {{ $request->email }}</p>
-<p>Maksud/Tujuan : {{ $request->description }}</p>
+<p>Keperluan : {{ $request->description }}</p>
 
 <x-mail::button url="{{route('request.show', $request->code)}}">
 Lihat Pengajuan

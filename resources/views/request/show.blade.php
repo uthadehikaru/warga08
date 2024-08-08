@@ -11,7 +11,10 @@
     <p>Telp : {{ $request->phone }}</p>
     <p>Alamat : {{ $request->address }}</p>
     <p>Email : {{ $request->email }}</p>
-    <p>Maksud/Tujuan : {{ $request->description }}</p>
+    <p>Keperluan : {{ $request->description }}</p>
     <p>Status : @lang('status.'.$request->status)</p>
+    @if($request->status=='approve_rt')
+    <a class="btn btn-primary" href="{{ asset('documents/'.$request->code.'.pdf') }}" target="{{ $request->code }}">Unduh Draft Surat Pengantar</a>
+    @endif
 </div>
 @endsection

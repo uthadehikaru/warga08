@@ -10,6 +10,8 @@ use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\LoginForm;
 use App\Livewire\RequestForm;
+use App\Models\Request as ModelsRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +33,17 @@ Route::get('form-request', RequestForm::class)->name('request.create');
 Route::get('request/{code}', RequestController::class)->name('request.show');
 Route::view('check-request', 'request.check')->name('request.check');
 Route::post('check-request', RequestCheck::class);
+Route::get('document', function(){
+    $data['request'] = ModelsRequest::first();
+    return view('document', $data);
+});
+Route::get('document/pdf', function(){
+    $data['request'] = ModelsRequest::first();
+    $pdf = Pdf::loadView('document', $data);
+ 
+    return $pdf->download();
+});
+
 
 Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function(){
     Route::get('dashboard', DashboardController::class)->name('dashboard');  

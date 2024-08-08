@@ -6,6 +6,7 @@ use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -52,6 +53,10 @@ class RequestApprovedRT extends Mailable implements ShouldQueue
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath(public_path('documents/'.$this->request->code.'.pdf'))
+            ->as($this->request->document_no.'.pdf')
+            ->withMime('application/pdf')
+        ];
     }
 }

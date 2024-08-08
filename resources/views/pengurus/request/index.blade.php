@@ -18,7 +18,7 @@
         <div class="collapse-content">
             <p class="text-primary">Kode Pengajuan : {{ $request->code }}</p>
             @if($request->document_no)
-            <p class="text-success font-medium">No Surat Pengantar : {{ $request->document_no }}</p>
+            <p class="text-success font-medium">No Surat Pengantar : <a class="underline font-bold" href="{{ asset('documents/'.$request->code.'.pdf') }}" target="{{ $request->code }}">{{ $request->document_no }}</a></p>
             @endif
             <p>RT : {{ $request->rt }}</p>
             <p>Nama : {{ $request->name }}</p>
@@ -26,7 +26,7 @@
             <p>Telp : {{ $request->phone }}</p>
             <p>Alamat : {{ $request->address }}</p>
             <p>Email : {{ $request->email }}</p>
-            <p>Maksud/Tujuan : {{ $request->description }}</p>
+            <p>Keperluan : {{ $request->description }}</p>
             <p>Status : @lang('status.'.$request->status)</p>
             @can('approve rt', $request)
             <p class="py-2 flex gap-2">
