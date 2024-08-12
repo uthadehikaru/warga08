@@ -33,12 +33,14 @@ class RequestConfirmController extends Controller
         }
         $request->save();
 
-        Pdf::loadView('document', ['request'=>$request])->save('documents/'.$request->code.'.pdf');
+        $rt = User::rt()->where('rt',$request->rt)->first();
+        $rw = User::rw()->first();
+
+        Pdf::loadView('document', ['request'=>$request, 'rt' => $rt, 'rw' => $rw])->save('documents/'.$request->code.'.pdf');
         if($request->status=='approve_rt'){
-            Mail::to($request->email)->send(new RequestApprovedRT($request));
-            $rw = User::rw()->first();
-            if($rw)
-                Mail::to($rw)->send(new RequestApprovalRW($request));
+            Mail::to($request->email)
+            ->cc($rw->email, $rw->name)
+            ->send(new RequestApprovedRT($request));
         }
         DB::commit();
         return back()->with('message','Pengajuan disetujui. No Surat Pengantar '.$request->document_no);

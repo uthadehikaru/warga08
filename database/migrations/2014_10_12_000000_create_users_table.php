@@ -20,6 +20,14 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedTinyInteger('rt')->nullable();
+            $table->string('nik')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('birth_place')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['p','w'])->default('p');
+            $table->string('religion')->nullable();
+            $table->string('work')->nullable();
+            $table->text('address')->nullable();
             $table->string('role')->nullable();
         });
     }

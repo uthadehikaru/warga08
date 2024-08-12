@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Request;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -35,16 +36,29 @@ class RequestCreated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->greeting("Assalaamu'alaikum Warahmatullahi Wabarakaatuh")
-                    ->subject('Pengajuan Surat Pengantar Baru')
-                    ->line('Pengajuan surat pengantar baru sebagai berikut :')
-                    ->line('Nama : '.$this->request->name)
-                    ->line('Alamat : '.$this->request->address)
-                    ->line('Telp : '.$this->request->phone)
-                    ->line('Email : '.$this->request->email)
-                    ->line('Keperluan : '.$this->request->description)
-                    ->action('Lihat Pengajuan', route('pengurus.request.index'));
+        $mail =(new MailMessage)
+            ->greeting("Yth. Bpk/Ibu ".$this->request->rt_name)
+            ->subject($this->request->code.' : Pengajuan Surat Pengantar Baru')
+            ->line('Pengajuan surat pengantar baru sebagai berikut :')
+            ->line('Nama : '.$this->request->name)
+            ->line('Jenis Kelamin : '.__('gender.'.$this->request->gender))
+            ->line('Tempat, Tanggal Lahir : '.$this->request->birth_date.", ".$this->request->birth_place)
+            ->line('Agama : '.$this->request->religion)
+            ->line('Pekerjaan : '.$this->request->work)
+            ->line('Alamat : '.$this->request->address." Rt. ".$this->request->rt)
+            ->line('Telp : '.$this->request->phone)
+            ->line('Email : '.$this->request->email)
+            ->line('Keperluan : '.$this->request->description)
+            ->line('Status : '.__('status.'.$this->request->status))
+            ->action('Lihat Pengajuan', route('pengurus.request.index'));
+        
+        
+        $rw = User::rw()->first();
+        if($rw){
+            $mail->cc($rw->email, $rw->name);
+        }
+        
+        return $mail;
     }
 
     /**

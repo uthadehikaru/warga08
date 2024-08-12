@@ -6,11 +6,12 @@ use App\Models\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RequestApprovalRW extends Mailable implements ShouldQueue
+class RequestApprovedRW extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +29,7 @@ class RequestApprovalRW extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Surat Pengantar telah Disetujui RT',
+            subject: $this->request->code.' : Pengajuan Surat Pengantar Disetujui RW',
         );
     }
 
@@ -38,7 +39,7 @@ class RequestApprovalRW extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'mails.request.approval-rw', // This part
+            markdown: 'mails.request.approved-rw', // This part
             with: [
                 'request' => $this->request,
             ],
@@ -52,6 +53,10 @@ class RequestApprovalRW extends Mailable implements ShouldQueue
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath(public_path('documents/'.$this->request->code.'.pdf'))
+            ->as($this->request->document_no.'.pdf')
+            ->withMime('application/pdf')
+        ];
     }
 }

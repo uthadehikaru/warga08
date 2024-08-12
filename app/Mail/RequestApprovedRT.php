@@ -29,7 +29,7 @@ class RequestApprovedRT extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pengajuan Surat Pengantar Disetujui RT',
+            subject: $this->request->code.' : Pengajuan Surat Pengantar Disetujui RT',
         );
     }
 

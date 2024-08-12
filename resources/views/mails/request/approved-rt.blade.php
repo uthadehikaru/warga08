@@ -1,5 +1,5 @@
 <x-mail::message>
-<p>Assalaamu'alaikum Warahmatullahi Wabarakaatuh</p>
+<p>Yth. Bpk/Ibu {{ $request->name }}</p>
 
 <p>Pengajuan surat pengantar anda telah disetujui oleh RT.</p>
 <p>Silahkan mencetak dokumen surat pengantar yang terlampir atau mendatangi Ketua RT setempat untuk meminta surat pengantar.</p>

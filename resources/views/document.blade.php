@@ -107,7 +107,7 @@
             <h1 class="font-bold text-xl">RUKUN TETANGGA {{ Str::padLeft($request->rt,3,'0') }} / 08</h1>
             <h2 class="font-medium text-md">KELURAHAN KELAPA DUA KECAMATAN KEBON JERUK</h2>
             <h2 class="font-medium text-md">KOTA ADMINISTRASI JAKARTA BARAT</h2>
-            <p>Sekretariat : Jalan Haji Kelik Gang Lada No 180 telp 089676391532 alihajis@gmail.com</p>
+            <p>Sekretariat : {{ $rt->address }} {{ $rt->phone?'Telp : '.$rt->phone:'' }} {{ $rt->email?'Email : '.$rt->email:'' }}</p>
             <p>JAKARTA</p>
             <p class="text-right">Kode Pos 11550</p>
             <hr class="border border-1 border-black order-double" />
@@ -125,22 +125,22 @@
                     <tr>
                         <td>Tempat/Tgl. Lahir</td>
                         <td>: </td>
-                        <td>xxx</td>
+                        <td>{{ $request->birth_place }}, {{ $request->birth_date->format('d M Y') }}</td>
                     </tr>
                     <tr>
                         <td>Jenis Kelamin</td>
                         <td>: </td>
-                        <td>xxx</td>
+                        <td>@lang('gender.'.$request->gender)</td>
                     </tr>
                     <tr>
                         <td>Agama</td>
                         <td>: </td>
-                        <td>xxx</td>
+                        <td>{{ $request->religion }}</td>
                     </tr>
                     <tr>
                         <td>Pekerjaan</td>
                         <td>: </td>
-                        <td>xxx</td>
+                        <td>{{ $request->work }}</td>
                     </tr>
                     <tr>
                         <td>No KTP</td>
@@ -150,7 +150,7 @@
                     <tr>
                         <td>Alamat</td>
                         <td>: </td>
-                        <td>{{ $request->address }} Kelurahan  Kelapa Dua  kecamatan Kebon Jeruk Kota Jakarta Barat</td>
+                        <td>{{ $request->address }} RT. {{ Str::padLeft($request->rt,3,'0') }} / RW. 008 Kelurahan  Kelapa Dua  kecamatan Kebon Jeruk Kota Jakarta Barat</td>
                     </tr>
                     <tr>
                         <td>Keperluan</td>
@@ -158,7 +158,7 @@
                         <td>{{ $request->description }}</td>
                     </tr>
                 </table>
-                <p class="mt-2">Demikian surat pengantar ini di buat untuk dapat dipergunakan sebagaimana semestinya dan yang berkepentingan untuk menjadi maklum.</p>
+                <p class="mt-2">Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana semestinya dan yang berkepentingan untuk menjadi maklum.</p>
                 <p class="mt-2">Nomor : {{ $request->document_no }}</p>
                 <p class="">Tanggal : {{ $request->created_at->format('d M Y') }}</p>
                 <table class="w-full mt-2">
@@ -172,7 +172,7 @@
                             <br/>
                             <br/>
                             <br/>
-                            ( BISRI ALI )</p>
+                            ( {{ $rw->name }} )</p>
                         </td>
                         <td class="text-center">
                             <p>KETUA RT {{ Str::padLeft($request->rt,3,'0') }} / 08<br/>
@@ -182,7 +182,7 @@
                             <br/>
                             <br/>
                             <br/>
-                            <br/>( ABDULLAH ALI )</p>
+                            <br/>( {{ $rt->name }} )</p>
                         </td>
                     </tr>
                 </table>

@@ -46,6 +46,11 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
+    public static function religion():array
+    {
+        return ['islam','kristen','protestan','hindu','budha','konghucu'];
+    }
+
     public function scopeRt($query):void
     {
         $query->where('role','rt');

@@ -1,4 +1,6 @@
 {
+    "gender.p" : "Pria",
+    "gender.w" : "Wanita",
     "status.new" : "Menunggu Persetujuan RT",
     "status.approve_rt" : "Disetujui RT",
     "status.approve_rw" : "Disetujui RW",

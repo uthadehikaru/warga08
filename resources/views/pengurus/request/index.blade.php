@@ -27,7 +27,7 @@
             <p>Alamat : {{ $request->address }}</p>
             <p>Email : {{ $request->email }}</p>
             <p>Keperluan : {{ $request->description }}</p>
-            <p>Status : @lang('status.'.$request->status)</p>
+            <p class="text-warning">Status : @lang('status.'.$request->status)</p>
             @can('approve rt', $request)
             <p class="py-2 flex gap-2">
                 <a href="{{ route('pengurus.request.confirm', $request->id) }}" onclick="return confirm('Menyetujui Dokumen?')"

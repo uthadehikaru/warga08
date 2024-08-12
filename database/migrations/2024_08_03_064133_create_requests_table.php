@@ -22,7 +22,15 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('email');
+            $table->string('gender');
+            $table->string('birth_place');
+            $table->date('birth_date');
+            $table->string('work');
+            $table->string('religion');
+            $table->string('rt_name');
+            $table->string('rw_name');
             $table->text('description');
+            $table->foreignIdFor(User::class);
             $table->unsignedTinyInteger('rt');
             $table->text('note')->nullable();
             $table->string('status')->default('new');
