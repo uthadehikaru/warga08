@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Request as ModelsRequest;
 use Illuminate\Http\Request;
 
 class RequestCheck extends Controller
@@ -11,6 +12,7 @@ class RequestCheck extends Controller
      */
     public function __invoke(Request $request)
     {
-        return redirect()->route('request.show', $request->code);
+        $req = ModelsRequest::where(['code'=>$request->code, 'nik'=>$request->nik])->firstOrFail();
+        return redirect()->route('request.show', $req->code);
     }
 }

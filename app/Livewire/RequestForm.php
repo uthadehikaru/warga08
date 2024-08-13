@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\RequestCreated;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -33,15 +34,41 @@ class RequestForm extends Component
             'birth_date' => '',
             'description' => '',
         ];
+
+        $user = Auth::user();
+        if($user){
+            $this->request['rt'] = $user->rt;
+        }
+    }
+
+    public function back()
+    {
+        $this->resetErrorBag();
+        $this->step--;
     }
 
     public function next()
     {
+        $this->resetErrorBag();
         $this->step++;
     }
 
     public function submit()
     {
+        $this->validate([ 
+            'request.rt' => 'required|numeric',
+            'request.nik' => 'required|numeric|digits:16',
+            'request.name' => 'required|min:3|max:255',
+            'request.email' => 'required|email',
+            'request.phone' => 'required|numeric',
+            'request.gender' => 'required|in:p,w',
+            'request.birth_place' => 'required|min:3|max:255',
+            'request.birth_date' => 'required|date',
+            'request.address' => 'required|min:3|max:255',
+            'request.work' => 'required|min:3|max:255',
+            'request.description' => 'required',
+        ]);
+
         DB::transaction(function() {
             $data = $this->request;
             $rt = User::rt()->where('rt',$data['rt'])->first();

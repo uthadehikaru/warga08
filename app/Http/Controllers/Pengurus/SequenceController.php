@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\Pengurus;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Sequence;
 use Illuminate\Http\Request;
 
-class RtController extends Controller
+class SequenceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['rw'] = User::rw()->first();
-        $data['rt'] = User::rt()->orderBy('rt')->get();
-        return view('pengurus.rt.index',$data);
+        $data['sequences'] = Sequence::latest('sequence_date')->paginate();
+        return view('pengurus.sequence.index', $data);
     }
 
     /**
@@ -45,28 +44,17 @@ class RtController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $user_id)
+    public function edit(string $id)
     {
-        $user = User::findOrFail($user_id);
-        $data['user'] = $user;
-        return view('pengurus.rt.form', $data);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $user_id)
+    public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($user_id);
-        $data = $request->validate([
-            'name' => 'required|min:3|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
-            'address' => 'required',
-        ]);
-
-        $user->update($data);
-        return redirect()->route('pengurus.rt.index')->with('message','Data diperbaharui');
+        //
     }
 
     /**

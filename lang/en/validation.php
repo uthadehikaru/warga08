@@ -186,6 +186,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        "name" => "Nama",
+        "nik" => "NIK",
+        "phone" => "Telp",
+        "email" => "Email",
+        "address" => "Alamat",
+        "religion" => "Agama",
+        "work" => "Pekerjaan",
+        "birth_date" => "Tanggal Lahir",
+        "birth_place" => "Tempat Lahir",
+        "description" => "Keperluan",
+    ],
 
 ];

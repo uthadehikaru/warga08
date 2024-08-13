@@ -9,6 +9,10 @@ class Request extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'birth_date' => 'date:Y-m-d',
+    ];
+
     public function scopeRt($query):void
     {
         $query->where('status','new');

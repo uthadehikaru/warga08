@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,79 +22,91 @@ class UserSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Bisri Ali',
-            'email' => 'bisri.ali@warga08.test',
-            'password' => Hash::make('rw8'),
+            'email' => 'alibisri158@gmail.com',
+            "phone" => "087783103733",
+            'address' => 'Jalan Haji Kelik Gang Lada',
+            'password' => Hash::make('rw123'),
             'role' => 'rw',
         ]);
             
         \App\Models\User::factory()->create([
             'name' => 'Kurtubi',
-            'email' => "rt1@warga08.test",
-            'password' => Hash::make('rt1'),
+            'email' => "kurtubi2111@gmail.com",
+            "phone" => "082122903115",
+            'address' => 'Jln.Raya Kelapa Dua No. 12',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>1,
         ]);
         
         \App\Models\User::factory()->create([
             'name' => 'Ir. H. Jamaludin',
-            'email' => "rt2@warga08.test",
-            'password' => Hash::make('rt2'),
+            'email' => "hjamal2008@gmail.com",
+            "phone" => "0817878008",
+            'address' => 'Jln. H. Rausin No. 25',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>2,
         ]);
         
         \App\Models\User::factory()->create([
             'name' => 'Muhammad Fitrah udin',
-            'email' => "rt3@warga08.test",
-            'password' => Hash::make('rt3'),
+            'email' => "aufklarung1899@gmail.com",
+            "phone" => "0817724441",
+            "address" => 'jl. Raya kelapa dua no. 1',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>3,
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'Abdullah Ali',
-            'email' => "rt4@warga08.test",
-            'password' => Hash::make('rt4'),
+            'email' => "alihajis@gmail.com",
+            "phone" => "089676391532",
+            'address' => 'Jalan Haji Kelik Gang Lada No 180',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>4,
-            'address' => 'Jalan Haji Kelik Gang Lada No 180 telp 089676391532',
-            'email' => 'alihajis@gmail.com',
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'Muhammad Irvan',
-            'email' => "rt5@warga08.test",
-            'password' => Hash::make('rt5'),
+            'email' => "boydratz@Gmail.com",
+            "phone" => "081295846888",
+            'address' => 'Jln.H.Rausin Gang. Kayu Manis II',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>5,
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'H. Dody Syaiful Anwar',
-            'email' => "rt6@warga08.test",
+            'email' => "Dodysaifulanwar@gmail.com",
+            'phone' => '081905508141',
+            'address' => 'Komplek DPR RI No. 28',
             'password' => Hash::make('rt6'),
             'role' => 'rt',
             'rt'=>6,
-            'address' => 'Komplek DPR RI No. 28 Rt. 006 / Rw 08',
-            'phone' => '081318649427',
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'H. Uus Agustino',
-            'email' => "rt7@warga08.test",
-            'password' => Hash::make('rt7'),
+            'email' => "uus.agustino1150@gmail.com",
+            'phone' => '081316313273',
+            'address' => 'Jln. H. Arisan No. 72A',
+            'password' => Hash::make('rt123'),
             'role' => 'rt',
             'rt'=>7,
         ]);
 
         \App\Models\User::factory()->create([
-            'name' => 'Drs. Deny Hardipriyatna',
-            'email' => "rt8@warga08.test",
+            'name' => 'Drs. Deny Hardipriyatna',
+            'email' => "denihardi22@gmail.com",
+            'address' => 'Jl. H. Usman No. 96 Rt. 008 / Rw. 08',
+            'phone' => '081210066123',
             'password' => Hash::make('rt8'),
             'role' => 'rt',
             'rt'=>8,
-            'address' => 'Jl. H. Usman No. 96 Rt. 008 / Rw. 08',
-            'phone' => '081210066123',
         ]);
     }
 }

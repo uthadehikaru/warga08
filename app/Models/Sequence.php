@@ -10,6 +10,10 @@ class Sequence extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'sequence_date' => 'date',
+    ];
+
     public static function next(Request $request)
     {
         $RomanMonth = ["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];

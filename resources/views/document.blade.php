@@ -125,7 +125,7 @@
                     <tr>
                         <td>Tempat/Tgl. Lahir</td>
                         <td>: </td>
-                        <td>{{ $request->birth_place }}, {{ $request->birth_date->format('d M Y') }}</td>
+                        <td>{{ $request->birth_place }}, {{ $request->birth_date->format('d F Y') }}</td>
                     </tr>
                     <tr>
                         <td>Jenis Kelamin</td>
@@ -160,7 +160,7 @@
                 </table>
                 <p class="mt-2">Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana semestinya dan yang berkepentingan untuk menjadi maklum.</p>
                 <p class="mt-2">Nomor : {{ $request->document_no }}</p>
-                <p class="">Tanggal : {{ $request->created_at->format('d M Y') }}</p>
+                <p class="">Tanggal : {{ $request->created_at->format('d F Y') }}</p>
                 <table class="w-full mt-2">
                     <tr>
                         <td class="text-center">

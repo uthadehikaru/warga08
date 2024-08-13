@@ -3,7 +3,7 @@
 <div class="p-2">
     <h1 class="font-bold text-xl py-2">Daftar Pengajuan</h1>
     <x-alert />
-    @foreach ($requests as $request)
+    @forelse ($requests as $request)
     <div @class([
         "collapse",
         "border",
@@ -46,7 +46,9 @@
             @endcan
         </div>
     </div>
-    @endforeach
+    @empty
+    <p class="italic text-primary">Belum ada pengajuan</p>
+    @endforelse
     {!! $requests->links() !!}
 </div>
 @endsection
