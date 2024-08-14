@@ -49,6 +49,13 @@ class RequestForm extends Component
 
     public function next()
     {
+        $this->valid();
+
+        $this->step++;
+    }
+
+    private function valid()
+    {
         $this->validate([ 
             'request.rt' => 'required|numeric',
             'request.nik' => 'required|numeric|digits:16',
@@ -60,15 +67,15 @@ class RequestForm extends Component
             'request.birth_date' => 'required|date',
             'request.address' => 'required|min:3|max:255',
             'request.work' => 'required|min:3|max:255',
+            'request.religion' => 'required',
             'request.description' => 'required',
         ]);
-
-        $this->step++;
     }
 
     public function submit()
     {
-
+        $this->valid();
+        
         DB::transaction(function() {
             $data = $this->request;
             $rt = User::rt()->where('rt',$data['rt'])->first();

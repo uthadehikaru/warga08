@@ -13,8 +13,8 @@
         <div class="label">
             <span class="label-text">RT</span>
         </div>
-        <select class="select select-bordered w-full" wire:model.live="request.rt" required>
-            <option>Pilih RT</option>
+        <select class="select select-bordered w-full" wire:model="request.rt" required>
+            <option value="">Pilih RT</option>
             @foreach($rt as $row)
             <option value="{{ $row->rt }}">RT. {{ $row->rt }} - {{ $row->name }}</option>
             @endforeach
@@ -77,8 +77,8 @@
         <div class="label">
             <span class="label-text">Agama</span>
         </div>
-        <select class="select select-bordered w-full" wire:model.live="request.religion" required>
-        <option disabled selected>Pilih Agama</option>
+        <select class="select select-bordered w-full" wire:model="request.religion" required>
+        <option value="">Pilih Agama</option>
         @foreach($religions as $religion)
         <option value="{{ $religion }}">{{ $religion }}</option>
         @endforeach
