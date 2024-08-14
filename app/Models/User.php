@@ -43,6 +43,7 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth_date' => 'date',
         'password' => 'hashed',
     ];
 
@@ -54,6 +55,11 @@ class User extends Authenticatable implements FilamentUser
     public function scopeRt($query):void
     {
         $query->where('role','rt');
+    }
+
+    public function scopeWarga($query):void
+    {
+        $query->where('role','warga');
     }
 
     public function scopeRw($query):void

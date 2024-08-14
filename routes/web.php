@@ -7,6 +7,7 @@ use App\Http\Controllers\Pengurus\Request\RequestConfirmController;
 use App\Http\Controllers\Pengurus\RequestController as PengurusRequestController;
 use App\Http\Controllers\Pengurus\RtController;
 use App\Http\Controllers\Pengurus\SequenceController;
+use App\Http\Controllers\Pengurus\WargaController;
 use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\LoginForm;
@@ -50,6 +51,7 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
     Route::get('dashboard', DashboardController::class)->name('dashboard');  
     Route::resource('rt', RtController::class);
     Route::resource('sequence', SequenceController::class);
+    Route::resource('warga', WargaController::class);
     Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');  
     Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');  
     Route::resource('request', PengurusRequestController::class);

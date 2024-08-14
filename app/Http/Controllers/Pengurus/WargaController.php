@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Pengurus;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DocumentController extends Controller
+class WargaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $users = User::warga();
+        if(Auth::user()->role=='rt'){
+            $users->where('rt',Auth::user()->rt);
+        }
+        $data['users'] = $users->paginate();
+        return view('pengurus.warga.index', $data);
     }
 
     /**
