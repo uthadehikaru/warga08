@@ -49,12 +49,6 @@ class RequestForm extends Component
 
     public function next()
     {
-        $this->resetErrorBag();
-        $this->step++;
-    }
-
-    public function submit()
-    {
         $this->validate([ 
             'request.rt' => 'required|numeric',
             'request.nik' => 'required|numeric|digits:16',
@@ -68,6 +62,12 @@ class RequestForm extends Component
             'request.work' => 'required|min:3|max:255',
             'request.description' => 'required',
         ]);
+
+        $this->step++;
+    }
+
+    public function submit()
+    {
 
         DB::transaction(function() {
             $data = $this->request;
