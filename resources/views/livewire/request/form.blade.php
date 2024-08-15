@@ -24,13 +24,13 @@
         <div class="label">
             <span class="label-text">Email</span>
         </div>
-        <input type="email" name="email" placeholder="Masukkan Email" wire:model="request.email" class="input input-bordered w-full" required />
+        <input type="email" name="email" placeholder="Masukkan Email" wire:model="request.email" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
     <label class="form-control">
         <div class="label">
             <span class="label-text">NIK</span>
         </div>
-        <input type="text" name="nik" placeholder="Masukkan NIK" wire:model="request.nik" class="input input-bordered w-full" required />
+        <input type="text" name="nik" placeholder="Masukkan NIK" wire:model="request.nik" class="input input-bordered w-full placeholder-gray-500" required />
         @error('nik')
         <div class="label">
             <span class="label-text-alt text-danger">{{ $message }}</span>
@@ -41,7 +41,7 @@
         <div class="label">
             <span class="label-text">Nama</span>
         </div>
-        <input type="text" name="name" placeholder="Nama Lengkap" wire:model="request.name" class="input input-bordered w-full" required />
+        <input type="text" name="name" placeholder="Nama Lengkap" wire:model="request.name" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
         <label class="form-control">
         <div class="label">
@@ -56,14 +56,14 @@
         <div class="label">
             <span class="label-text">Telp</span>
         </div>
-        <input type="text" name="phone" placeholder="No Telp" wire:model="request.phone" class="input input-bordered w-full" required />
+        <input type="text" name="phone" placeholder="No Telp" wire:model="request.phone" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
     <label class="form-control">
         <div class="label">
             <span class="label-text">Tempat, Tanggal Lahir</span>
         </div>
         <div class="flex gap-2">
-            <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered w-full" required />
+            <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered w-full placeholder-gray-500" required />
             <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered w-full" required />
         </div>    
     </label>
@@ -71,7 +71,7 @@
         <div class="label">
             <span class="label-text">Pekerjaan</span>
         </div>
-        <input type="text" placeholder="Pekerjaan" wire:model="request.work" class="input input-bordered w-full" required />
+        <input type="text" placeholder="Pekerjaan" wire:model="request.work" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
     <label class="form-control">
         <div class="label">
@@ -88,13 +88,13 @@
         <div class="label">
             <span class="label-text">Alamat</span>
         </div>
-        <textarea wire:model="request.address" name="address" class="textarea textarea-bordered h-24" placeholder="masukkan alamat jalan dan no rumah. tidak perlu rt, rw dan lainnya"></textarea>
+        <textarea wire:model="request.address" name="address" class="textarea textarea-bordered h-24 placeholder-gray-500" placeholder="masukkan alamat jalan dan no rumah. tidak perlu rt, rw dan lainnya"></textarea>
     </label>
     <label class="form-control">
         <div class="label">
             <span class="label-text">Keperluan</span>
         </div>
-        <textarea wire:model="request.description" name="description" class="textarea textarea-bordered h-24" placeholder="masukkan keterangan"></textarea>
+        <textarea wire:model="request.description" name="description" class="textarea textarea-bordered h-24 placeholder-gray-500" placeholder="masukkan keterangan"></textarea>
     </label>
     <x-alert />
     <button type="button" wire:click="next" class="btn btn-outline btn-primary">Lanjut</button>

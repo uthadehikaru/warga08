@@ -19,6 +19,10 @@ class RequestCancelController extends Controller
             abort(403);
 
         $request->status = 'canceled';
+        if($request->status=='new')
+            $request->note = "Ditolak oleh RT";
+        else
+            $request->note = "Ditolak oleh RW";
         $request->save();
         return back()->with('message','Pengajuan ditolak.');
     }

@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('menu')
+<li><a href="{{ url('') }}">Beranda</a></li>
 <li><a href="{{ route('request.create') }}">Pengajuan</a></li>
 <li><a href="{{ route('request.check') }}">Cek Status</a></li>
 @guest

@@ -2,7 +2,7 @@
     <section class="text-gray-600 body-font relative">
         <div class="container px-5 py-5 mx-auto">
             <div class="flex flex-col text-center w-full mb-12">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-200">Masuk</h1>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-800">Masuk</h1>
                 @error('error')
                 <p class="p-2 text-error">{{ $message }}</p>
                 @enderror
@@ -11,16 +11,16 @@
                 <form class="flex flex-col flex-wrap -m-2" wire:submit="submit">
                     <div class="p-2 w-full">
                         <div class="relative">
-                            <label for="email" class="leading-7 text-sm text-gray-200">Email</label>
+                            <label for="email" class="leading-7 text-sm text-gray-800">Email</label>
                             <input type="email" id="email" name="email" wire:model="email"
-                                class="w-full rounded border border-gray-300 p-2 text-white">
+                                class="w-full rounded border border-gray-300 p-2 text-gray-800">
                         </div>
                     </div>
                     <div class="p-2 w-full">
                         <div class="relative">
-                            <label for="password" class="leading-7 text-sm text-gray-200">Password</label>
+                            <label for="password" class="leading-7 text-sm text-gray-800">Password</label>
                             <input type="password" id="password" name="password" wire:model="password"
-                                class="w-full rounded border border-gray-300 p-2 text-white">
+                                class="w-full rounded border border-gray-300 p-2 text-gray-800">
                         </div>
                     </div>
                     <div class="p-2 w-full">
