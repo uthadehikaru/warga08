@@ -58,15 +58,23 @@
         </div>
         <input type="text" name="phone" placeholder="No Telp" wire:model="request.phone" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
+    
+    <div class="flex gap-2">
     <label class="form-control">
         <div class="label">
-            <span class="label-text">Tempat, Tanggal Lahir</span>
+            <span class="label-text">Tempat Lahir</span>
         </div>
-        <div class="flex gap-2">
             <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered w-full placeholder-gray-500" required />
-            <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered w-full" required />
-        </div>    
+
     </label>
+    <label class="form-control">
+        <div class="label">
+            <span class="label-text">Tanggal Lahir</span>
+        </div>
+            <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered w-full" required />
+        
+    </label>
+    </div>    
     <label class="form-control">
         <div class="label">
             <span class="label-text">Pekerjaan</span>
