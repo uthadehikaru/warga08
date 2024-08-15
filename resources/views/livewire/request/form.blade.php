@@ -60,18 +60,18 @@
     </label>
     
     <div class="flex gap-2">
-    <label class="form-control">
+    <label class="form-control w-1/2">
         <div class="label">
             <span class="label-text">Tempat Lahir</span>
         </div>
-            <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered w-full placeholder-gray-500" required />
+            <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered placeholder-gray-500" required />
 
     </label>
-    <label class="form-control">
+    <label class="form-control w-1/2">
         <div class="label">
             <span class="label-text">Tanggal Lahir</span>
         </div>
-            <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered w-full" required />
+            <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered" required />
         
     </label>
     </div>    
