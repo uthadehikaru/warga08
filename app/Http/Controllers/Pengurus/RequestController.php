@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurus;
 
 use App\Http\Controllers\Controller;
 use App\Models\Request as ModelsRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,7 +52,9 @@ class RequestController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['request'] = ModelsRequest::findOrFail($id);
+        $data['religions'] = User::religion();
+        return view('pengurus.request.form', $data);
     }
 
     /**
@@ -59,7 +62,28 @@ class RequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([ 
+            'document_no' => 'nullable|numeric',
+            'nik' => 'required|numeric|digits:16',
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'gender' => 'required|in:p,w',
+            'birth_place' => 'required|min:3|max:255',
+            'birth_date' => 'required|date',
+            'address' => 'required|min:3|max:255',
+            'work' => 'required|min:3|max:255',
+            'religion' => 'required',
+            'description' => 'required',
+        ]);
+
+        $req = ModelsRequest::findOrFail($id);
+        $req->update($data);
+
+        $user = User::warga()->where('nik',$req->nik)->first();
+        $user->update($request->except(['description','_method','_token','document_no']));
+
+        return redirect()->route('pengurus.request.index')->with('message','Data berhasil diperbaharui');
     }
 
     /**

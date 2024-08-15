@@ -27,7 +27,6 @@ class RequestConfirmController extends Controller
         DB::beginTransaction();
         if($request->status=='new'){
             $request->status = 'approve_rt';
-            $request->document_no = Sequence::next($request);
         }elseif($request->status=='approve_rt'){
             $request->status = 'approve_rw';
         }
@@ -43,6 +42,6 @@ class RequestConfirmController extends Controller
             ->send(new RequestApprovedRT($request));
         }
         DB::commit();
-        return back()->with('message','Pengajuan disetujui. No Surat Pengantar '.$request->document_no);
+        return back()->with('message','Pengajuan disetujui.');
     }
 }

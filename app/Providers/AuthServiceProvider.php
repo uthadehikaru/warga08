@@ -28,6 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('list rt', function (User $user) {
             return $user->role=='rw';
         });
+        Gate::define('edit request', function (User $user, Request $request) {
+            return $user->role=='rw' || ($user->role=='rt' && $request->rt==$user->rt);
+        });
         Gate::define('approve rt', function (User $user, Request $request) {
             return $user->role=='rt' && $request->rt==$user->rt && $request->status=='new';
         });

@@ -113,7 +113,7 @@
             <hr class="border border-1 border-black order-double" />
             <div class="text-sm">
             <p class="pt-2 underline text-md font-bold">SURAT PENGANTAR</p>
-            <p class="">NOMOR : {{ $request->document_no }}</p>
+            <p class="">NOMOR : {{ $request->template_no }}</p>
             <div class="text-left">
                 <p>Yang bertanda tangan ini, menerangkan bahwa :</p>
                 <table class="mt-2 w-full">
@@ -159,7 +159,7 @@
                     </tr>
                 </table>
                 <p class="mt-2">Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana semestinya dan yang berkepentingan untuk menjadi maklum.</p>
-                <p class="mt-2">Nomor : {{ $request->document_no }}</p>
+                <p class="mt-2">Nomor : {{ $request->template_no }}</p>
                 <p class="">Tanggal : {{ $request->created_at->format('d F Y') }}</p>
                 <table class="w-full mt-2">
                     <tr>

@@ -8,7 +8,8 @@
             <p class="py-6">
                 Sistem Pelayanan Umum RW 08 Kelapa Dua Kebon Jeruk Jakarta Barat
             </p>
-            <a href="{{ route('request.create') }}" class="btn btn-primary">Ajukan Sekarang!</a>
+            <a href="{{ route('request.create') }}" class="btn btn-primary mb-2">Ajukan Sekarang!</a>
+            <a href="{{ route('request.check') }}" class="btn btn-default">atau Cek Status Pengajuan</a>
         </div>
     </div>
 </div>

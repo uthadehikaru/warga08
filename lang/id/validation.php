@@ -162,6 +162,7 @@ return [
             "birth_place" => "Tempat Lahir",
             "description" => "Keperluan",
         ],
+        "document_no" => "No. Surat",
         "name" => "Nama",
         "phone" => "Telp",
         "email" => "Email",

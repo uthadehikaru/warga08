@@ -99,7 +99,7 @@
         <div class="label">
             <span class="label-text">Keperluan</span>
         </div>
-        <textarea wire:model="request.description" name="description" class="textarea textarea-bordered h-24 placeholder-gray-500" placeholder="masukkan keterangan"></textarea>
+        <textarea wire:model="request.description" name="description" class="textarea textarea-bordered h-24 placeholder-gray-500" placeholder="masukkan maksud/tujuan yang diinginkan"></textarea>
     </label>
     <x-alert />
     <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4">Lanjut</button>

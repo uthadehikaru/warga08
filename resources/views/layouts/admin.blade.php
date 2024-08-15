@@ -6,6 +6,5 @@
 @endcan
 <li><a href="{{ route('pengurus.warga.index') }}">Warga</a></li>
 <li><a href="{{ route('pengurus.request.index') }}">Pengajuan</a></li>
-<li><a href="{{ route('pengurus.sequence.index') }}">Nomor Surat</a></li>
 <li><a href="{{ route('pengurus.logout') }}">Keluar</a></li>
 @endsection
