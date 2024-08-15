@@ -58,23 +58,20 @@
         </div>
         <input type="text" name="phone" placeholder="No Telp" wire:model="request.phone" class="input input-bordered w-full placeholder-gray-500" required />
     </label>
-    
-    <div class="flex gap-2">
-    <label class="form-control w-1/2">
+    <label class="form-control">
         <div class="label">
             <span class="label-text">Tempat Lahir</span>
         </div>
             <input type="text" name="birth_place" placeholder="Tempat Lahir" wire:model="request.birth_place" class="input input-bordered placeholder-gray-500" required />
 
     </label>
-    <label class="form-control w-1/2">
+    <label class="form-control">
         <div class="label">
             <span class="label-text">Tanggal Lahir</span>
         </div>
             <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered" required />
         
     </label>
-    </div>    
     <label class="form-control">
         <div class="label">
             <span class="label-text">Pekerjaan</span>
@@ -105,7 +102,7 @@
         <textarea wire:model="request.description" name="description" class="textarea textarea-bordered h-24 placeholder-gray-500" placeholder="masukkan keterangan"></textarea>
     </label>
     <x-alert />
-    <button type="button" wire:click="next" class="btn btn-outline btn-primary">Lanjut</button>
+    <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4">Lanjut</button>
     @else
     <h3>Konfirmasi Pengajuan Surat Pengantar</h3>
     <table>
