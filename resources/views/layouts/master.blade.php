@@ -35,7 +35,7 @@
                     </svg>
                     </label>
                 </div>
-                <div class="mx-2 flex-1 px-2"><a href="/">{{ config('app.name') }}</a></div>
+                <div class="mx-2 flex-1 px-2"><a href="/" class="flex gap-2"><img src="{{ asset('rw08 small.png') }}" width="30px" /> RW 08 Kelapa Dua</a></div>
                 <div class="hidden flex-none lg:block">
                     <ul class="menu menu-horizontal">
                     <!-- Navbar menu content here -->
