@@ -69,7 +69,7 @@
         <div class="label">
             <span class="label-text">Tanggal Lahir</span>
         </div>
-            <input type="date" placeholder="Tanggal Lahir" wire:model="request.birth_date" class="input input-bordered" required />
+            <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" placeholder="Tanggal Lahir. contoh : 29-12-1991" wire:model="request.birth_date" class="input input-bordered" required />
         
     </label>
     <label class="form-control">
