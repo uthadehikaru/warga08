@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Request;
 use App\Models\User;
 use App\Notifications\RequestCreated;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -91,7 +92,7 @@ class RequestForm extends Component
                     'address' => $data['address'],
                     'phone' => $data['phone'],
                     'work' => $data['work'],
-                    'birth_date' => $data['birth_date'],
+                    'birth_date' => Carbon::createFromFormat('d-m-Y',$data['birth_date']),
                     'birth_place' => $data['birth_place'],
                     'religion' => $data['religion'],
                     'password' => Hash::make($data['nik']),
