@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\Arrival;
 use App\Models\Request;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -39,6 +40,9 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('cancel', function (User $user, Request $request) {
             return $user->role=='rt' && $request->status=='new' && $request->rt==$user->rt;
+        });
+        Gate::define('approve arrival', function (User $user, Arrival $arrival) {
+            return !$arrival->is_valid && ($user->role=='rw' || ($user->role=='rt' && $arrival->rt==$user->rt));
         });
     }
 }

@@ -11,6 +11,12 @@
         @endcan
 
         <div class="stat">
+            <div class="stat-title text-warning">Pendatang belum dikonfirmasi</div>
+            <div class="stat-value text-warning">{{ $unapproved_arrivals }}</div>
+            <a href="{{ route('pengurus.arrival.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+        </div>
+
+        <div class="stat">
             <div class="stat-title text-gray-800">Total Pengajuan</div>
             <div class="stat-value">{{ $total }}</div>
             <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
