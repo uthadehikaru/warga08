@@ -50,6 +50,16 @@ class ArrivalCreated extends Notification implements ShouldQueue
             ->line('Alamat Kontrakan/Kostan : '.$this->arrival->home_address)
             ->line('Status Pernikahan : '.($this->arrival->is_married?'Sudah Menikah':'Tidak Menikah'))
             ->action('Lihat Data', route('pengurus.arrival.index'));
+
+        if($this->arrival->foto_ktp){
+            $mail->attach(storage_path('app/public/'.$this->arrival->foto_ktp));
+        }
+        if($this->arrival->foto_kk){
+            $mail->attach(storage_path('app/public/'.$this->arrival->foto_kk));
+        }
+        if($this->arrival->foto_bukunikah){
+            $mail->attach(storage_path('app/public/'.$this->arrival->foto_bukunikah));
+        }
         
         $rw = User::rw()->first();
         if($rw){

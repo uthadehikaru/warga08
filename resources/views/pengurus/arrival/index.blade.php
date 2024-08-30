@@ -22,6 +22,15 @@
             <p>Pemilik Rumah : {{ $arrival->home_owner }}</p>
             <p>Alamat Kontrakan/Kostan : {{ $arrival->home_address }}</p>
             <p class="text-primary">Status : {{ $arrival->is_valid?'Sudah dikonfirmasi':'Belum dikonfirmasi' }}</p>
+            @if($arrival->foto_ktp)
+            <p>KTP : <img src="{{ asset('storage/'.$arrival->foto_ktp) }}" width="300px" />
+            @endif
+            @if($arrival->foto_kk)
+            <p>KK : <img src="{{ asset('storage/'.$arrival->foto_kk) }}" width="300px" />
+            @endif
+            @if($arrival->foto_bukunikah)
+            <p>Buku Nikah : <img src="{{ asset('storage/'.$arrival->foto_bukunikah) }}" width="300px" />
+            @endif
             @can('edit arrival', $arrival)
             <p class="py-2">
                 <a href="{{ route('pengurus.arrival.edit', $arrival->id) }}"

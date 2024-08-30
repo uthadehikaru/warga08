@@ -86,11 +86,11 @@ class ArrivalForm extends Component
         unset($arrival['ktp'], $arrival['kk'], $arrival['bukunikah']);
         $arrival['is_married'] = $arrival['is_married']=='sudah';
         if($this->ktp)
-            $arrival['foto_ktp'] = $this->ktp->store('ktp');
+            $arrival['foto_ktp'] = $this->ktp->store('ktp', 'public');
         if($this->kk)
-            $arrival['foto_kk'] = $this->kk->store('kk');
+            $arrival['foto_kk'] = $this->kk->store('kk', 'public');
         if($this->bukunikah)
-            $arrival['foto_bukunikah'] = $this->bukunikah->store('bukunikah');
+            $arrival['foto_bukunikah'] = $this->bukunikah->store('bukunikah', 'public');
         
         $rt = User::rt()->where('rt',$arrival['rt'])->first();
         $arrival = Arrival::create($arrival);

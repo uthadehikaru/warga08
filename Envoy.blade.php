@@ -13,7 +13,6 @@
 
 @task('update', ['on' => 'web'])
     cd /home/rwkelapa/warga08
-    git checkout .
     git pull origin main
     composer install
     php artisan migrate --force
