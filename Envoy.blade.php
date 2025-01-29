@@ -8,6 +8,7 @@
 @task('deploy', ['on' => 'web'])
     cd /home/rwkelapa/warga08
     git pull origin main
+    php artisan storage:link
     php artisan optimize
 @endtask
 

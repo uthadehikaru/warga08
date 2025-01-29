@@ -48,8 +48,8 @@
             <span class="label-text">Jenis Kelamin</span>
         </div>
         <div class="flex gap-2">
-        <input type="radio" name="gender" wire:model="gender" value="p" class="radio" checked="checked" /> Pria
-        <input type="radio" name="gender" wire:model="gender" value="w" class="radio" /> Wanita
+        <input type="radio" name="gender" wire:model="request.gender" value="p" class="radio" checked="checked" /> Pria
+        <input type="radio" name="gender" wire:model="request.gender" value="w" class="radio" /> Wanita
     </div>
     </label>
     <label class="form-control">
@@ -67,7 +67,7 @@
     </label>
     <label class="form-control">
         <div class="label">
-            <span class="label-text">Tanggal Lahir</span>
+            <span class="label-text">Tanggal Lahir. contoh : 29-12-1991</span>
         </div>
             <input type="text" pattern="\d{1,2}-\d{1,2}-\d{4}" placeholder="Tanggal Lahir. contoh : 29-12-1991" wire:model="request.birth_date" class="input input-bordered" required />
         
