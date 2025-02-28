@@ -111,6 +111,7 @@ class RequestForm extends Component
                 ]);
             }
 
+            $data['birth_date'] = Carbon::createFromFormat('d-m-Y',$data['birth_date'])->format('Y-m-d');
             $data['code'] = strtoupper(Str::random(5));
             $data['rt_name'] = strtoupper($rt->name);
             $data['rw_name'] = strtoupper($rw->name);
