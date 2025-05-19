@@ -15,7 +15,11 @@ use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\ArrivalForm;
 use App\Livewire\LoginForm;
+use App\Livewire\Posyandu\HealthForm;
+use App\Livewire\Posyandu\HealthRecords;
 use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
+use App\Livewire\Posyandu\TeenForm;
+use App\Livewire\Posyandu\TeenRecords;
 use App\Livewire\RequestForm;
 use App\Models\Request as ModelsRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -40,15 +44,20 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         Route::get('/', function () {
             return view('posyandu.dashboard');
         })->name('dashboard');
+
+        Route::get('/teens', TeenRecords::class)->name('teens.index');
+        Route::get('/teens/form', TeenForm::class)->name('teens.form');
+        Route::get('/teens/records/{nik}', HealthRecords::class)->name('teens.records');
+        Route::get('/teens/records/{nik}/form', HealthForm::class)->name('teens.records.form');
     });
 
     Route::get('logout', function(Request $request){
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('login');
     })->name('logout');
-    
+
     Route::get('login', PosyanduLoginForm::class)->name('login');
     
     Route::fallback(function () {

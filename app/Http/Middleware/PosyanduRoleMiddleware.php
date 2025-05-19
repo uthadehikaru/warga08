@@ -16,9 +16,10 @@ class PosyanduRoleMiddleware
     {
         if (Auth::check() && Auth::user()->role === 'posyandu') {
             return $next($request);
+        }elseif(Auth::check() && Auth::user()->role !== 'posyandu'){
+            return redirect()->route('posyandu.login')->with('error', 'Hanya kader posyandu yang dapat mengakses halaman ini');
         }
 
-        
-        return redirect()->route('posyandu.login')->with('error', 'Hanya kader posyandu yang dapat mengakses halaman ini');
+        return redirect()->route('posyandu.login')->with('error', 'Silahkan Login Terlebih Dahulu');
     }
 } 

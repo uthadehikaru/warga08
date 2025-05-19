@@ -1,0 +1,20 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\HealthRecord;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class HealthRecordSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        foreach(\App\Models\User::where('work','remaja')->get() as $warga){
+            HealthRecord::factory()->for($warga)->create();
+        }
+    }
+}

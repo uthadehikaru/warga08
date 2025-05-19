@@ -1,4 +1,4 @@
-@extends('layouts.web')
+@extends('layouts.master')
 @section('content')
 <div class="hero bg-base-200 py-8">
     <div class="hero-content text-center">

@@ -22,6 +22,13 @@
                 <!-- Navbar -->
                 <div class="navbar bg-base-300 w-full">
                     <div class="mx-2 flex-1 px-2"><a href="/" class="flex gap-2"><img src="{{ asset('posyandu.png') }}" width="30px" /> Posyandu ILP Melati</a></div>
+                    <div class="flex-none">
+                        @auth
+                        <a href="{{ route('posyandu.logout') }}" class="btn btn-sm">
+                            <img src="{{ asset('images/logout.png') }}" class="w-6 h-6" />
+                        </a>
+                        @endauth
+                    </div>
                 </div>
                 <!-- Page content here -->
                 @yield('content')

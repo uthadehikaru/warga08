@@ -21,6 +21,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'nik' => fake()->unique()->numerify('##########'),
+            'role' => 'warga',
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
@@ -28,11 +30,12 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'address' => fake()->address(),
             'phone' => fake()->e164PhoneNumber(),
-            'gender' => 'p',
+            'gender' => fake()->randomElement(['p','w']),
             'religion' => 'islam',
             'birth_place' => fake()->country(),
             'birth_date' => fake()->dateTimeThisDecade(),
             'work' => fake()->sentence(2),
+            'rt' => fake()->numberBetween(1, 8),
         ];
     }
 
