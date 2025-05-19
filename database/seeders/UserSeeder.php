@@ -108,5 +108,12 @@ class UserSeeder extends Seeder
             'role' => 'rt',
             'rt'=>8,
         ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Posyandu 1',
+            'email' => "posyandu1@warga08.test",
+            'password' => Hash::make('posyandu123'),
+            'role' => 'posyandu',
+        ]);
     }
 }

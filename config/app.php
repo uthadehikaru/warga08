@@ -17,6 +17,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'posyandu_domain' => env('POSYANDU_DOMAIN', 'posyandu.warga08.test'),
 
     /*
     |--------------------------------------------------------------------------

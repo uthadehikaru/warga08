@@ -15,6 +15,7 @@ use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\ArrivalForm;
 use App\Livewire\LoginForm;
+use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
 use App\Livewire\RequestForm;
 use App\Models\Request as ModelsRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -32,6 +33,28 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Posyandu subdomain routes
+Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function () {
+    Route::middleware(['posyandu.role'])->group(function(){
+        Route::get('/', function () {
+            return view('posyandu.dashboard');
+        })->name('dashboard');
+    });
+
+    Route::get('logout', function(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
+    
+    Route::get('login', PosyanduLoginForm::class)->name('login');
+    
+    Route::fallback(function () {
+        abort(404);
+    });
+});
 
 Route::get('', HomeController::class)->name('home');
 Route::get('login', LoginForm::class)->name('login');

@@ -67,6 +67,11 @@ class User extends Authenticatable implements FilamentUser
         $query->where('role','rw');
     }
 
+    public function scopePosyandu($query):void
+    {
+        $query->where('role', 'posyandu');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->role=='admin';
