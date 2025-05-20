@@ -177,6 +177,15 @@ return [
         "ktp" => "KTP",
         "kk" => "Kartu Keluarga",
         "bukunikah" => "Buku Nikah",
+        "birth_date" => "Tanggal Lahir",
+        "birth_place" => "Tempat Lahir",
+        "description" => "Keperluan",
+        "old_address" => "Alamat Sebelumnya",
+        "home_owner" => "Pemilik Rumah",
+        "home_address" => "Alamat Kontrakan",
+        "father_name" => "Nama Ayah",
+        "mother_name" => "Nama Ibu",
+        "gender" => "Jenis Kelamin",
     ],
 
 ];

@@ -51,12 +51,17 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
-                    <select id="gender" wire:model="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Pilih Jenis Kelamin</option>
-                        <option value="p">Laki-laki</option>
-                        <option value="w">Perempuan</option>
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
+                    <div class="flex justify-start gap-2 items-center">
+                        <div class="flex items-center">
+                            <input type="radio" id="gender_p" name="gender" value="p" wire:model="gender" class="border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <label for="gender_p" class="ml-2 text-sm text-gray-700">Laki-laki</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="gender_w" name="gender" value="w" wire:model="gender" class="border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <label for="gender_w" class="ml-2 text-sm text-gray-700">Perempuan</label>
+                        </div>
+                    </div>
                     @error('gender') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
@@ -98,7 +103,7 @@
 
             @if($errors->any())
                 <div class="mt-6">
-                    <div class="alert alert-danger">
+                    <div class="alert alert-warning">
                         <ul>
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>

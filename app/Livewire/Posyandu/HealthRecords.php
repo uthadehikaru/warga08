@@ -3,6 +3,7 @@
 namespace App\Livewire\Posyandu;
 
 use App\Models\User;
+use App\Models\HealthRecord;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,6 +11,7 @@ class HealthRecords extends Component
 {
     use WithPagination;
     public $warga;
+    public $diseases = HealthRecord::DISEASES;
 
     public function mount($nik)
     {

@@ -23,23 +23,14 @@ class TeenForm extends Component
     public $address;
     public $family_disease = [];
     public $personal_disease = [];
-
-    public $diseases = [
-        'hipertensi' => 'Hipertensi',
-        'dm' => 'DM (Diabetes Melitus)',
-        'stroke' => 'Stroke',
-        'jantung' => 'Jantung',
-        'asma' => 'Asma',
-        'kanker' => 'Kanker',
-        'kolesterol' => 'Kolesterol Tinggi',
-    ];
+    public $diseases = HealthRecord::DISEASES;
 
     public $rules = [
         'nik' => 'required|numeric|digits:16',
         'name' => 'required|string|max:255',
         'birth_place' => 'required|string|max:255',
         'birth_date' => 'required|date',
-        'gender' => 'required|in:p,l',
+        'gender' => 'required|in:p,w',
         'address' => 'required|string|max:255',
         'rt' => 'required|numeric',
         'father_name' => 'required|string|max:255',
@@ -47,6 +38,30 @@ class TeenForm extends Component
         'family_disease' => 'nullable|array',
         'personal_disease' => 'nullable|array',
     ];
+
+    public function mount($nik = null)
+    {
+        $warga = User::with('healthRecord')->where('nik', $nik)->first();
+        if($warga){
+            $this->rt = $warga->rt;
+            $this->nik = $warga->nik;
+            $this->name = $warga->name;
+            $this->father_name = $warga->healthRecord->father_name;
+            $this->mother_name = $warga->healthRecord->mother_name;
+            $this->birth_place = $warga->birth_place;
+            $this->birth_date = $warga->birth_date->format('Y-m-d');
+            $this->gender = $warga->gender;
+            $this->address = $warga->address;
+            foreach($this->diseases as $key => $disease){
+                if(in_array($key, $warga->healthRecord->family_diseases)){
+                    $this->family_disease[$key] = true;
+                }
+                if(in_array($key, $warga->healthRecord->personal_diseases)){
+                    $this->personal_disease[$key] = true;
+                }
+            }
+        }
+    }
 
     public function save()
     {

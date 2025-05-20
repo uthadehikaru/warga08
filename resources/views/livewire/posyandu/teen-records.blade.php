@@ -63,7 +63,7 @@
                             Riwayat
                         </a>
                         <span class="text-xs text-gray-500">
-                            diperbaharui pada {{ $teen->updated_at->format('d/m/y H:i') }}
+                            diperbaharui pada {{ $teen->updated_at->format('d/m/y h') }}
                         </span>
                     </div>
                 </div>

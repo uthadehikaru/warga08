@@ -46,9 +46,9 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         })->name('dashboard');
 
         Route::get('/teens', TeenRecords::class)->name('teens.index');
-        Route::get('/teens/form', TeenForm::class)->name('teens.form');
+        Route::get('/teens/form/{nik?}', TeenForm::class)->name('teens.form');
         Route::get('/teens/records/{nik}', HealthRecords::class)->name('teens.records');
-        Route::get('/teens/records/{nik}/form', HealthForm::class)->name('teens.records.form');
+        Route::get('/teens/records/{nik}/form/{id?}', HealthForm::class)->name('teens.records.form');
     });
 
     Route::get('logout', function(Request $request){

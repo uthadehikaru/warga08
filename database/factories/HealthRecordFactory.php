@@ -20,14 +20,14 @@ class HealthRecordFactory extends Factory
             'father_name' => fake()->name(),
             'mother_name' => fake()->name(),
             'family_diseases' => fake()->randomElement([
-                ['flu', 'cold', 'cough'],
-                ['flu', 'cold', 'cough', 'headache'],
-                ['flu', 'cold', 'cough', 'headache', 'fever'],
+                ['dm', 'hipertensi', 'stroke'],
+                ['dm', 'hipertensi', 'stroke', 'jantung'],
+                ['dm', 'hipertensi', 'stroke', 'jantung', 'asma'],
             ]),
             'personal_diseases' => fake()->randomElement([
-                ['flu', 'cold', 'cough'],
-                ['flu', 'cold', 'cough', 'headache'],
-                ['flu', 'cold', 'cough', 'headache', 'fever'],
+                ['dm', 'hipertensi', 'stroke'],
+                ['dm', 'hipertensi', 'stroke', 'jantung'],
+                ['dm', 'hipertensi', 'stroke', 'jantung', 'asma'],
             ]),
             'user_id' => 0,
         ];

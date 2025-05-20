@@ -10,6 +10,16 @@ class HealthRecord extends Model
 {
     use HasFactory;
 
+    public const DISEASES = [
+        'hipertensi' => 'Hipertensi',
+        'dm' => 'DM (Diabetes Melitus)',
+        'stroke' => 'Stroke',
+        'jantung' => 'Jantung',
+        'asma' => 'Asma',
+        'kanker' => 'Kanker',
+        'kolesterol' => 'Kolesterol Tinggi',
+    ];
+
     protected $casts = [
         'family_diseases' => 'array',
         'personal_diseases' => 'array',

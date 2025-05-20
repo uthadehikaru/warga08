@@ -13,7 +13,8 @@ class HealthForm extends Component
 {
     public $warga;
     public $health_record;
-    
+    public $id;
+
     // Basic measurements
     public $check_date;
     public $height;
@@ -53,11 +54,43 @@ class HealthForm extends Component
     public $edukasi;
     public $rujuk = false;
 
-    public function mount($nik)
+    public function mount($nik, $id = null)
     {
+        $this->id = $id;
         $this->warga = User::where('nik', $nik)->first();
         $this->health_record = HealthRecord::firstOrCreate(['user_id' => $this->warga->id]);
         $this->check_date = now()->format('Y-m-d');
+        if($id){
+            $healthhistory = HealthHistory::find($id);
+            if($healthhistory){
+                $this->check_date = $healthhistory->check_date->format('Y-m-d');
+                $this->height = $healthhistory->height;
+                $this->weight = $healthhistory->weight;
+                $this->imt = $healthhistory->imt;
+                $this->lingkar_perut = $healthhistory->lingkar_perut;
+                $this->sistol = $healthhistory->sistol;
+                $this->diastol = $healthhistory->diastol;
+                $this->tekanan_darah = $healthhistory->tekanan_darah;
+                $this->gula_darah = $healthhistory->gula_darah;
+                $this->kadar_hb = $healthhistory->kadar_hb;
+                $this->anemia = $healthhistory->anemia;
+                $this->tbc['batuk'] = $healthhistory->batuk == 1;
+                $this->tbc['demam'] = $healthhistory->demam == 1;
+                $this->tbc['bb_stagnan'] = $healthhistory->bb_stagnan == 1;
+                $this->tbc['kontak_tbc'] = $healthhistory->kontak_tbc == 1;
+                $this->masalah['di_rumah'] = $healthhistory->masalah_di_rumah == 1;
+                $this->masalah['di_instansi'] = $healthhistory->masalah_di_instansi == 1;
+                $this->masalah['pola_makan'] = $healthhistory->masalah_pola_makan == 1;
+                $this->masalah['aktivitas'] = $healthhistory->masalah_aktivitas == 1;
+                $this->masalah['obat'] = $healthhistory->masalah_obat == 1;
+                $this->masalah['seksual'] = $healthhistory->masalah_seksual == 1;
+                $this->masalah['keamanan'] = $healthhistory->masalah_keamanan == 1;
+                $this->masalah['depresi'] = $healthhistory->masalah_depresi == 1;
+                $this->edukasi = $healthhistory->edukasi;
+                $this->rujuk = $healthhistory->rujukan == 1;
+                $this->updated();
+            }
+        }
     }
 
 
@@ -179,12 +212,20 @@ class HealthForm extends Component
                 $validatedData['masalah_'.$key] = $value;
             }
             unset($validatedData['masalah']);
-            
-            HealthHistory::create($validatedData);
+
+            $healthHistory = null;
+            if($this->id){
+                $healthHistory = HealthHistory::find($this->id);
+                $healthHistory->update($validatedData);
+            }else{
+                $healthHistory = HealthHistory::create($validatedData);
+            }
 
             $this->warga->update([
                 'updated_at' => now()
             ]);
+
+            DB::commit();
             
             session()->flash('message', 'Data kesehatan berhasil disimpan.');
             
