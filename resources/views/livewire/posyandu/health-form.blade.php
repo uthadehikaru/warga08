@@ -14,7 +14,7 @@
                     <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <a href="{{ route('posyandu.teens.index') }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Data Remaja</a>
+                    <a href="{{ route('posyandu.teens.index') }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Data Warga</a>
                 </div>
             </li>
             <li>
@@ -28,7 +28,7 @@
         </ol>
     </nav>
     <h1 class="text-xl font-bold">Form Pemeriksaan Kesehatan</h1>
-    <p>@lang('gender.'.$warga->gender), usia {{ $warga->age}} Tahun</p>
+    <p>{{ $warga->name }}, @lang('gender.'.$warga->gender), usia {{ $warga->age}} Tahun</p>
     <form wire:submit="save" class="space-y-6">
         @if (session()->has('message'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">

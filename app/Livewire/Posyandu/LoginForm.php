@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class LoginForm extends Component
 {
-    public $email,$password;
+    public $username,$password;
     public $showPassword = false;
 
     public function togglePassword()
@@ -18,12 +18,12 @@ class LoginForm extends Component
     public function submit()
     {
         $this->validate([
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required'
         ]);
 
         $credentials = [
-            'email' => $this->email,
+            'email' => $this->username.'@warga08.test',
             'password' => $this->password,
         ];
 
@@ -34,7 +34,7 @@ class LoginForm extends Component
                 return;
             }
             session()->regenerate();
-            return redirect(route('posyandu.dashboard'));
+            return redirect(route('posyandu.teens.form'));
         }
 
         $this->addError('error', 'Email atau password yang Anda masukkan salah');
@@ -43,6 +43,7 @@ class LoginForm extends Component
     public function render()
     {
         return view('livewire.posyandu.login-form')
-        ->extends('layouts.posyandu');
+        ->extends('layouts.blank')
+        ->section('main');
     }
 }

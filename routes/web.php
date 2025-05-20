@@ -15,6 +15,7 @@ use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\ArrivalForm;
 use App\Livewire\LoginForm;
+use App\Livewire\Posyandu\Dashboard;
 use App\Livewire\Posyandu\HealthForm;
 use App\Livewire\Posyandu\HealthRecords;
 use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
@@ -41,9 +42,7 @@ use Illuminate\Support\Facades\Route;
 // Posyandu subdomain routes
 Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function () {
     Route::middleware(['posyandu.role'])->group(function(){
-        Route::get('/', function () {
-            return view('posyandu.dashboard');
-        })->name('dashboard');
+        Route::get('/', Dashboard::class)->name('dashboard');
 
         Route::get('/teens', TeenRecords::class)->name('teens.index');
         Route::get('/teens/form/{nik?}', TeenForm::class)->name('teens.form');

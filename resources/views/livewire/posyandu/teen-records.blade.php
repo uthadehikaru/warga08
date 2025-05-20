@@ -47,23 +47,41 @@
             @foreach($teens as $teen)
                 <div class="bg-white rounded-lg shadow-md p-2">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-md font-semibold text-gray-800">{{ $teen->name }}</h3>
+                        <h3 class="text-md font-semibold text-gray-800 flex items-center gap-2">
+                        @if($teen->gender == 'w')
+                            <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
+                        @else
+                            <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
+                        @endif
+                        {{ $teen->name }}</h3>
                         <span class="px-3 py-1 text-sm rounded-full {{ $teen->gender == 'p' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
                         {{ $teen->age }} tahun
                         </span>
                     </div>
                     <div class="text-gray-600">
-                        <p class="mb-1 grid grid-cols-2 gap-2">
-                            <span class="font-medium">RT: {{ $teen->rt }}</span>
-                            <span class="font-medium">NIK: {{ $teen->nik }}</span>
+                        <p class="mb-1 grid grid-cols-1 gap-2">
+                            <span class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+</svg>
+RT. {{ $teen->rt }}</span>
+                            <span class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+</svg>
+ {{ $teen->nik }}</span>
                         </p>
                     </div>
-                    <div class="flex items-center justify-between mt-2">
-                        <a href="{{ route('posyandu.teens.records', $teen->nik) }}" class="btn btn-sm btn-success p-1">
-                            Riwayat
+                    <div class="flex items-center justify-start gap-2 mt-2">
+                        <a href="{{ route('posyandu.teens.records.form', $teen->nik) }}" class="btn btn-sm btn-primary px-2">
+                            periksa
                         </a>
-                        <span class="text-xs text-gray-500">
-                            diperbaharui pada {{ $teen->updated_at->format('d/m/y h') }}
+                        <a href="{{ route('posyandu.teens.records', $teen->nik) }}" class="btn btn-sm btn-warning px-2">
+                            riwayat
+                        </a>
+                        <span class="text-xs text-gray-500 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+</svg>
+ {{ $teen->updated_at->format('d/m/y h:i') }}
                         </span>
                     </div>
                 </div>

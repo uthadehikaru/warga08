@@ -1,50 +1,56 @@
-<div>
-    <section class="text-gray-600 body-font relative">
-        <div class="container px-5 py-5 mx-auto">
-            <div class="flex flex-col text-center w-full mb-12">
-                <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-800">Masuk</h1>
-                @if(session()->has('error'))
-                <p class="p-2 text-error">{{ session('error') }}</p>
-                @endif
-                @error('error')
-                <p class="p-2 text-error">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="lg:w-1/2 md:w-2/3 mx-auto">
-                <form class="flex flex-col flex-wrap -m-2" wire:submit="submit">
-                    <div class="p-2 w-full">
-                        <div class="relative">
-                            <label for="email" class="leading-7 text-sm text-gray-800">Email</label>
-                            <input type="email" id="email" name="email" wire:model="email"
-                                class="w-full rounded border border-gray-300 p-2 text-gray-800">
-                        </div>
+<div class="relative min-h-screen">
+    <img src="{{ asset('images/login.jpg') }}" class="w-full h-full object-cover object-center absolute inset-0" />
+    <div class="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl">
+        <section class="text-gray-600 body-font">
+            <div class="container px-5 py-5 mx-auto">
+                <div class="flex flex-col text-center w-full mb-4">
+                    <div class="flex justify-center items-center gap-2">
+                        <img src="{{ asset('rw08 small.png') }}" class="w-12 h-12" />
+                        <h1 class="sm:text-3xl text-xl font-medium title-font text-gray-800">Posyandu ILP Melati</h1>
                     </div>
-                    <div class="p-2 w-full">
-                        <div class="relative">
-                            <label for="password" class="leading-7 text-sm text-gray-800">Password</label>
+                    @if(session()->has('error'))
+                    <p class="p-2 text-error">{{ session('error') }}</p>
+                    @endif
+                    @error('error')
+                    <p class="p-2 text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                    <form class="flex flex-col flex-wrap -m-2" wire:submit="submit">
+                        <div class="p-2 w-full">
                             <div class="relative">
-                                <input type="{{ $showPassword ? 'text' : 'password' }}" id="password" name="password" wire:model="password"
+                                <label for="username" class="leading-7 text-sm text-gray-800">ID Pengguna</label>
+                                <input type="text" id="username" name="username" wire:model="username"
                                     class="w-full rounded border border-gray-300 p-2 text-gray-800">
-                                <button type="button" wire:click="togglePassword" class="absolute right-2 top-1/2 -translate-y-1/2">
-                                    @if($showPassword)
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                        </svg>
-                                    @else
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    @endif
-                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="p-2 w-full">
-                        <button class="btn btn-primary w-full">Masuk</button>
-                    </div>
-                </form>
+                        <div class="p-2 w-full">
+                            <div class="relative">
+                                <label for="password" class="leading-7 text-sm text-gray-800">Password</label>
+                                <div class="relative">
+                                    <input type="{{ $showPassword ? 'text' : 'password' }}" id="password" name="password" wire:model="password"
+                                        class="w-full rounded border border-gray-300 p-2 text-gray-800">
+                                    <button type="button" wire:click="togglePassword" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                        @if($showPassword)
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                            </svg>
+                                        @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        @endif
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2 w-full">
+                            <button class="btn btn-primary w-full">Masuk</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </div>

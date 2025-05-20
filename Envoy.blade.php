@@ -11,6 +11,11 @@
     php artisan optimize
 @endtask
 
+@task('deploy-dev', ['on' => 'web'])
+    cd /home/rwkelapa/dev
+    php artisan migrate:fresh --seed
+@endtask
+
 @task('update', ['on' => 'web'])
     cd /home/rwkelapa/warga08
     git pull origin main

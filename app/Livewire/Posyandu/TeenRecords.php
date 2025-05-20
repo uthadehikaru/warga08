@@ -12,6 +12,11 @@ class TeenRecords extends Component
 
     public $search = '';
 
+    public function mount()
+    {
+        $this->search = request()->get('search');
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();

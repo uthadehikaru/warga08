@@ -42,7 +42,7 @@ class TeenForm extends Component
     public function mount($nik = null)
     {
         $warga = User::with('healthRecord')->where('nik', $nik)->first();
-        if($warga){
+        if($nik && $warga){
             $this->rt = $warga->rt;
             $this->nik = $warga->nik;
             $this->name = $warga->name;
@@ -109,7 +109,7 @@ class TeenForm extends Component
             ]);
     
             DB::commit();
-            return redirect()->route('posyandu.teens.records', $warga->nik);
+            return redirect()->route('posyandu.teens.records.form', $warga->nik);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
