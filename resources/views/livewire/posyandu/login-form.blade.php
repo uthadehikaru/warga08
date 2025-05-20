@@ -1,11 +1,13 @@
-<div class="relative min-h-screen">
-    <img src="{{ asset('images/login.jpg') }}" class="w-full h-full object-cover object-center absolute inset-0" />
-    <div class="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl">
+<div class="min-h-screen flex flex-col">
+    <div class="fixed inset-0 z-0">
+        <img src="{{ asset('images/login.jpg') }}" class="w-full h-full object-cover object-center" alt="Background" />
+    </div>
+    <div class="relative z-10 mt-auto bg-white rounded-t-3xl">
         <section class="text-gray-600 body-font">
             <div class="container px-5 py-5 mx-auto">
                 <div class="flex flex-col text-center w-full mb-4">
                     <div class="flex justify-center items-center gap-2">
-                        <img src="{{ asset('rw08 small.png') }}" class="w-12 h-12" />
+                        <img src="{{ asset('rw08 small.png') }}" class="w-12 h-12" alt="Logo" />
                         <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">Posyandu ILP Melati</h1>
                     </div>
                     @if(session()->has('error'))
@@ -17,19 +19,21 @@
                 </div>
                 <div class="lg:w-1/2 md:w-2/3 mx-auto">
                     <form class="flex flex-col flex-wrap -m-2" wire:submit="submit">
-                        <div class="p-2 w-full">
+                        <div class="p-2 w-full input-wrapper">
                             <div class="relative">
                                 <label for="username" class="leading-7 text-sm text-gray-800">ID Pengguna</label>
                                 <input type="text" id="username" name="username" wire:model="username"
-                                    class="w-full rounded border border-gray-300 p-2 text-gray-800">
+                                    class="w-full rounded border border-gray-300 p-2 text-gray-800"
+                                    autocomplete="username">
                             </div>
                         </div>
-                        <div class="p-2 w-full">
+                        <div class="p-2 w-full input-wrapper">
                             <div class="relative">
                                 <label for="password" class="leading-7 text-sm text-gray-800">Password</label>
                                 <div class="relative">
                                     <input type="{{ $showPassword ? 'text' : 'password' }}" id="password" name="password" wire:model="password"
-                                        class="w-full rounded border border-gray-300 p-2 text-gray-800">
+                                        class="w-full rounded border border-gray-300 p-2 text-gray-800"
+                                        autocomplete="current-password">
                                     <button type="button" wire:click="togglePassword" class="absolute right-2 top-1/2 -translate-y-1/2">
                                         @if($showPassword)
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -45,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2 w-full">
+                        <div class="p-2 w-full mb-4">
                             <button class="btn bg-[#2d4724] text-white w-full">Masuk</button>
                         </div>
                     </form>

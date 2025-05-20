@@ -12,7 +12,7 @@
                 </div>
             </form>
         </div>
-        <img src="{{ asset('images/kelapa-bg.jpg') }}" class="w-full" />
+        <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full" />
     </div>
     <div class="grid grid-cols-2 gap-1 p-4">
         <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center">
