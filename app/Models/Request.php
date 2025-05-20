@@ -45,7 +45,7 @@ class Request extends Model
             'next_sequence' => 1,
         ]);
         $sequence->increment('next_sequence');
-        $no = "____ / ".Str::padLeft($this->rt,3,"0")." / SP /  ".$RomanMonth[$this->created_at->format('n')]." / ".$this->created_at->format('Y');
+        $no = "____ / SP /  ".$RomanMonth[$this->created_at->format('n')]." / ".$this->created_at->format('Y');
         
         return $no;
     }
