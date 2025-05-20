@@ -6,7 +6,7 @@
                 <div class="flex flex-col text-center w-full mb-4">
                     <div class="flex justify-center items-center gap-2">
                         <img src="{{ asset('rw08 small.png') }}" class="w-12 h-12" />
-                        <h1 class="sm:text-3xl text-xl font-medium title-font text-gray-800">Posyandu ILP Melati</h1>
+                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">Posyandu ILP Melati</h1>
                     </div>
                     @if(session()->has('error'))
                     <p class="p-2 text-error">{{ session('error') }}</p>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="p-2 w-full">
-                            <button class="btn btn-primary w-full">Masuk</button>
+                            <button class="btn bg-[#2d4724] text-white w-full">Masuk</button>
                         </div>
                     </form>
                 </div>

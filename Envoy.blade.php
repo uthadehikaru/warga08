@@ -13,7 +13,8 @@
 
 @task('deploy-dev', ['on' => 'web'])
     cd /home/rwkelapa/dev
-    php artisan migrate:fresh --seed
+    git pull
+    php artisan optimize
 @endtask
 
 @task('update', ['on' => 'web'])
