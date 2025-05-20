@@ -5,6 +5,8 @@ namespace App\Livewire\Posyandu;
 use App\Models\User;
 use App\Models\HealthRecord;
 use App\Models\HealthHistory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class HealthForm extends Component
@@ -163,23 +165,35 @@ class HealthForm extends Component
             'rujuk' => 'boolean',
         ]);
 
-        $validatedData['health_record_id'] = $this->health_record->id;
+        try {
+            DB::beginTransaction();
 
-        foreach($validatedData['tbc'] as $key => $value){
-            $validatedData[$key] = $value;
-        }
-        unset($validatedData['tbc']);
+            $validatedData['health_record_id'] = $this->health_record->id;
 
-        foreach($validatedData['masalah'] as $key => $value){
-            $validatedData['masalah_'.$key] = $value;
+            foreach($validatedData['tbc'] as $key => $value){
+                $validatedData[$key] = $value;
+            }
+            unset($validatedData['tbc']);
+
+            foreach($validatedData['masalah'] as $key => $value){
+                $validatedData['masalah_'.$key] = $value;
+            }
+            unset($validatedData['masalah']);
+            
+            HealthHistory::create($validatedData);
+
+            $this->warga->update([
+                'updated_at' => now()
+            ]);
+            
+            session()->flash('message', 'Data kesehatan berhasil disimpan.');
+            
+            return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
+            $this->addError('error', 'Gagal menyimpan data kesehatan.');
         }
-        unset($validatedData['masalah']);
-        
-        HealthHistory::create($validatedData);
-        
-        session()->flash('message', 'Data kesehatan berhasil disimpan.');
-        
-        return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
     }
 
     public function render()

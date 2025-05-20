@@ -48,7 +48,7 @@
             </div>
         </div>
         @if(session()->has('message'))
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-sm my-2">
                 {{ session('message') }}
             </div>
         @endif

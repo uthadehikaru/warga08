@@ -21,7 +21,7 @@
             <div class="drawer-content flex flex-col">
                 <!-- Navbar -->
                 <div class="navbar bg-base-300 w-full">
-                    <div class="mx-2 flex-1 px-2"><a href="/" class="flex gap-2"><img src="{{ asset('posyandu.png') }}" width="30px" /> Posyandu ILP Melati</a></div>
+                    <div class="mx-2 flex-1 px-2"><a href="/" class="flex gap-2"><img src="{{ asset('rw08 small.png') }}" width="30px" /> Posyandu ILP Melati</a></div>
                     <div class="flex-none">
                         @auth
                         <a href="{{ route('posyandu.logout') }}" class="btn btn-sm">

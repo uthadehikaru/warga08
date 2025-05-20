@@ -32,25 +32,27 @@
                     <input type="number" wire:model.blur="weight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
-                    <input type="number" wire:model="lingkar_perut" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Sistol</label>
-                    <input type="number" wire:model.blur="sistol" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Diastol</label>
-                    <input type="number" wire:model.blur="diastol" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
-                    <input type="text" wire:model="tekanan_darah" readonly disabled class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm">
-                </div>
+                @if($warga->age >= 15)
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
+                        <input type="number" wire:model="lingkar_perut" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Sistol</label>
+                        <input type="number" wire:model.blur="sistol" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Diastol</label>
+                        <input type="number" wire:model.blur="diastol" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
+                        <input type="text" wire:model="tekanan_darah" readonly disabled class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm">
+                    </div>
+                @endif
             </div>
             
             <hr />
@@ -63,6 +65,8 @@
             </div>
             <hr />
             <h3 class="text-lg font-medium text-gray-900 my-4">Langkah 4</h3>
+            
+            @if($warga->age >= 15)
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Gula Darah</label>
@@ -104,6 +108,7 @@
                     </div>
                 @endif
             </div>
+            @endif
         </div>
 
         <!-- Health Conditions -->

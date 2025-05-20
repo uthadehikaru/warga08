@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class HealthHistory extends Model
 {
     use HasFactory;
@@ -12,4 +12,9 @@ class HealthHistory extends Model
     protected $casts = [
         'check_date' => 'date',
     ];
+
+    public function healthRecord(): BelongsTo
+    {
+        return $this->belongsTo(HealthRecord::class);
+    }
 }

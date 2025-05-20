@@ -6,6 +6,7 @@ use App\Models\HealthRecord;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -95,6 +96,7 @@ class TeenForm extends Component
             DB::commit();
             return redirect()->route('posyandu.teens.records', $warga->nik);
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollBack();
             $this->addError('error', $e->getMessage());
         }

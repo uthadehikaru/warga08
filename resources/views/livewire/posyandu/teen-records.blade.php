@@ -49,20 +49,22 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-md font-semibold text-gray-800">{{ $teen->name }}</h3>
                         <span class="px-3 py-1 text-sm rounded-full {{ $teen->gender == 'p' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
-                            {{ ucfirst($teen->gender) }}
+                        {{ $teen->age }} tahun
                         </span>
                     </div>
                     <div class="text-gray-600">
                         <p class="mb-1 grid grid-cols-2 gap-2">
                             <span class="font-medium">RT: {{ $teen->rt }}</span>
                             <span class="font-medium">NIK: {{ $teen->nik }}</span>
-                            <span class="font-medium">Usia: {{ $teen->age }} tahun</span>
                         </p>
                     </div>
                     <div class="flex items-center justify-between mt-2">
-                        <a href="{{ route('posyandu.teens.records', $teen->nik) }}" class="btn btn-sm btn-primary p-1">
+                        <a href="{{ route('posyandu.teens.records', $teen->nik) }}" class="btn btn-sm btn-success p-1">
                             Riwayat
                         </a>
+                        <span class="text-xs text-gray-500">
+                            diperbaharui pada {{ $teen->updated_at->format('d/m/y H:i') }}
+                        </span>
                     </div>
                 </div>
             @endforeach
