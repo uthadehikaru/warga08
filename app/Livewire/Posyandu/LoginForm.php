@@ -8,6 +8,12 @@ use Livewire\Component;
 class LoginForm extends Component
 {
     public $email,$password;
+    public $showPassword = false;
+
+    public function togglePassword()
+    {
+        $this->showPassword = !$this->showPassword;
+    }
 
     public function submit()
     {
