@@ -28,6 +28,11 @@ class LoginForm extends Component
         ];
 
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->role !== 'posyandu') {
+                Auth::logout();
+                $this->addError('error', 'Akses dibatasi hanya untuk kader posyandu');
+                return;
+            }
             session()->regenerate();
             return redirect(route('posyandu.dashboard'));
         }
