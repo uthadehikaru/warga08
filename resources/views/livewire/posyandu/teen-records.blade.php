@@ -13,7 +13,7 @@
             </ol>
         </nav>
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-xl font-bold">Data Remaja</h1>
+            <h1 class="text-xl font-bold">Data Warga</h1>
             <div class="flex items-center gap-2">
                 <div wire:loading>
                     <div class="loading loading-spinner" role="status">
@@ -71,7 +71,7 @@ RT. {{ $teen->rt }}</span>
                         </p>
                     </div>
                     <div class="flex items-center justify-start gap-2 mt-2">
-                        <a href="{{ route('posyandu.teens.records.form', $teen->nik) }}" class="btn btn-sm btn-primary px-2">
+                        <a href="{{ route('posyandu.teens.form', $teen->nik) }}" class="btn btn-sm btn-primary px-2">
                             periksa
                         </a>
                         <a href="{{ route('posyandu.teens.records', $teen->nik) }}" class="btn btn-sm btn-warning px-2">

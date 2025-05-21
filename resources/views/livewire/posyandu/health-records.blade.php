@@ -65,8 +65,13 @@
             @forelse($healthHistories as $healthHistory)
             <div tabindex="0" class="collapse bg-base-100 border-base-300 border">
                 <input type="checkbox" class="peer" />
-                <div class="collapse-title font-semibold">
+                <div class="collapse-title font-semibold flex justify-between items-center">
                     {{ $healthHistory->check_date->format('d M Y') }}
+                    @if($healthHistory->step >= 4)
+                        <span class="badge badge-sm badge-success">Selesai</span>
+                    @else
+                        <span class="badge badge-sm badge-warning">Langkah {{ $healthHistory->step }}</span>
+                    @endif
                 </div>
                 <div class="collapse-content text-sm flex flex-col gap-2" onclick="event.stopPropagation()">
                     <p class="mb-1">

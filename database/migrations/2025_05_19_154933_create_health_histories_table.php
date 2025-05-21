@@ -41,6 +41,7 @@ return new class extends Migration
             $table->boolean('masalah_depresi')->default(false);
             $table->text('edukasi')->nullable();
             $table->boolean('rujuk')->default(false);
+            $table->unsignedTinyInteger('step')->default(1);
             
         });
     }

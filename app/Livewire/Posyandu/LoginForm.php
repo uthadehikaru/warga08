@@ -10,6 +10,13 @@ class LoginForm extends Component
     public $username,$password;
     public $showPassword = false;
 
+    public function mount()
+    {
+        if (Auth::check()) {
+            return redirect(route('posyandu.dashboard'));
+        }
+    }
+
     public function togglePassword()
     {
         $this->showPassword = !$this->showPassword;

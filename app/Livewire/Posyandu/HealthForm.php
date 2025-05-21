@@ -14,7 +14,7 @@ class HealthForm extends Component
     public $warga;
     public $health_record;
     public $id;
-
+    public $step = 1;
     // Basic measurements
     public $check_date;
     public $height;
@@ -63,6 +63,7 @@ class HealthForm extends Component
         if($id){
             $healthhistory = HealthHistory::find($id);
             if($healthhistory){
+                $this->step = $healthhistory->step;
                 $this->check_date = $healthhistory->check_date->format('Y-m-d');
                 $this->height = $healthhistory->height;
                 $this->weight = $healthhistory->weight;
@@ -216,6 +217,7 @@ class HealthForm extends Component
             $healthHistory = null;
             if($this->id){
                 $healthHistory = HealthHistory::find($this->id);
+                $healthHistory->step = $this->step+1;
                 $healthHistory->update($validatedData);
             }else{
                 $healthHistory = HealthHistory::create($validatedData);
@@ -227,9 +229,12 @@ class HealthForm extends Component
 
             DB::commit();
             
-            session()->flash('message', 'Data kesehatan berhasil disimpan.');
-            
-            return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
+            if($healthHistory->step > 4){
+                session()->flash('message', 'Pemeriksaan telah selesai.');
+                return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
+            }else{
+                return redirect()->route('posyandu.teens.health.form', ['nik' => $this->warga->nik, 'id' => $healthHistory->id]);
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();

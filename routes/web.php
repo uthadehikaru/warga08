@@ -41,9 +41,8 @@ use Illuminate\Support\Facades\Route;
 
 // Posyandu subdomain routes
 Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function () {
+    Route::get('/', Dashboard::class)->name('dashboard');
     Route::middleware(['posyandu.role'])->group(function(){
-        Route::get('/', Dashboard::class)->name('dashboard');
-
         Route::get('/teens', TeenRecords::class)->name('teens.index');
         Route::get('/teens/form/{nik?}', TeenForm::class)->name('teens.form');
         Route::get('/teens/records/{nik}', HealthRecords::class)->name('teens.records');

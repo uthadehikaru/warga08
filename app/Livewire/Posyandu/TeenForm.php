@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Posyandu;
 
+use App\Models\HealthHistory;
 use App\Models\HealthRecord;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,11 @@ use Illuminate\Support\Str;
 
 class TeenForm extends Component
 {
+    public $form = false;
+    public $teens = [];
+    public $search = '';
     public $rt;
+    public $check_date;
     public $nik;
     public $name;
     public $father_name;
@@ -41,26 +46,50 @@ class TeenForm extends Component
 
     public function mount($nik = null)
     {
-        $warga = User::with('healthRecord')->where('nik', $nik)->first();
-        if($nik && $warga){
-            $this->rt = $warga->rt;
-            $this->nik = $warga->nik;
-            $this->name = $warga->name;
-            $this->father_name = $warga->healthRecord->father_name;
-            $this->mother_name = $warga->healthRecord->mother_name;
-            $this->birth_place = $warga->birth_place;
-            $this->birth_date = $warga->birth_date->format('Y-m-d');
-            $this->gender = $warga->gender;
-            $this->address = $warga->address;
+        $this->check_date = now()->format('Y-m-d');
+        if($nik){
+            $this->selectTeen($nik);
+        }
+    }
+
+    public function searchTeen()
+    {
+        $this->teens = User::warga()->where(function($query) {
+            $query->where('name', 'like', '%'.$this->search.'%')
+                  ->orWhere('nik', 'like', '%'.$this->search.'%');
+        })->orderBy('name')->get()->toArray();
+    }
+
+    public function selectTeen($nik)
+    {
+        $user = User::warga()->where('nik', $nik)->first();
+        $this->rt = $user->rt;
+        $this->nik = $user->nik;
+        $this->name = $user->name;
+        $this->birth_place = $user->birth_place;
+        $this->birth_date = $user->birth_date->format('Y-m-d');
+        $this->gender = $user->gender;
+        $this->address = $user->address;
+        
+        $healthRecord = HealthRecord::where('user_id', $user->id)->first();
+        if($healthRecord){
+            $this->father_name = $user->healthRecord->father_name;
+            $this->mother_name = $user->healthRecord->mother_name;
             foreach($this->diseases as $key => $disease){
-                if(in_array($key, $warga->healthRecord->family_diseases)){
+                if(in_array($key, $user->healthRecord->family_diseases)){
                     $this->family_disease[$key] = true;
                 }
-                if(in_array($key, $warga->healthRecord->personal_diseases)){
+                if(in_array($key, $user->healthRecord->personal_diseases)){
                     $this->personal_disease[$key] = true;
                 }
             }
         }
+        $this->form = true;
+    }
+
+    public function register()
+    {
+        $this->form = true;
     }
 
     public function save()
@@ -107,9 +136,14 @@ class TeenForm extends Component
                 'family_diseases' => $family_diseases,
                 'personal_diseases' => $personal_diseases,
             ]);
+
+            $history = HealthHistory::create([
+                'health_record_id' => $record->id,
+                'check_date' => $this->check_date,
+            ]);
     
             DB::commit();
-            return redirect()->route('posyandu.teens.records.form', $warga->nik);
+            return redirect()->route('posyandu.teens.records.form', [$warga->nik, $history->id]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
