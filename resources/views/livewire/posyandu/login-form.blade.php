@@ -1,14 +1,14 @@
-<div class="min-h-screen flex flex-col">
+<div class="min-h-screen flex flex-col justify-center items-center px-6 sm:px-8">
     <div class="fixed inset-0 z-0">
-        <img src="{{ asset('images/login.jpg') }}" class="w-full h-full object-cover object-center" alt="Background" />
+        <img src="{{ asset('images/login2.jpg') }}" class="w-full h-full object-cover object-center" alt="Background" />
     </div>
-    <div class="relative z-10 mt-auto bg-white rounded-t-3xl">
+    <div class="relative z-10 bg-white rounded-3xl w-full max-w-md mx-auto p-6 shadow-lg">
         <section class="text-gray-600 body-font">
-            <div class="container px-5 py-5 mx-auto">
+            <div class="container mx-auto">
                 <div class="flex flex-col text-center w-full mb-4">
                     <div class="flex justify-center items-center gap-2">
-                        <img src="{{ asset('rw08 small.png') }}" class="w-12 h-12" alt="Logo" />
-                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">Posyandu ILP Melati</h1>
+                        <img src="{{ asset('rw08 small.png') }}" class="w-8 h-8" alt="Logo" />
+                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">RW 08 Kelapa Dua</h1>
                     </div>
                     @if(session()->has('error'))
                     <p class="p-2 text-error">{{ session('error') }}</p>
@@ -17,14 +17,21 @@
                     <p class="p-2 text-error">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                <div class="mx-auto">
                     <form class="flex flex-col flex-wrap -m-2" wire:submit="submit">
                         <div class="p-2 w-full input-wrapper">
                             <div class="relative">
                                 <label for="username" class="leading-7 text-sm text-gray-800">ID Pengguna</label>
-                                <input type="text" id="username" name="username" wire:model="username"
-                                    class="w-full rounded border border-gray-300 p-2 text-gray-800"
-                                    autocomplete="username">
+                                <div class="relative">
+                                    <input type="text" id="username" name="username" wire:model="username"
+                                        class="w-full rounded border border-gray-300 p-2 text-gray-800 pr-10"
+                                        autocomplete="username">
+                                    <div class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="p-2 w-full input-wrapper">
