@@ -30,11 +30,19 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'warga' => 'Warga',
+                        'rw' => 'RW',
+                        'rt' => 'RT',
+                        'admin' => 'Admin',
+                        'posyandu' => 'Posyandu',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -44,11 +52,12 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('nik')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('role')
+                    ->searchable(),
+                    Tables\Columns\TextColumn::make('rt')
+                        ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

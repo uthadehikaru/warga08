@@ -47,14 +47,14 @@
             @foreach($teens as $teen)
                 <div class="bg-white rounded-lg shadow-md p-2">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-md font-semibold text-gray-800 flex items-center gap-2">
+                        <h3 class="text-sm font-semibold text-gray-800 flex items-center gap-2">
                         @if($teen->gender == 'w')
                             <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
                         @else
                             <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
                         @endif
                         {{ $teen->name }}</h3>
-                        <span class="px-3 py-1 text-sm rounded-full {{ $teen->gender == 'p' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
+                        <span class="w-1/3 px-3 py-1 text-sm text-center rounded-full {{ $teen->gender == 'p' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
                         {{ $teen->age }} tahun
                         </span>
                     </div>

@@ -15,6 +15,21 @@
         <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full" />
     </div>
     <div class="grid grid-cols-2 gap-1 p-4">
+        @auth
+        <a href="{{ route('posyandu.teens.form') }}" class="items-center text-center">
+            <img src="{{ asset('images/posyandu.png') }}" class="w-full">
+        </a>
+        <a href="#" class="items-center text-center">
+            <img src="{{ asset('images/kunjungan.png') }}" class="w-full">
+        </a>
+        <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center">
+            <img src="{{ asset('images/warga.png') }}" class="w-full">
+        </a>
+        <a href="#" class="items-center text-center">
+            <img src="{{ asset('images/laporan.png') }}" class="w-full">
+        </a>
+        @endauth
+        @guest
         <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center">
             <img src="{{ asset('images/remaja.png') }}" class="w-full">
         </a>
@@ -38,6 +53,7 @@
         <a href="https://media.rw08kelapadua.web.id/" target="_blank" class="items-center text-center">
             <img src="{{ asset('images/media08.png') }}" class="w-full">
         </a>
+        @endguest
     </div>
 
 </div>

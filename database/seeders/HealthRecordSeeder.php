@@ -13,7 +13,7 @@ class HealthRecordSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach(\App\Models\User::where('work','remaja')->get() as $warga){
+        foreach(\App\Models\User::warga()->get() as $warga){
             HealthRecord::factory()->for($warga)->create();
         }
     }

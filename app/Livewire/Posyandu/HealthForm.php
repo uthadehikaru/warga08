@@ -233,7 +233,7 @@ class HealthForm extends Component
                 session()->flash('message', 'Pemeriksaan telah selesai.');
                 return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
             }else{
-                return redirect()->route('posyandu.teens.health.form', ['nik' => $this->warga->nik, 'id' => $healthHistory->id]);
+                $this->step++;
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());

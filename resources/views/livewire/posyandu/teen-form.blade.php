@@ -112,7 +112,7 @@
                         @foreach($diseases as $key => $disease)
                         <div class="flex items-center">
                             <input id="family_disease_{{ $key }}" type="checkbox" wire:model="family_disease.{{ $key }}" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <label class="ml-2 text-sm text-gray-700">{{ $disease }}</label>
+                            <label class="ml-2 text-sm text-gray-700" for="family_disease_{{ $key }}">{{ $disease }}</label>
                         </div>
                         @endforeach
                     </div>
@@ -126,7 +126,7 @@
                         @foreach($diseases as $key => $disease)
                         <div class="flex items-center">
                             <input id="personal_disease_{{ $key }}" type="checkbox" wire:model="personal_disease.{{ $key }}" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            <label class="ml-2 text-sm text-gray-700">{{ $disease }}</label>
+                            <label class="ml-2 text-sm text-gray-700" for="personal_disease_{{ $key }}">{{ $disease }}</label>
                         </div>
                         @endforeach
                     </div>

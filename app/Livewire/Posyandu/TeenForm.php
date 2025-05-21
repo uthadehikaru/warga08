@@ -137,10 +137,16 @@ class TeenForm extends Component
                 'personal_diseases' => $personal_diseases,
             ]);
 
-            $history = HealthHistory::create([
-                'health_record_id' => $record->id,
-                'check_date' => $this->check_date,
-            ]);
+            $history = HealthHistory::where('health_record_id', $record->id)
+                ->whereDate('check_date', $this->check_date)
+                ->first();
+
+            if (!$history) {
+                $history = HealthHistory::create([
+                    'health_record_id' => $record->id,
+                    'check_date' => $this->check_date,
+                ]);
+            }
     
             DB::commit();
             return redirect()->route('posyandu.teens.records.form', [$warga->nik, $history->id]);

@@ -17,8 +17,8 @@ class HealthRecordFactory extends Factory
     public function definition(): array
     {
         return [
-            'father_name' => fake()->name(),
-            'mother_name' => fake()->name(),
+            'father_name' => fake()->sentence(2),
+            'mother_name' => fake()->sentence(2),
             'family_diseases' => fake()->randomElement([
                 ['dm', 'hipertensi', 'stroke'],
                 ['dm', 'hipertensi', 'stroke', 'jantung'],

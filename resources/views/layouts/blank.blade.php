@@ -6,7 +6,7 @@
         <meta name="theme-color" content="#2d4724">
 
         <title>@yield('title', config('app.name'))</title>
-        <link rel="icon" href="{{ asset('posyandu.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset('rw08 small.png') }}" type="image/png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

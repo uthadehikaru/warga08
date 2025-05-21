@@ -30,7 +30,7 @@ class TeenRecords extends Component
 
     public function render()
     {
-        $teens = User::where('role','warga')->where('work','remaja')->where(function($query){
+        $teens = User::warga()->where(function($query){
             $query->where('name','like','%'.$this->search.'%')->orWhere('nik','like','%'.$this->search.'%');
         })->paginate(5);
         return view('livewire.posyandu.teen-records',[

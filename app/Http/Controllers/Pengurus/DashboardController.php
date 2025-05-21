@@ -16,6 +16,15 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $user = Auth::user();
+        $data = [
+            'total_rt' => 0,
+            'total' => 0,
+            'approve_rt' => 0,
+            'approve_rw' => 0,
+            'done' => 0,
+            'canceled' => 0,
+            'unapproved_arrivals' => 0,
+        ];
         if($user->role=='rw'){
             $data['total_rt'] = User::rt()->count();
             $data['total'] = Request::count();

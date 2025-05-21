@@ -117,23 +117,19 @@ class UserSeeder extends Seeder
             'role' => 'rt',
             'rt'=>8,
         ]);
+        
+        \App\Models\User::firstOrCreate([
+            'email' => "posyandu1@warga08.test",
+        ],[
+            'name' => 'Posyandu 1',
+            'password' => Hash::make('posyandu123'),
+            'role' => 'posyandu',
+        ]);
 
         if(app()->environment('local')){
-            \App\Models\User::firstOrCreate([
-                'email' => "posyandu1@warga08.test",
-            ],[
-                'name' => 'Posyandu 1',
-                'password' => Hash::make('posyandu123'),
-                'role' => 'posyandu',
-            ]);
 
             \App\Models\User::factory()->count(10)->create([
                 'role' => 'warga',
-            ]);
-
-            \App\Models\User::factory()->count(10)->create([
-                'role' => 'warga',
-                'work' => 'remaja',
             ]);
         }
     }
