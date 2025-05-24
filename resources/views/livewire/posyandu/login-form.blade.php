@@ -11,7 +11,7 @@
                 <div class="flex flex-col text-center w-full mb-4">
                     <a href="{{ route('posyandu.dashboard') }}" class="flex justify-center items-center gap-2">
                         <img src="{{ asset('rw08 small.png') }}" class="w-8 h-8" alt="Logo" />
-                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">Posyandu Siklus Hidup<br>RW 08 Kelapa Dua</h1>
+                        <h1 class="md:text-2xl text-md font-medium title-font text-[#2d4724]">Posyandu Siklus Hidup<br>RW 08 Kelapa Dua</h1>
                     </a>
                     @if(session()->has('error'))
                     <p class="p-2 text-error">{{ session('error') }}</p>
