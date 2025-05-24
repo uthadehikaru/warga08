@@ -14,6 +14,14 @@
 @task('deploy-dev', ['on' => 'web'])
     cd /home/rwkelapa/dev
     git pull
+    composer install
+    php artisan migrate
+    php artisan optimize
+@endtask
+
+@task('reset-dev', ['on' => 'web'])
+    cd /home/rwkelapa/dev
+    php artisan migrate:fresh --seed
     php artisan optimize
 @endtask
 

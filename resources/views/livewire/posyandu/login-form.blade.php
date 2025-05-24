@@ -1,6 +1,9 @@
 <div class="min-h-screen flex flex-col justify-center items-center px-6 sm:px-8">
     <div class="fixed inset-0 z-0">
-        <img src="{{ asset('images/login2.jpg') }}" class="w-full h-full object-cover object-center" alt="Background" />
+        <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full object-cover object-top" alt="Background" />
+    </div>
+    <div class="fixed bottom-0 left-0 right-0 z-0">
+        <img src="{{ asset('images/login-footer.png') }}" class="w-full object-cover object-bottom" alt="Background" />
     </div>
     <div class="relative z-10 bg-white rounded-3xl w-full max-w-md mx-auto p-6 shadow-lg">
         <section class="text-gray-600 body-font">
@@ -8,7 +11,7 @@
                 <div class="flex flex-col text-center w-full mb-4">
                     <a href="{{ route('posyandu.dashboard') }}" class="flex justify-center items-center gap-2">
                         <img src="{{ asset('rw08 small.png') }}" class="w-8 h-8" alt="Logo" />
-                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">RW 08 Kelapa Dua</h1>
+                        <h1 class="sm:text-3xl text-xl font-medium title-font text-[#2d4724]">Posyandu Siklus Hidup<br>RW 08 Kelapa Dua</h1>
                     </a>
                     @if(session()->has('error'))
                     <p class="p-2 text-error">{{ session('error') }}</p>
