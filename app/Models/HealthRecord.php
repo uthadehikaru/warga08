@@ -10,6 +10,22 @@ class HealthRecord extends Model
 {
     use HasFactory;
 
+
+    public const TYPE = [
+        'remaja' => 'Remaja',
+        'balita' => 'Balita',
+        'ibu_hamil' => 'Ibu Hamil',
+        'lansia' => 'Lansia',
+    ];
+    
+    public const STEP = [
+        '1' => 'Registrasi dan Verifikasi',
+        '2' => 'Penimbangan dan Pengukuran',
+        '3' => 'Konsultasi',
+        '4' => 'Skrining',
+        '5' => 'Edukasi',
+    ];
+
     public const DISEASES = [
         'hipertensi' => 'Hipertensi',
         'dm' => 'DM (Diabetes Melitus)',

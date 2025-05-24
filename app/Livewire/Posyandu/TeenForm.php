@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 class TeenForm extends Component
 {
     public $form = false;
+    public $types = HealthRecord::TYPE;
+    public $type = 'remaja';
     public $teens = [];
     public $search = '';
     public $rt;
@@ -44,9 +46,10 @@ class TeenForm extends Component
         'personal_disease' => 'nullable|array',
     ];
 
-    public function mount($nik = null)
+    public function mount($type = null, $nik = null)
     {
         $this->check_date = now()->format('Y-m-d');
+        $this->type = $type;
         if($nik){
             $this->selectTeen($nik);
         }
@@ -62,6 +65,7 @@ class TeenForm extends Component
 
     public function selectTeen($nik)
     {
+        $this->check_date = now()->format('Y-m-d');
         $user = User::warga()->where('nik', $nik)->first();
         $this->rt = $user->rt;
         $this->nik = $user->nik;
@@ -76,10 +80,10 @@ class TeenForm extends Component
             $this->father_name = $user->healthRecord->father_name;
             $this->mother_name = $user->healthRecord->mother_name;
             foreach($this->diseases as $key => $disease){
-                if(in_array($key, $user->healthRecord->family_diseases)){
+                if(in_array($key, $user->healthRecord->family_diseases ?? [])){
                     $this->family_disease[$key] = true;
                 }
-                if(in_array($key, $user->healthRecord->personal_diseases)){
+                if(in_array($key, $user->healthRecord->personal_diseases ?? [])){
                     $this->personal_disease[$key] = true;
                 }
             }
@@ -90,6 +94,13 @@ class TeenForm extends Component
     public function register()
     {
         $this->form = true;
+        $this->check_date = now()->format('Y-m-d');
+    }
+
+    public function cancel()
+    {
+        $this->form = false;
+        $this->reset();
     }
 
     public function save()
@@ -145,11 +156,13 @@ class TeenForm extends Component
                 $history = HealthHistory::create([
                     'health_record_id' => $record->id,
                     'check_date' => $this->check_date,
+                    'type' => $this->type,
                 ]);
             }
     
             DB::commit();
-            return redirect()->route('posyandu.teens.records.form', [$warga->nik, $history->id]);
+            $this->reset();
+            session()->flash('success', 'Data berhasil disimpan');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();

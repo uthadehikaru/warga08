@@ -29,7 +29,7 @@ class HealthRecords extends Component
 
     public function render()
     {
-        $healthHistories = $this->warga->healthRecord->healthHistories()->latest('check_date')->paginate(5);
+        $healthHistories = $this->warga->healthRecord?->healthHistories()->latest('check_date')->paginate(5);
         return view('livewire.posyandu.health-records', compact('healthHistories'))
         ->extends('layouts.posyandu');
     }

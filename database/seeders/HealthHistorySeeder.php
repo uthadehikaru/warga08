@@ -16,8 +16,10 @@ class HealthHistorySeeder extends Seeder
     {
         if(app()->environment('local')){
             foreach(HealthRecord::all() as $record){
-                HealthHistory::factory()->count(10)->create([
+                HealthHistory::factory()->create([
                     'health_record_id' => $record->id,
+                    'check_date' => now(),
+                    'type' => 'remaja',
                 ]);
             }
         }

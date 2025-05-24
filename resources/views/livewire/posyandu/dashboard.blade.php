@@ -14,46 +14,73 @@
         </div>
         <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full" />
     </div>
-    <div class="grid grid-cols-2 gap-1 p-4">
+    <div class="grid grid-cols-1 gap-1">
+        @if($menu == 'posyandu')
+        <a wire:click="selectMenu('posyandu_remaja')" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/remaja.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Remaja</p>
+        </a>
+
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/balita.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Balita</p>
+        </a>
+        
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/ibu-hamil.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Ibu Hamil</p>
+        </a>
+        
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/dewasa.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Dewasa</p>
+        </a>
+        
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/lansia.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Lansia</p>
+        </a>
+        @elseif($menu == 'posyandu_remaja')
+        @foreach($steps as $step=>$value)
+        <a wire:click="selectStep({{ $step }})" class="items-center text-center bg-[#28C76F] p-2 p-2 text-white">
+            {{ $step }}. {{ $value }}
+        </a>
+        @endforeach
+
+        @else
         @auth
-        <a href="{{ route('posyandu.teens.form') }}" class="items-center text-center">
-            <img src="{{ asset('images/posyandu.png') }}" class="w-full">
-        </a>
-        <a href="#" class="items-center text-center">
-            <img src="{{ asset('images/kunjungan.png') }}" class="w-full">
-        </a>
-        <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center">
-            <img src="{{ asset('images/warga.png') }}" class="w-full">
-        </a>
-        <a href="#" class="items-center text-center">
-            <img src="{{ asset('images/laporan.png') }}" class="w-full">
+        <a wire:click="selectMenu('posyandu')" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/posyandu.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Posyandu</p>
         </a>
         @endauth
         @guest
-        <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center">
-            <img src="{{ asset('images/remaja.png') }}" class="w-full">
-        </a>
-        
-        <a href="#" class="items-center text-center">
-            <img src="{{ asset('images/balita.png') }}" class="w-full">
-        </a>
-        
-        <a href="#" class="items-center text-center">
-            <img src="{{ asset('images/ibu-hamil.png') }}" class="w-full">
-        </a>
-        
-        <a href="#" class="items-center text-center">
-            <img src="{{ asset('images/lansia.png') }}" class="w-full">
-        </a>
-
-        <a href="{{ config('app.url') }}" target="_blank" class="items-center text-center">
-            <img src="{{ asset('images/layanan.png') }}" class="w-full">
-        </a>
-
-        <a href="https://media.rw08kelapadua.web.id/" target="_blank" class="items-center text-center">
-            <img src="{{ asset('images/media08.png') }}" class="w-full">
+        <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/posyandu.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Posyandu</p>
         </a>
         @endguest
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/kunjungan.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Kunjungan</p>
+        </a>
+        <a href="{{ route('posyandu.teens.index') }}" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/warga.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Warga</p>
+        </a>
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/laporan.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Laporan</p>
+        </a>
+        <a href="{{ config('app.url') }}" target="_blank" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/layanan.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Layanan</p>
+        </a>
+
+        <a href="https://media.rw08kelapadua.web.id/" target="_blank" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/media08.png') }}" class="h-24 mx-auto">
+        </a>
+        @endif
     </div>
 
 </div>

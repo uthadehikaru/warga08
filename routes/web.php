@@ -19,6 +19,7 @@ use App\Livewire\Posyandu\Dashboard;
 use App\Livewire\Posyandu\HealthForm;
 use App\Livewire\Posyandu\HealthRecords;
 use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
+use App\Livewire\Posyandu\PosyanduPos;
 use App\Livewire\Posyandu\TeenForm;
 use App\Livewire\Posyandu\TeenRecords;
 use App\Livewire\RequestForm;
@@ -48,13 +49,14 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         Route::get('/teens/records/{nik}', HealthRecords::class)->name('teens.records');
         Route::get('/teens/records/{nik}/form/{id?}', HealthForm::class)->name('teens.records.form');
         Route::get('/teens/records/{nik}/delete/{id}', HealthForm::class)->name('teens.records.delete');
+        Route::get('/pos/{type}/{step}', PosyanduPos::class)->name('pos');
     });
 
     Route::get('logout', function(Request $request){
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login')->with('error', 'Logout berhasil');
     })->name('logout');
 
     Route::get('login', PosyanduLoginForm::class)->name('login');

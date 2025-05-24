@@ -41,7 +41,7 @@ class LoginForm extends Component
                 return;
             }
             session()->regenerate();
-            return redirect(route('posyandu.teens.form'));
+            return redirect(route('posyandu.dashboard',['menu' => 'posyandu']));
         }
 
         $this->addError('error', 'Email atau password yang Anda masukkan salah');

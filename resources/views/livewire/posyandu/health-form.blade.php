@@ -14,7 +14,7 @@
                     <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <a href="{{ route('posyandu.teens.index') }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Data Warga</a>
+                    <a href="{{ route('posyandu.dashboard', ['menu' => 'posyandu']) }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Posyandu</a>
                 </div>
             </li>
             <li>
@@ -22,12 +22,12 @@
                     <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <a href="{{ route('posyandu.teens.records', $warga->nik) }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">{{ $warga->name }}</a>
+                    <a href="{{ route('posyandu.pos', ['type' => $type, 'step' => $step]) }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Pos {{ $step+1 }}</a>
                 </div>
             </li>
         </ol>
     </nav>
-    <h1 class="text-xl font-bold">Form Pemeriksaan Kesehatan</h1>
+    <h1 class="text-xl font-bold">{{ $pos_name }}</h1>
     <p>{{ $warga->name }}, @lang('gender.'.$warga->gender), usia {{ $warga->age}} Tahun</p>
     <form wire:submit="save" class="space-y-2">
         @if (session()->has('message'))
@@ -76,6 +76,37 @@
             @elseif($step == 2)
             <h3 class="text-lg font-medium text-gray-900 my-4">Langkah 3</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                    <label class="block text-sm font-medium text-gray-700">Tinggi Badan (cm)</label>
+                    <input type="number" wire:model.blur="height" readonly disabled placeholder="Masukkan tinggi badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('height') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Berat Badan (kg)</label>
+                    <input type="number" wire:model.blur="weight" readonly disabled placeholder="Masukkan berat badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                @if($warga->age >= 15)
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
+                        <input type="number" wire:model="lingkar_perut" readonly disabled placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Sistol</label>
+                        <input type="number" wire:model.blur="sistol" readonly disabled placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Diastol</label>
+                        <input type="number" wire:model.blur="diastol" readonly disabled placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
+                        <input type="text" wire:model="tekanan_darah" readonly disabled placeholder="Tekanan darah akan terisi otomatis" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    </div>
+                @endif
                 <div>
                     <label class="block text-sm font-medium text-gray-700">IMT</label>
                     <input type="text" wire:model="imt" placeholder="IMT akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
@@ -218,6 +249,16 @@
                     @error('edukasi') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-2 rounded relative" role="alert">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
         @endif
 

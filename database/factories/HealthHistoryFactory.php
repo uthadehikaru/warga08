@@ -18,7 +18,9 @@ class HealthHistoryFactory extends Factory
     {
         return [
             'health_record_id' => 0,
+            'type' => fake()->randomElement(['remaja', 'balita', 'ibu_hamil', 'lansia']),
             'check_date' => fake()->date(),
+            'step' => fake()->numberBetween(1, 5),
             'height' => fake()->numberBetween(150, 180),
             'weight' => fake()->numberBetween(50, 80),
             'imt' => fake()->randomElement(['sangat kurus', 'kurus', 'normal', 'gemuk', 'obesitas']),

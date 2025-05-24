@@ -15,6 +15,8 @@ class HealthForm extends Component
     public $health_record;
     public $id;
     public $step = 1;
+    public $pos_name;
+
     // Basic measurements
     public $check_date;
     public $height;
@@ -49,10 +51,33 @@ class HealthForm extends Component
         'keamanan' => false,
         'depresi' => false,
     ];
+
+    public $rules = [
+        'height' => 'required|integer|min:1',
+        'weight' => 'required|integer|min:1',
+        'lingkar_perut' => 'required|integer|min:1',
+        'sistol' => 'required|integer|min:1',
+        'diastol' => 'required|integer|min:1',
+        'tbc.batuk' => 'boolean',
+        'tbc.demam' => 'boolean',
+        'tbc.bb_stagnan' => 'boolean',
+        'tbc.kontak_tbc' => 'boolean',
+        'masalah.di_rumah' => 'boolean',
+        'masalah.di_instansi' => 'boolean',
+        'masalah.pola_makan' => 'boolean',
+        'masalah.aktivitas' => 'boolean',
+        'masalah.obat' => 'boolean',
+        'masalah.seksual' => 'boolean',
+        'masalah.keamanan' => 'boolean',
+        'masalah.depresi' => 'boolean',
+        'edukasi' => 'nullable|string',
+        'rujuk' => 'boolean',
+    ];
     
     // Additional info
     public $edukasi;
     public $rujuk = false;
+    public $type = null;
 
     public function mount($nik, $id = null)
     {
@@ -89,9 +114,11 @@ class HealthForm extends Component
                 $this->masalah['depresi'] = $healthhistory->masalah_depresi == 1;
                 $this->edukasi = $healthhistory->edukasi;
                 $this->rujuk = $healthhistory->rujukan == 1;
+                $this->type = $healthhistory->type;
                 $this->updated();
             }
         }
+        $this->pos_name = HealthRecord::STEP[$this->step+1];
     }
 
 
@@ -170,49 +197,26 @@ class HealthForm extends Component
         $this->calculateTekananDarah();
         $this->calculateKadarHb();
         $this->checkRujukan();
-
-        $validatedData = $this->validate([
-            'check_date' => 'required|date',
-            'height' => 'nullable|integer|min:1',
-            'weight' => 'nullable|integer|min:1',
-            'imt' => 'nullable|string',
-            'lingkar_perut' => 'nullable|integer|min:1',
-            'sistol' => 'nullable|integer|min:1',
-            'diastol' => 'nullable|integer|min:1',
-            'tekanan_darah' => 'nullable|string',
-            'gula_darah' => 'nullable|string',
-            'kadar_hb' => 'nullable|integer|min:1',
-            'anemia' => 'nullable|string',
-            'tbc.batuk' => 'boolean',
-            'tbc.demam' => 'boolean',
-            'tbc.bb_stagnan' => 'boolean',
-            'tbc.kontak_tbc' => 'boolean',
-            'masalah.di_rumah' => 'boolean',
-            'masalah.di_instansi' => 'boolean',
-            'masalah.pola_makan' => 'boolean',
-            'masalah.aktivitas' => 'boolean',
-            'masalah.obat' => 'boolean',
-            'masalah.seksual' => 'boolean',
-            'masalah.keamanan' => 'boolean',
-            'masalah.depresi' => 'boolean',
-            'edukasi' => 'nullable|string',
-            'rujuk' => 'boolean',
-        ]);
+        $validatedData = $this->validate();
 
         try {
             DB::beginTransaction();
 
             $validatedData['health_record_id'] = $this->health_record->id;
 
-            foreach($validatedData['tbc'] as $key => $value){
-                $validatedData[$key] = $value;
+            if(isset($validatedData['tbc'])){
+                foreach($validatedData['tbc'] as $key => $value){
+                    $validatedData[$key] = $value;
+                }
+                unset($validatedData['tbc']);
             }
-            unset($validatedData['tbc']);
 
-            foreach($validatedData['masalah'] as $key => $value){
-                $validatedData['masalah_'.$key] = $value;
+            if(isset($validatedData['masalah'])){
+                foreach($validatedData['masalah'] as $key => $value){
+                    $validatedData['masalah_'.$key] = $value;
+                }
+                unset($validatedData['masalah']);
             }
-            unset($validatedData['masalah']);
 
             $healthHistory = null;
             if($this->id){
@@ -233,7 +237,8 @@ class HealthForm extends Component
                 session()->flash('message', 'Pemeriksaan telah selesai.');
                 return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
             }else{
-                $this->step++;
+                session()->flash('message', 'Data berhasil disimpan.');
+                return redirect()->route('posyandu.pos', ['step' => $healthHistory->step]);
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
