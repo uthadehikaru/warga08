@@ -128,7 +128,7 @@ class UserSeeder extends Seeder
 
         if(app()->environment('local')){
 
-            \App\Models\User::factory()->count(10)->create([
+            \App\Models\User::factory()->remaja()->count(100)->create([
                 'role' => 'warga',
             ]);
         }

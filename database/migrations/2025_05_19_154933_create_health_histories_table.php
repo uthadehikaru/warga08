@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(HealthRecord::class);
             $table->date('check_date');
             $table->string('type');
+            $table->unsignedInteger('age');
             $table->unsignedInteger('height')->nullable();
             $table->unsignedInteger('weight')->nullable();
             $table->string('imt')->nullable();

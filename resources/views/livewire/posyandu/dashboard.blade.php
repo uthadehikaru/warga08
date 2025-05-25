@@ -15,32 +15,35 @@
         <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full" />
     </div>
     <div class="grid grid-cols-1 gap-1">
-        @if($menu == 'posyandu')
-        <a wire:click="selectMenu('posyandu_remaja')" class="items-center text-center bg-[#28C76F] p-2">
+        @if($menu && !$type)
+        <a wire:click="resetMenu()" class="items-center text-center bg-warning p-2">
+            <p class="text-white text-sm">Dashboard</p>
+        </a>
+        <a wire:click="selectType('remaja')" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/remaja.png') }}" class="h-24 mx-auto">
-            <p class="text-white text-sm">Remaja</p>
+            <p class="text-white text-sm">{{ $menu }} Remaja</p>
         </a>
 
         <a href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/balita.png') }}" class="h-24 mx-auto">
-            <p class="text-white text-sm">Balita</p>
+            <p class="text-white text-sm">{{ $menu }} Balita</p>
         </a>
         
         <a href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/ibu-hamil.png') }}" class="h-24 mx-auto">
-            <p class="text-white text-sm">Ibu Hamil</p>
+            <p class="text-white text-sm">{{ $menu }} Ibu Hamil</p>
         </a>
         
         <a href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/dewasa.png') }}" class="h-24 mx-auto">
-            <p class="text-white text-sm">Dewasa</p>
+            <p class="text-white text-sm">{{ $menu }} Dewasa</p>
         </a>
         
         <a href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/lansia.png') }}" class="h-24 mx-auto">
-            <p class="text-white text-sm">Lansia</p>
+            <p class="text-white text-sm">{{ $menu }} Lansia</p>
         </a>
-        @elseif($menu == 'posyandu_remaja')
+        @elseif($menu && $type)
         @foreach($steps as $step=>$value)
         <a wire:click="selectStep({{ $step }})" class="items-center text-center bg-[#28C76F] p-2 p-2 text-white">
             {{ $step }}. {{ $value }}
@@ -68,7 +71,7 @@
             <img src="{{ asset('images/warga.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Warga</p>
         </a>
-        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+        <a wire:click="selectMenu('laporan')" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/laporan.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Laporan</p>
         </a>

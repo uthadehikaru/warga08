@@ -11,6 +11,7 @@ use App\Http\Controllers\Pengurus\RequestController as PengurusRequestController
 use App\Http\Controllers\Pengurus\RtController;
 use App\Http\Controllers\Pengurus\SequenceController;
 use App\Http\Controllers\Pengurus\WargaController;
+use App\Http\Controllers\Posyandu\LaporanController;
 use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\ArrivalForm;
@@ -18,6 +19,7 @@ use App\Livewire\LoginForm;
 use App\Livewire\Posyandu\Dashboard;
 use App\Livewire\Posyandu\HealthForm;
 use App\Livewire\Posyandu\HealthRecords;
+use App\Livewire\Posyandu\Laporan;
 use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
 use App\Livewire\Posyandu\PosyanduPos;
 use App\Livewire\Posyandu\TeenForm;
@@ -50,6 +52,8 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         Route::get('/teens/records/{nik}/form/{id?}', HealthForm::class)->name('teens.records.form');
         Route::get('/teens/records/{nik}/delete/{id}', HealthForm::class)->name('teens.records.delete');
         Route::get('/pos/{type}/{step}', PosyanduPos::class)->name('pos');
+        Route::get('/laporan/{type}', Laporan::class)->name('laporan');
+        Route::get('/laporan/{type}/download', LaporanController::class)->name('laporan.download');
     });
 
     Route::get('logout', function(Request $request){

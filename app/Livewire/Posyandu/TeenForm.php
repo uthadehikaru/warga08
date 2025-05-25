@@ -157,6 +157,7 @@ class TeenForm extends Component
                     'health_record_id' => $record->id,
                     'check_date' => $this->check_date,
                     'type' => $this->type,
+                    'age' => $warga->age,
                 ]);
             }
     

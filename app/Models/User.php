@@ -60,7 +60,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function scopeWarga($query):void
     {
-        $query->where('role','warga');
+        $query->whereNotNull('nik');
     }
 
     public function scopeRw($query):void

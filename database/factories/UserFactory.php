@@ -32,8 +32,8 @@ class UserFactory extends Factory
             'phone' => fake()->e164PhoneNumber(),
             'gender' => fake()->randomElement(['p','w']),
             'religion' => 'islam',
-            'birth_place' => fake()->country(),
-            'birth_date' => fake()->dateTimeThisDecade(),
+            'birth_place' => fake()->city(),
+            'birth_date' => fake()->dateTimeBetween('-18 years', '-6 years'),
             'work' => fake()->sentence(2),
             'rt' => fake()->numberBetween(1, 8),
         ];
@@ -46,6 +46,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Set user age between 6-18 years old (remaja)
+     */
+    public function remaja(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'birth_date' => fake()->dateTimeBetween('-18 years', '-6 years'),
         ]);
     }
 }

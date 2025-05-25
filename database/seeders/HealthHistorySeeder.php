@@ -16,11 +16,23 @@ class HealthHistorySeeder extends Seeder
     {
         if(app()->environment('local')){
             foreach(HealthRecord::all() as $record){
-                HealthHistory::factory()->create([
-                    'health_record_id' => $record->id,
-                    'check_date' => now(),
-                    'type' => 'remaja',
-                ]);
+                if(rand(0, 1) == 0){
+                    HealthHistory::factory()->create([
+                        'health_record_id' => $record->id,
+                        'check_date' => now(),
+                        'type' => 'remaja',
+                        'age' => $record->user->age,
+                    ]);
+                }
+
+                if(rand(0, 1) == 0){
+                    HealthHistory::factory()->create([
+                        'health_record_id' => $record->id,
+                        'check_date' => now()->addMonth(),
+                        'type' => 'remaja',
+                        'age' => $record->user->age,
+                    ]);
+                }
             }
         }
     }
