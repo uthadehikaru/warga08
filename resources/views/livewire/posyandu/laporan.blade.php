@@ -23,8 +23,41 @@
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-bold">Laporan {{ $type }}</h1>
         </div>
-        <a href="{{ route('posyandu.laporan.download', $type) }}" class="btn btn-sm btn-primary p-1">
-            Unduh Laporan
-        </a>
+        <form wire:submit="search" class="flex gap-4 items-end">
+            <div>
+                <label for="start_date" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
+                <input type="date" wire:model="startDate" id="start_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            </div>
+            <div>
+                <label for="end_date" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
+                <input type="date" wire:model="endDate" id="end_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary p-1">
+                Cari
+            </button>
+        </form>
+        <div class="grid grid-cols-1 gap-2 my-4">
+        @foreach($data as $key => $row)
+        <div tabindex="0" class="collapse bg-base-100 border-base-300 border">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title font-semibold flex justify-between items-center">
+                {{ $key }}
+            </div>
+            <div class="collapse-content text-sm flex flex-col gap-2" onclick="event.stopPropagation()">
+                <p>Target 6-14 : {{ $row['target_6_14'] }}</p>
+                <p>Target 15-18 : {{ $row['target_15_18'] }}</p>
+                <p>Hadir 6-14 : {{ $row['present_6_14'] }}</p>
+                <p>Hadir 15-18 : {{ $row['present_15_18'] }}</p>
+                <p>Tidak Hadir 6-14 : {{ $row['not_present_6_14'] }}</p>
+                <p>Tidak Hadir 15-18 : {{ $row['not_present_15_18'] }}</p>
+                <p>IMT Sangat Kurus : {{ $row['imt_sangat_kurus'] }}</p>
+                <p>IMT Kurus : {{ $row['imt_kurus'] }}</p>
+                <p>IMT Normal : {{ $row['imt_normal'] }}</p>
+                <p>IMT Gemuk : {{ $row['imt_gemuk'] }}</p>
+                <p>IMT Obesitas : {{ $row['imt_obesitas'] }}</p>
+            </div>    
+        </div>
+        @endforeach
+        </div>
     </div>
 </div>
