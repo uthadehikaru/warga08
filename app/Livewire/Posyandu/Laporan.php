@@ -18,6 +18,7 @@ class Laporan extends Component
         $this->type = $type;
         $this->startDate = now()->startOfMonth()->format('Y-m-d');
         $this->endDate = now()->endOfMonth()->format('Y-m-d');
+        $this->search();
     }
 
     public function search()
