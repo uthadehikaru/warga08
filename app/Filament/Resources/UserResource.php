@@ -31,9 +31,11 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
+                    ->nullable()
                     ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
+                    ->dehydrated(fn ($state) => filled($state)),
                 Forms\Components\Select::make('role')
                     ->options([
                         'warga' => 'Warga',
@@ -43,6 +45,20 @@ class UserResource extends Resource
                         'posyandu' => 'Posyandu',
                     ])
                     ->required(),
+                Forms\Components\TextInput::make('nik')
+                    ->label('NIK')
+                    ->length(16),
+                Forms\Components\DatePicker::make('birth_date')
+                    ->label('Tanggal Lahir'),
+                Forms\Components\TextInput::make('birth_place')
+                    ->label('Tempat Lahir')
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('address')
+                    ->label('Alamat')
+                    ->rows(3),
+                Forms\Components\TextInput::make('rt')
+                    ->label('RT')
+                    ->maxLength(255),
             ]);
     }
 
