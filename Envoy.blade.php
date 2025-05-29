@@ -37,8 +37,10 @@
 
 @task('update', ['on' => 'web'])
     cd /home/rwkelapa/warga08
+    php artisan down
     git pull origin main
     composer install
     php artisan migrate --force
     php artisan optimize
+    php artisan up
 @endtask
