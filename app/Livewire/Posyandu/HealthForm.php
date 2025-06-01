@@ -118,6 +118,7 @@ class HealthForm extends Component
                 $this->updated();
             }
         }
+        $this->step = $this->step < count(HealthRecord::STEP) ? $this->step : 1;
         $this->pos_name = HealthRecord::STEP[$this->step+1];
     }
 
@@ -238,7 +239,7 @@ class HealthForm extends Component
                 return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
             }else{
                 session()->flash('message', 'Data berhasil disimpan.');
-                return redirect()->route('posyandu.pos', ['step' => $healthHistory->step]);
+                return redirect()->route('posyandu.pos', ['type' => $this->type, 'step' => $healthHistory->step]);
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());

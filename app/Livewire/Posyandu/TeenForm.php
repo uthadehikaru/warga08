@@ -49,7 +49,7 @@ class TeenForm extends Component
     public function mount($type = null, $nik = null)
     {
         $this->check_date = now()->format('Y-m-d');
-        $this->type = $type;
+        $this->type = request()->get('type') ?? $type;
         if($nik){
             $this->selectTeen($nik);
         }

@@ -168,20 +168,20 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="tbc.batuk" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">Batuk terus menerus</label>
+                    <input type="checkbox" wire:model.live="tbc.batuk" id="tbc_batuk" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="tbc_batuk">Batuk terus menerus</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="tbc.demam" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">Demam lebih dari 2 pekan</label>
+                    <input type="checkbox" wire:model.live="tbc.demam" id="tbc_demam" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="tbc_demam">Demam lebih dari 2 pekan</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="tbc.bb_stagnan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">BB tidak naik / tidak turun selama 2 bulan berturut-turut</label>
+                    <input type="checkbox" wire:model.live="tbc.bb_stagnan" id="tbc_bb_stagnan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="tbc_bb_stagnan">BB tidak naik / tidak turun selama 2 bulan berturut-turut</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="tbc.kontak_tbc" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">Kontak erat dengan pasien TBC</label>
+                    <input type="checkbox" wire:model.live="tbc.kontak_tbc" id="tbc_kontak_tbc" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="tbc_kontak_tbc">Kontak erat dengan pasien TBC</label>
                 </div>
             </div>
         </div>
@@ -194,36 +194,36 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.di_rumah" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah di dalam rumah (Home)</label>
+                    <input type="checkbox" wire:model.live="masalah.di_rumah" id="masalah_di_rumah" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_di_rumah">memiliki masalah di dalam rumah (Home)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.di_instansi" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah dengan pendidikan atau pekerjaan (Education / Employment)</label>
+                    <input type="checkbox" wire:model.live="masalah.di_instansi" id="masalah_di_instansi" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_di_instansi">memiliki masalah dengan pendidikan atau pekerjaan (Education / Employment)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.pola_makan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">Memiliki masalah dengan pola makan (Eating)</label>
+                    <input type="checkbox" wire:model.live="masalah.pola_makan" id="masalah_pola_makan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_pola_makan">Memiliki masalah dengan pola makan (Eating)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.aktivitas" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah dengan aktivitas (Activity)</label>
+                    <input type="checkbox" wire:model.live="masalah.aktivitas" id="masalah_aktivitas" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_aktivitas">memiliki masalah dengan aktivitas (Activity)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.obat" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah dengan obat-obatan (drugs)</label>
+                    <input type="checkbox" wire:model.live="masalah.obat" id="masalah_obat" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_obat">memiliki masalah dengan obat-obatan (drugs)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.seksual" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah dengan kesehatan seksual (Sexuality)</label>
+                    <input type="checkbox" wire:model.live="masalah.seksual" id="masalah_seksual" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_seksual">memiliki masalah dengan kesehatan seksual (Sexuality)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.keamanan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">memiliki masalah dengan keamanan (Self Image)</label>
+                    <input type="checkbox" wire:model.live="masalah.keamanan" id="masalah_keamanan" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_keamanan">memiliki masalah dengan keamanan (Self Image)</label>
                 </div>
                 <div class="flex items-center">
-                    <input type="checkbox" wire:model.live="masalah.depresi" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <label class="ml-2 block text-sm text-gray-900">Memiliki keinginan bunuh diri / Depresi (Safety)</label>
+                    <input type="checkbox" wire:model.live="masalah.depresi" id="masalah_depresi" value="1" class="rounded border border-gray-300 p-2 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="ml-2 block text-sm text-gray-900" for="masalah_depresi">Memiliki keinginan bunuh diri / Depresi (Safety)</label>
                 </div>
                 <div class="flex items-center space-x-4">
                     <label class="block text-sm font-bold text-gray-900">Perlu Rujukan:</label>

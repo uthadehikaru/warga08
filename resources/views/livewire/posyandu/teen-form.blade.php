@@ -40,7 +40,7 @@
                 @else
                     <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
                 @endif
-                <span class="text-sm text-gray-500">{{ $teen['name'] }}<br/> {{ $teen['nik'] }}</span>
+                <span class="text-sm text-gray-500">{{ $teen['name'] }}<br/> <x-nik :nik="$teen['nik']" /></span>
             <span class="btn btn-sm btn-primary">periksa</span></button>
             </div>
             @endforeach

@@ -1,0 +1,1 @@
+{{ substr($nik, 0, 4) . str_repeat('*', strlen($nik) - 8) . substr($nik, -4) }}

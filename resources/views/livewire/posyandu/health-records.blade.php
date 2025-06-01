@@ -32,7 +32,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-1 mb-2">
             <p>RT : {{ $warga->rt }}</p>
-            <p>NIK : {{ $warga->nik }}</p>
+            <p>NIK : <x-nik :nik="$warga->nik" /></p>
             <p>Alamat : {{ $warga->address }}</p>
             <p>TTL : {{ $warga->birth_place }}, {{ $warga->birth_date->format('d/M/Y') }}</p>
             <p>Ayah : {{ $warga->healthRecord?->father_name }}</p>
