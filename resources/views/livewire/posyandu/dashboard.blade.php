@@ -16,10 +16,10 @@
     </div>
     <div class="grid grid-cols-1 gap-1">
         @if($menu && !$type)
-        <a wire:click="resetMenu()" class="items-center text-center bg-warning p-2">
+        <a wire:click="resetMenu()" href="#" class="items-center text-center bg-warning p-2">
             <p class="text-white text-sm">Dashboard</p>
         </a>
-        <a wire:click="selectType('remaja')" class="items-center text-center bg-[#28C76F] p-2">
+        <a wire:click="selectType('remaja')" href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/remaja.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">{{ $menu }} Remaja</p>
         </a>
@@ -44,15 +44,25 @@
             <p class="text-white text-sm">{{ $menu }} Lansia</p>
         </a>
         @elseif($menu && $type)
+        <a wire:click="resetType()" href="#" class="items-center text-center bg-warning p-2">
+            <p class="text-white text-sm">Kembali</p>
+        </a>
+        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+            <img src="{{ asset('images/'.$type.'.png') }}" class="h-24 mx-auto">
+            <p class="text-white text-sm">Posyandu {{ $type }}</p>
+        </a>
         @foreach($steps as $step=>$value)
-        <a wire:click="selectStep({{ $step }})" class="items-center text-center bg-[#28C76F] p-2 p-2 text-white">
+        <a wire:click="selectStep({{ $step }})" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
             {{ $step }}. {{ $value }}
         </a>
         @endforeach
+        <a wire:click="selectStep({{ $step+1 }})" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
+            {{ $step+1 }}. Selesai
+        </a>
 
         @else
         @auth
-        <a wire:click="selectMenu('posyandu')" class="items-center text-center bg-[#28C76F] p-2">
+        <a wire:click="selectMenu('posyandu')" href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/posyandu.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Posyandu</p>
         </a>
@@ -71,7 +81,7 @@
             <img src="{{ asset('images/warga.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Warga</p>
         </a>
-        <a wire:click="selectMenu('laporan')" class="items-center text-center bg-[#28C76F] p-2">
+        <a wire:click="selectMenu('laporan')" href="#" class="items-center text-center bg-[#28C76F] p-2">
             <img src="{{ asset('images/laporan.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Laporan</p>
         </a>

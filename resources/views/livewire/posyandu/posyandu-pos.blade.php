@@ -39,14 +39,25 @@
     <div class="grid grid-cols-1 gap-2">
         @forelse($healthHistory as $history)
         <div class="mt-2">
-            <button wire:click="check('{{ $history->healthRecord->user->nik }}', {{ $history->id }})" class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
-            @if($history->healthRecord->user->gender == 'p')
-                <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
-            @else
-                <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
-            @endif
-            <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> {{ $history->healthRecord->user->nik }}</span>
-            <span class="btn btn-sm btn-primary">pilih</span></button>
+            <div class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
+                @if($history->healthRecord->user->gender == 'p')
+                    <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
+                @else
+                    <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
+                @endif
+                <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> {{ $history->healthRecord->user->nik }}</span>
+                <div class="flex gap-2">
+                    @if($step == 6)
+                        @if($history->healthRecord->user->phone)
+                        <a href="https://wa.me/{{ $history->healthRecord->user->phone }}" target="_blank" class="btn btn-sm btn-primary">whatsapp</a>
+                        @endif
+                        <button wire:click="check('{{ $history->healthRecord->user->nik }}', {{ $history->id }})" class="btn btn-sm btn-info">lihat</button>
+                        
+                    @else
+                        <button wire:click="check('{{ $history->healthRecord->user->nik }}', {{ $history->id }})" class="btn btn-sm btn-primary">pilih</button>
+                    @endif
+                </div>
+            </div>
         </div>
         @empty
         <div class="text-center p-4">

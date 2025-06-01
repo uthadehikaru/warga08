@@ -24,6 +24,7 @@ class HealthRecord extends Model
         '3' => 'Konsultasi',
         '4' => 'Skrining',
         '5' => 'Edukasi',
+        '6' => 'Selesai',
     ];
 
     public const DISEASES = [

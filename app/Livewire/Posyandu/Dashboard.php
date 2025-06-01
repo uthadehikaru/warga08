@@ -43,6 +43,11 @@ class Dashboard extends Component
         $this->type = null;
     }
 
+    public function resetType()
+    {
+        $this->type = null;
+    }
+
     public function selectStep($step)
     {
         if($this->menu && $this->type && $step == 1){

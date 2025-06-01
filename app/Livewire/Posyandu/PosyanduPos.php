@@ -21,11 +21,18 @@ class PosyanduPos extends Component
         $this->check_date = now()->format('Y-m-d');
         $this->type = $type;
         $this->step = $step;
+        if($this->step == 1){
+            return redirect()->route('posyandu.teens.form', ['type' => $this->type]);
+        }
+
         $this->pos_name = HealthRecord::STEP[$this->step];
     }
 
     public function check($nik, $id)
     {
+        if($this->step == 6){
+            return redirect()->route('posyandu.teens.records', ['nik' => $nik]);
+        }
         return redirect()->route('posyandu.teens.records.form', ['nik' => $nik, 'id' => $id]);
     }
 
