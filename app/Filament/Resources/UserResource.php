@@ -30,21 +30,15 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('phone')
+                    ->label('No. HP')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('password')
                     ->nullable()
                     ->password()
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
                     ->dehydrated(fn ($state) => filled($state)),
-                Forms\Components\Select::make('role')
-                    ->options([
-                        'warga' => 'Warga',
-                        'rw' => 'RW',
-                        'rt' => 'RT',
-                        'admin' => 'Admin',
-                        'posyandu' => 'Posyandu',
-                    ])
-                    ->required(),
                 Forms\Components\TextInput::make('nik')
                     ->label('NIK')
                     ->length(16),
@@ -59,6 +53,15 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('rt')
                     ->label('RT')
                     ->maxLength(255),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'warga' => 'Warga',
+                        'rw' => 'RW',
+                        'rt' => 'RT',
+                        'admin' => 'Admin',
+                        'posyandu' => 'Posyandu',
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -84,7 +87,27 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('rt')
+                    ->label('RT')
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                        '7' => '7',
+                        '8' => '8',
+                    ]),
+                Tables\Filters\SelectFilter::make('role')
+                    ->label('Role')
+                    ->options([
+                        'warga' => 'Warga',
+                        'rw' => 'RW',
+                        'rt' => 'RT',
+                        'admin' => 'Admin',
+                        'posyandu' => 'Posyandu',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
