@@ -45,7 +45,7 @@
                 @else
                     <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
                 @endif
-                <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> {{ $history->healthRecord->user->nik }}</span>
+                <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> <x-nik :nik="$history->healthRecord->user->nik" /></span>
                 <div class="flex gap-2">
                     @if($step == 6)
                         @if($history->healthRecord->user->phone)

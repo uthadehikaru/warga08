@@ -56,9 +56,6 @@
             {{ $step }}. {{ $value }}
         </a>
         @endforeach
-        <a wire:click="selectStep({{ $step+1 }})" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
-            {{ $step+1 }}. Selesai
-        </a>
 
         @else
         @auth
