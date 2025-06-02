@@ -55,6 +55,19 @@
                 <p>IMT Normal : {{ $row['imt_normal'] }}</p>
                 <p>IMT Gemuk : {{ $row['imt_gemuk'] }}</p>
                 <p>IMT Obesitas : {{ $row['imt_obesitas'] }}</p>
+                <p>Lingkar Perut : {{ $row['lingkar_perut'] }}</p>
+                <p>Tekanan Darah Rendah : {{ $row['tekanan_darah_rendah'] }}</p>
+                <p>Tekanan Darah Tinggi : {{ $row['tekanan_darah_tinggi'] }}</p>
+                <p>Tekanan Darah Normal : {{ $row['tekanan_darah_normal'] }}</p>
+                <p>Gula Darah Rendah : {{ $row['gula_darah_rendah'] }}</p>
+                <p>Gula Darah Tinggi : {{ $row['gula_darah_tinggi'] }}</p>
+                <p>Gula Darah Normal : {{ $row['gula_darah_normal'] }}</p>
+                <p>Anemia : {{ $row['anemia'] }}</p>
+                <p>Non Anemia : {{ $row['non_anemia'] }}</p>
+                <p>Gejala TBC : {{ $row['gejala_tbc'] }}</p>
+                <p>Masalah Kesehatan : {{ $row['masalah_kesehatan'] }}</p>
+                <p>Edukasi : {{ $row['edukasi'] }}</p>
+                <p>Rujukan : {{ $row['rujukan'] }}</p>
             </div>    
         </div>
         @endforeach

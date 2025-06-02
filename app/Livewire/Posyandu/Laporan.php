@@ -53,6 +53,18 @@ class Laporan extends Component
             'imt_normal' => 0,
             'imt_gemuk' => 0,
             'imt_obesitas' => 0,
+            'lingkar_perut' => 0,
+            'tekanan_darah_rendah' => 0,
+            'tekanan_darah_tinggi' => 0,
+            'tekanan_darah_normal' => 0,
+            'gula_darah_rendah' => 0,
+            'gula_darah_tinggi' => 0,
+            'gula_darah_normal' => 0,
+            'anemia' => 0,
+            'gejala_tbc' => 0,
+            'masalah_kesehatan' => 0,
+            'edukasi' => 0,
+            'rujukan' => 0,
         ];
         $monthYear = null;
         foreach ($healthHistories as $record) {
@@ -68,6 +80,19 @@ class Laporan extends Component
                 $row['imt_normal'] = 0;
                 $row['imt_gemuk'] = 0;
                 $row['imt_obesitas'] = 0;
+                $row['lingkar_perut'] = 0;
+                $row['tekanan_darah_rendah'] = 0;
+                $row['tekanan_darah_tinggi'] = 0;
+                $row['tekanan_darah_normal'] = 0;
+                $row['gula_darah_rendah'] = 0;
+                $row['gula_darah_tinggi'] = 0;
+                $row['gula_darah_normal'] = 0;
+                $row['anemia'] = 0;
+                $row['non_anemia'] = 0;
+                $row['gejala_tbc'] = 0;
+                $row['masalah_kesehatan'] = 0;
+                $row['edukasi'] = 0;
+                $row['rujukan'] = 0;
                 $monthYear = $record->check_date->format('Y-m');
             }
 
@@ -87,6 +112,44 @@ class Laporan extends Component
                 $row['imt_gemuk']++;
             }elseif($record->imt == 'o'){
                 $row['imt_obesitas']++;
+            }
+
+            if($record->tekanan_darah == 'Tinggi'){
+                $row['tekanan_darah_tinggi']++;
+            }elseif($record->tekanan_darah == 'Rendah'){
+                $row['tekanan_darah_rendah']++;
+            }else{
+                $row['tekanan_darah_normal']++;
+            }
+
+            if($record->gula_darah == 'Rendah'){
+                $row['gula_darah_rendah']++;
+            }elseif($record->gula_darah == 'Tinggi'){
+                $row['gula_darah_tinggi']++;
+            }else{
+                $row['gula_darah_normal']++;
+            }
+
+            if($record->tbc && count($record->tbc) > 1){
+                $row['gejala_tbc']++;
+            }
+
+            if($record->masalah && count($record->masalah) > 0){
+                $row['masalah_kesehatan']++;
+            }
+
+            if($record->anemia){
+                $row['anemia']++;
+            }else{
+                $row['non_anemia']++;
+            }
+
+            if($record->edukasi){
+                $row['edukasi']++;
+            }
+
+            if($record->rujukan){
+                $row['rujukan']++;
             }
 
             $row['not_present_6_14'] = $target_6_14 - $row['present_6_14'];
