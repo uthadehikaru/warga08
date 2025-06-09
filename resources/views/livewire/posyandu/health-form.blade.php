@@ -76,7 +76,7 @@
             @elseif($step == 2)
             <h3 class="text-lg font-medium text-gray-900 my-4">Langkah 3</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+                <div>
                     <label class="block text-sm font-medium text-gray-700">Tinggi Badan (cm)</label>
                     <input type="number" wire:model.blur="height" readonly disabled placeholder="Masukkan tinggi badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
                     @error('height') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -243,6 +243,58 @@
         <div class="bg-white shadow-sm rounded-lg p-6">
             <h3 class="text-lg font-medium text-gray-900 mb-4">Langkah 5</h3>
             <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tinggi Badan (cm)</label>
+                    <input type="number" wire:model.blur="height" readonly disabled placeholder="Masukkan tinggi badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('height') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Berat Badan (kg)</label>
+                    <input type="number" wire:model.blur="weight" readonly disabled placeholder="Masukkan berat badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                @if($warga->age >= 15)
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
+                        <input type="number" wire:model="lingkar_perut" readonly disabled placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Sistol</label>
+                        <input type="number" wire:model.blur="sistol" readonly disabled placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Diastol</label>
+                        <input type="number" wire:model.blur="diastol" readonly disabled placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                        @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
+                        <input type="text" wire:model="tekanan_darah" readonly disabled placeholder="Tekanan darah akan terisi otomatis" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    </div>
+                @endif
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">IMT</label>
+                    <input type="text" wire:model="imt" placeholder="IMT akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Gejala TBC</label>
+                    @foreach($tbc as $key => $value)
+                        <p>{{ $key }} : {{ $value ? 'Ya' : 'Tidak' }}</p>
+                    @endforeach
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Masalah kesehatan</label>
+                    @foreach($masalah as $key => $value)
+                        <p>{{ $key }} : {{ $value ? 'Ya' : 'Tidak' }}</p>
+                    @endforeach
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Perlu Rujukan</label>
+                    <p>{{ $rujuk ? 'Ya' : 'Tidak' }}</p>
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Edukasi</label>
                     <textarea wire:model="edukasi" rows="3" placeholder="Masukkan catatan edukasi" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
