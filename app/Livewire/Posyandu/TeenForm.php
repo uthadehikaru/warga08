@@ -46,7 +46,7 @@ class TeenForm extends Component
         'personal_disease' => 'nullable|array',
     ];
 
-    public function mount($type = null, $nik = null)
+    public function mount($type = 'remaja', $nik = null)
     {
         $this->check_date = now()->format('Y-m-d');
         $this->type = request()->get('type') ?? $type;
