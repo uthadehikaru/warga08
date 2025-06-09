@@ -28,6 +28,13 @@
         </ol>
     </nav>
     <h1 class="text-xl text-center text-primary font-bold my-2">{{ $step }}. {{ $pos_name }}</h1>
+    <div class="flex justify-center my-2">
+        <a href="#" wire:click="refresh" class="btn btn-sm btn-primary">refresh
+            <div wire:loading wire:target="refresh">
+                <x-loading />
+            </div>
+        </a>
+    </div>
     <div class="flex justify-center">
         <input type="date" wire:model.live.debounce.500ms="check_date" class="w-full p-2 border border-gray-300 rounded-full">
     </div>

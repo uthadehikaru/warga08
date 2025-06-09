@@ -28,6 +28,11 @@ class PosyanduPos extends Component
         $this->pos_name = HealthRecord::STEP[$this->step];
     }
 
+    public function refresh()
+    {
+        $this->resetPage();
+    }
+
     public function check($nik, $id)
     {
         if($this->step == 6){
