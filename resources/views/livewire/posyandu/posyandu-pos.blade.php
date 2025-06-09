@@ -48,9 +48,7 @@
                 <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> <x-nik :nik="$history->healthRecord->user->nik" /></span>
                 <div class="flex gap-2">
                     @if($step == 6)
-                        @if($history->healthRecord->user->phone)
-                        <a href="https://wa.me/{{ $history->healthRecord->user->phone }}" target="_blank" class="btn btn-sm btn-primary">whatsapp</a>
-                        @endif
+                        <a href="https://wa.me/{{ $history->healthRecord->user->phone }}?text={{ $history->summary }}" {{ $history->healthRecord->user->phone?'':'disabled' }} target="_blank" class="btn btn-sm btn-primary">whatsapp</a>
                         <button wire:click="check('{{ $history->healthRecord->user->nik }}', {{ $history->id }})" class="btn btn-sm btn-info">lihat</button>
                         
                     @else

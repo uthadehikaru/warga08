@@ -234,13 +234,8 @@ class HealthForm extends Component
 
             DB::commit();
             
-            if($healthHistory->step > 4){
-                session()->flash('message', 'Pemeriksaan telah selesai.');
-                return redirect()->route('posyandu.teens.records', ['nik' => $this->warga->nik]);
-            }else{
-                session()->flash('message', 'Data berhasil disimpan.');
-                return redirect()->route('posyandu.pos', ['type' => $this->type, 'step' => $healthHistory->step]);
-            }
+            session()->flash('message', 'Data berhasil disimpan.');
+            return redirect()->route('posyandu.pos', ['type' => $this->type, 'step' => $healthHistory->step]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
