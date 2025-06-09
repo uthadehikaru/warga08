@@ -79,6 +79,12 @@
                 </div>
 
                 <div>
+                    <label class="block text-sm font-medium text-gray-700">No telp</label>
+                    <input id="phone" type="number" wire:model="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    @error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div>
                     <label class="block text-sm font-medium text-gray-700">Nama Ayah</label>
                     <input id="father_name" type="text" wire:model="father_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     @error('father_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

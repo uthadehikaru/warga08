@@ -22,6 +22,7 @@ class TeenForm extends Component
     public $check_date;
     public $nik;
     public $name;
+    public $phone;
     public $father_name;
     public $mother_name;
     public $birth_place;
@@ -37,6 +38,7 @@ class TeenForm extends Component
         'name' => 'required|string|max:255',
         'birth_place' => 'required|string|max:255',
         'birth_date' => 'required|date',
+        'phone' => 'nullable|numeric',
         'gender' => 'required|in:p,w',
         'address' => 'required|string|max:255',
         'rt' => 'required|numeric',
@@ -74,7 +76,8 @@ class TeenForm extends Component
         $this->birth_date = $user->birth_date->format('Y-m-d');
         $this->gender = $user->gender;
         $this->address = $user->address;
-        
+        $this->phone = $user->phone;
+
         $healthRecord = HealthRecord::where('user_id', $user->id)->first();
         if($healthRecord){
             $this->father_name = $user->healthRecord->father_name;
@@ -118,6 +121,7 @@ class TeenForm extends Component
                 'password' => Hash::make('password'),
                 'name' => $this->name,
                 'email' => $email,
+                'phone' => $this->phone,
                 'birth_place' => $this->birth_place,
                 'birth_date' => $this->birth_date,
                 'gender' => $this->gender,
