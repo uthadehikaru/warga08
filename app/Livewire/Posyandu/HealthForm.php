@@ -58,6 +58,7 @@ class HealthForm extends Component
         'lingkar_perut' => 'required|integer|min:1',
         'sistol' => 'required|integer|min:1',
         'diastol' => 'required|integer|min:1',
+        'imt' => 'required|string',
         'tbc.batuk' => 'boolean',
         'tbc.demam' => 'boolean',
         'tbc.bb_stagnan' => 'boolean',

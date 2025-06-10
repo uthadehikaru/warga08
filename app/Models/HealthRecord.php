@@ -21,8 +21,8 @@ class HealthRecord extends Model
     public const STEP = [
         '1' => 'Registrasi dan Verifikasi',
         '2' => 'Penimbangan dan Pengukuran',
-        '3' => 'Konsultasi',
-        '4' => 'Skrining',
+        '3' => 'Pencatatan',
+        '4' => 'Pelayanan Kesehatan',
         '5' => 'Edukasi',
         '6' => 'Selesai',
     ];
