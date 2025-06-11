@@ -28,21 +28,21 @@
             <form name='jali-jali-contact-form'>
               <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                <input type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" id="name" poppins-describedby="name" name="nama" placeholder="Masukkan nama lengkap">
+                <input type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-gray-200 focus:bg-white p-2" id="name" poppins-describedby="name" name="nama">
               </div>
               <div class="mb-4">
                 <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-                <input type="alamat" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" id="alamat" poppins-describedby="alamat" name="alamat" placeholder="Masukkan alamat lengkap">
+                <input type="alamat" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-gray-200 focus:bg-white p-2" id="alamat" poppins-describedby="alamat" name="alamat">
               </div>
               <div class="mb-4">
                 <label for="telepon" class="block text-sm font-medium text-gray-700 mb-1">No. Telepon</label>
-                <input type="telepon" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" id="telepon" poppins-describedby="telepon" name="telepon" placeholder="Contoh: 08123456789">
+                <input type="telepon" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-gray-200 focus:bg-white p-2" id="telepon" poppins-describedby="telepon" name="telepon">
               </div>
               <div class="mb-4">
                 <label for="pesan" class="block text-sm font-medium text-gray-700 mb-1">Pesan Jemput Antar Lansia</label>
-                <textarea class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" id="pesan" rows="3" name="pesan" placeholder="Tuliskan detail permintaan jemput antar lansia"></textarea>
+                <textarea class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-gray-200 focus:bg-white p-2" id="pesan" rows="3" name="pesan"></textarea>
               </div>
-              <button type="submit" id="submit-button" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition duration-200">Kirim Pesan</button>
+              <button type="submit" id="submit-button" class="btn btn-success btn-sm text-white">Kirim Pesan</button>
             </form>
             <p class="text-sm font-semibold mt-6 text-center">Posyandu ILP Melati RW 08<br>Buka : Hari Selasa Minggu Ke 2 setiap Bulan, pada Jam 8.00-11.00 WIB</p>
           </div>
