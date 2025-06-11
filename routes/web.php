@@ -74,6 +74,7 @@ Route::get('', HomeController::class)->name('home');
 Route::get('login', LoginForm::class)->name('login');
 Route::get('form-request', RequestForm::class)->name('request.create');
 Route::get('request/{code}', RequestController::class)->name('request.show');
+Route::view('jali-jali', 'jali-form')->name('jali.index');
 
 Route::view('check-request', 'request.check')->name('request.check');
 Route::post('check-request', RequestCheck::class);

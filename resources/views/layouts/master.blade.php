@@ -4,16 +4,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name' )}}</title>
+        <title>@yield('title') {{ config('app.name' )}}</title>
         <link rel="icon" href="{{ asset('rw08 small.png') }}" type="image/png">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&amp;display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Poppins', sans-serif;
+            }
+        </style>
 
         <!-- Styles -->
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
+
+        @stack('styles')
     </head>
     <body>
         <div class="drawer">
@@ -55,5 +60,6 @@
                 </ul>
             </div>
         </div>
+        @stack('scripts')
     </body>
 </html>
