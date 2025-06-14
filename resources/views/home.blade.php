@@ -8,8 +8,10 @@
             <p class="pt-6">
                 Sistem Pelayanan Umum RW 08 Kelapa Dua Kebon Jeruk Jakarta Barat
             </p>
-            <span class="italic py-2">Ketua RW 008 - {{ $rw->name }}</span>
-            <span class="italic mb-4">Sekretariat : {{ $rw->address }}, Telp. {{ $rw->phone }}, Email : {{ $rw->email }}</span>
+            @if($rw)
+                <span class="italic py-2">Ketua RW 008 - {{ $rw->name }}</span>
+                <span class="italic mb-4">Sekretariat : {{ $rw->address }}, Telp. {{ $rw->phone }}, Email : {{ $rw->email }}</span>
+            @endif
             <a href="{{ route('request.create') }}" class="btn btn-primary mb-2">Ajukan Sekarang!</a>
             <span class="text-sm py-2">atau</span>
             <a href="{{ route('request.check') }}" class="btn btn-outline btn-success">Cek Status Pengajuan</a>
