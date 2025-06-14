@@ -32,7 +32,7 @@ class TeenRecords extends Component
     {
         $teens = User::warga()->where(function($query){
             $query->where('name','like','%'.$this->search.'%')->orWhere('nik','like','%'.$this->search.'%');
-        })->paginate(5);
+        })->paginate(12);
         return view('livewire.posyandu.teen-records',[
             'teens' => $teens,
         ])

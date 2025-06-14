@@ -62,7 +62,7 @@ class TeenForm extends Component
         $this->teens = User::warga()->where(function($query) {
             $query->where('name', 'like', '%'.$this->search.'%')
                   ->orWhere('nik', 'like', '%'.$this->search.'%');
-        })->orderBy('name')->get()->toArray();
+        })->orderBy('name')->get();
     }
 
     public function selectTeen($nik)

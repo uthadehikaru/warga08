@@ -22,7 +22,7 @@
                     <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <a href="{{ route('posyandu.pos', ['type' => $type, 'step' => $step]) }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Pos {{ $step+1 }}</a>
+                    <a href="{{ route('posyandu.pos', ['type' => $type, 'step' => $step+1]) }}" class="ml-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ml-2">Pos {{ $step+1 }}</a>
                 </div>
             </li>
         </ol>
@@ -52,25 +52,25 @@
                     @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 @if($warga->age >= 15)
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
-                        <input type="number" wire:model="lingkar_perut" placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Sistol</label>
-                        <input type="number" wire:model.blur="sistol" placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Diastol</label>
-                        <input type="number" wire:model.blur="diastol" placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
-                        <input type="text" wire:model="tekanan_darah" placeholder="Tekanan darah akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
+                    <input type="number" wire:model="lingkar_perut" placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Sistol</label>
+                    <input type="number" wire:model.blur="sistol" placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Diastol</label>
+                    <input type="number" wire:model.blur="diastol" placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
+                    <input type="text" wire:model="tekanan_darah" placeholder="Tekanan darah akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                </div>
                 @endif
             </div>
             @elseif($step == 2)
@@ -87,25 +87,25 @@
                     @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
                 @if($warga->age >= 15)
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
-                        <input type="number" wire:model="lingkar_perut" readonly disabled placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
-                        @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Sistol</label>
-                        <input type="number" wire:model.blur="sistol" readonly disabled placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
-                        @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Diastol</label>
-                        <input type="number" wire:model.blur="diastol" readonly disabled placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
-                        @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
-                        <input type="text" wire:model="tekanan_darah" readonly disabled placeholder="Tekanan darah akan terisi otomatis" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
+                    <input type="number" wire:model="lingkar_perut" readonly disabled placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('lingkar_perut') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Sistol</label>
+                    <input type="number" wire:model.blur="sistol" readonly disabled placeholder="Masukkan nilai sistol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('sistol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Diastol</label>
+                    <input type="number" wire:model.blur="diastol" readonly disabled placeholder="Masukkan nilai diastol" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                    @error('diastol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
+                    <input type="text" wire:model="tekanan_darah" readonly disabled placeholder="Tekanan darah akan terisi otomatis" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
+                </div>
                 @endif
                 <div>
                     <label class="block text-sm font-medium text-gray-700">IMT</label>

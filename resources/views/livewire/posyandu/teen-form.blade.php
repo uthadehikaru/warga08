@@ -34,13 +34,13 @@
         
         @foreach($teens as $teen)
             <div class="mt-2">
-                <button wire:click="selectTeen('{{ $teen['nik'] }}')" class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
-                @if($teen['gender'] == 'p')
+                <button wire:click="selectTeen('{{ $teen->nik }}')" class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
+                @if($teen->gender == 'p')
                     <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
                 @else
                     <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
                 @endif
-                <span class="text-sm text-gray-500">{{ $teen['name'] }}<br/> <x-nik :nik="$teen['nik']" /></span>
+                <span class="text-sm text-gray-500">{{ $teen->name }} <span class="badge badge-sm badge-primary">{{ $teen->age }} tahun</span><br/> <x-nik :nik="$teen->nik" /></span>
             <span class="btn btn-sm btn-primary">periksa</span></button>
             </div>
             @endforeach

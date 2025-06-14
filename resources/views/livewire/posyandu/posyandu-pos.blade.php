@@ -52,7 +52,7 @@
                 @else
                     <img src="{{ asset('images/female.gif') }}" class="w-6 h-6">
                 @endif
-                <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }}<br/> <x-nik :nik="$history->healthRecord->user->nik" /></span>
+                <span class="text-sm text-gray-500">{{ $history->healthRecord->user->name }} <span class="badge badge-sm badge-primary">{{ $history->healthRecord->user->age }} tahun</span><br/> <x-nik :nik="$history->healthRecord->user->nik" /></span>
                 <div class="flex gap-2">
                     @if($step == 6)
                         <a href="https://wa.me/{{ $history->healthRecord->user->phone }}?text={{ $history->summary }}" {{ $history->healthRecord->user->phone?'':'disabled' }} target="_blank" class="btn btn-sm btn-primary">whatsapp</a>
