@@ -82,7 +82,7 @@ class RequestForm extends Component
             $rt = User::rt()->where('rt',$data['rt'])->first();
             $rw = User::rw()->first();
 
-            $warga = User::where('nik', $data['nik'])->first();
+            $warga = User::where('nik', $data['nik'])->orWhere('email', $data['email'])->first();
             if(!$warga){
                 $warga = User::create([
                     'name' => $data['name'],
@@ -101,11 +101,13 @@ class RequestForm extends Component
             }else{
                 $warga->update([
                     'name' => $data['name'],
+                    'nik' => $data['nik'],
+                    'email' => $data['email'],
                     'rt' => $data['rt'],
                     'address' => $data['address'],
                     'phone' => $data['phone'],
                     'work' => $data['work'],
-                    'birth_date' => $data['birth_date'],
+                    'birth_date' => Carbon::createFromFormat('d-m-Y',$data['birth_date']),
                     'birth_place' => $data['birth_place'],
                     'religion' => $data['religion'],
                 ]);
