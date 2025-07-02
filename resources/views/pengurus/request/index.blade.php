@@ -16,22 +16,38 @@
         <input type="radio" name="my-accordion-1" />
         <div class="collapse-title text-md">{{ $request->created_at->format('d M Y') }} : RT. {{ $request->rt }} | Kode. {{ $request->code }}</div>
         <div class="collapse-content">
-            <p class="text-primary">Kode Pengajuan :
-            @if($request->status!='new')
-            <a class="underline font-bold" href="{{ asset('documents/'.$request->code.'.pdf') }}" target="{{ $request->code }}">{{ $request->code }}</a>
-            @else
-            {{ $request->code }}
+        @if($request->status!='new')
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">Surat Pengantar</p>
+                <p class="w-1/2 md:w-2/3">:
+                <a class="underline font-bold" href="{{ asset('documents/'.$request->code.'.pdf') }}" target="{{ $request->code }}">unduh dokumen</a>
+                </p>
+            </div>
             @endif
-            </p>
-            <p>No Surat : {{ $request->document_no ?? '-' }}</p>
-            <p>RT : {{ $request->rt }}</p>
-            <p>Nama : {{ $request->name }}</p>
-            <p>NIK : {{ $request->nik }}</p>
-            <p>Telp : {{ $request->phone }}</p>
-            <p>Alamat : {{ $request->address }}</p>
-            <p>Email : {{ $request->email }}</p>
-            <p>Keperluan : {{ $request->description }}</p>
-            <p class="text-primary">Status : @lang('status.'.$request->status)</p>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">No Surat</p>
+                <p class="w-1/2 md:w-2/3">: {{ $request->document_no ?? '-' }}</p>
+            </div>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">RT</p>
+                <p class="w-1/2 md:w-2/3">: {{ $request->rt }}</p>
+            </div>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">Nama</p>
+                <p class="w-1/2 md:w-2/3">: {{ $request->name }}</p>
+            </div>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">NIK</p>
+                <p class="w-1/2 md:w-2/3">: {{ $request->nik }}</p>
+            </div>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">Keperluan</p>
+                <p class="w-1/2 md:w-2/3">: {{ $request->description }}</p>
+            </div>
+            <div class="flex flex-wrap">
+                <p class="text-primary w-1/2 md:w-1/3">Status</p>
+                <p class="w-1/2 md:w-2/3">: @lang('status.'.$request->status)</p>
+            </div>
             @can('edit request', $request)
             <p class="py-2">
                 <a href="{{ route('pengurus.request.edit', $request->id) }}"
@@ -49,7 +65,7 @@
             @can('approve rw', $request)
             <p class="py-2 flex gap-2">
                 <a href="{{ route('pengurus.request.confirm', $request->id) }}" onclick="return confirm('Dokumen telah selesai?')"
-                class="btn btn-success w-1/2 p-2">Selesai</a>
+                class="btn btn-success w-full p-2">Selesai</a>
             </p>
             @endcan
         </div>

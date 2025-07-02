@@ -64,13 +64,16 @@
         <style>
             body {
                 margin: 0;
-                font-size: 14px;
+                font-size: 15px;
             }
             p {
                 padding : 5px;
             }
             h1 {
                 font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.1em;
             }
             .font-bold {
                 font-weight: 800;
@@ -104,7 +107,7 @@
     </head>
     <body>
         <div class="p-2 text-center">
-            <h1 class="font-bold text-xl">RUKUN TETANGGA {{ Str::padLeft($request->rt,3,'0') }} / 08</h1>
+            <h1 class="font-bold text-xl" style="margin-top: 20px;">RUKUN TETANGGA {{ Str::padLeft($request->rt,3,'0') }} / 08</h1>
             <h2 class="font-medium text-md">KELURAHAN KELAPA DUA KECAMATAN KEBON JERUK</h2>
             <h2 class="font-medium text-md">KOTA ADMINISTRASI JAKARTA BARAT</h2>
             <p>Sekretariat : {{ $rt->address }} {{ $rt->phone?'Telp : '.$rt->phone:'' }} {{ $rt->email?'Email : '.$rt->email:'' }}</p>
@@ -112,9 +115,9 @@
             <p class="text-right">Kode Pos 11550</p>
             <hr class="border border-1 border-black order-double" />
             <div class="text-sm">
-            <p class="pt-2 underline text-md font-bold">SURAT PENGANTAR</p>
-            <p class="">NOMOR : {{ $request->template_no }}</p>
-            <div class="text-left">
+            <h2 class="pt-2 underline text-md font-bold">SURAT PENGANTAR</h2>
+            <h2 class="">NOMOR : {{ $request->template_no }}</h2>
+            <div class="text-left" style="margin-top: 20px;">
                 <p>Yang bertanda tangan ini, menerangkan bahwa :</p>
                 <table class="mt-2 w-full">
                     <tr>
@@ -125,22 +128,22 @@
                     <tr>
                         <td>Tempat/Tgl. Lahir</td>
                         <td>: </td>
-                        <td>{{ $request->birth_place }}, {{ $request->birth_date->format('d F Y') }}</td>
+                        <td style="text-transform: capitalize;">{{ $request->birth_place }}, {{ $request->birth_date->locale('id')->translatedFormat('d F Y') }}</td>
                     </tr>
                     <tr>
                         <td>Jenis Kelamin</td>
                         <td>: </td>
-                        <td>@lang('gender.'.$request->gender)</td>
+                        <td style="text-transform: capitalize;">@lang('gender.'.$request->gender)</td>
                     </tr>
                     <tr>
                         <td>Agama</td>
                         <td>: </td>
-                        <td>{{ $request->religion }}</td>
+                        <td style="text-transform: capitalize;">{{ $request->religion }}</td>
                     </tr>
                     <tr>
                         <td>Pekerjaan</td>
                         <td>: </td>
-                        <td>{{ $request->work }}</td>
+                        <td style="text-transform: capitalize;">{{ $request->work }}</td>
                     </tr>
                     <tr>
                         <td>No KTP</td>
@@ -160,29 +163,28 @@
                 </table>
                 <p class="mt-2">Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana semestinya dan yang berkepentingan untuk menjadi maklum.</p>
                 <p class="mt-2">Nomor : {{ $request->template_no }}</p>
-                <p class="">Tanggal : {{ $request->created_at->format('d F Y') }}</p>
+                <p class="">Tanggal : {{ $request->created_at->locale('id')->translatedFormat('d F Y') }}</p>
                 <table class="w-full mt-2">
                     <tr>
                         <td class="text-center">
                             <p>KETUA RW 08<br/>
-                            KELURAHAN KELAPA <br/>
+                            KELURAHAN KELAPA DUA<br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
-                            <br/>
-                            ( {{ $rw->name }} )</p>
+                            <br/><span style="text-transform: uppercase;">{{ $rw->name }}</span></p>
                         </td>
                         <td class="text-center">
                             <p>KETUA RT {{ Str::padLeft($request->rt,3,'0') }} / 08<br/>
-                            KELURAHAN KELAPA <br/>
+                            KELURAHAN KELAPA DUA<br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
-                            <br/>( {{ $rt->name }} )</p>
+                            <br/><span style="text-transform: uppercase;">{{ $rt->name }}</span></p>
                         </td>
                     </tr>
                 </table>

@@ -49,4 +49,9 @@ class Request extends Model
         
         return $no;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

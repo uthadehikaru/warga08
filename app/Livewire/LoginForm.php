@@ -19,7 +19,11 @@ class LoginForm extends Component
 
         if (Auth::attempt($credentials)) {
             session()->regenerate();
-            return redirect(route('pengurus.dashboard'));
+            if(Auth::user()->role=='admin'){
+                return redirect('admin');
+            }else{
+                return redirect(route('pengurus.dashboard'));
+            }
         }
 
         $this->addError("error","Login Gagal");

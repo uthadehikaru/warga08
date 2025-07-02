@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurus;
 use App\Http\Controllers\Controller;
 use App\Models\Request as ModelsRequest;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,6 +83,10 @@ class RequestController extends Controller
 
         $user = User::warga()->where('nik',$req->nik)->first();
         $user->update($request->except(['description','_method','_token','document_no']));
+
+        $rt = User::rt()->where('rt',$req->rt)->first();
+        $rw = User::rw()->first();
+        Pdf::loadView('document', ['request'=>$req, 'rt' => $rt, 'rw' => $rw])->save('documents/'.$req->code.'.pdf');
 
         return redirect()->route('pengurus.request.index')->with('message','Data berhasil diperbaharui');
     }

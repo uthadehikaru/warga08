@@ -5,8 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RequestResource\Pages;
 use App\Filament\Resources\RequestResource\RelationManagers;
 use App\Models\Request;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Illuminate\Support\Collection;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -96,7 +100,11 @@ class RequestResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('code')
-                    ->searchable(),
+                    ->searchable()
+                    ->url(fn (Request $record) => asset('documents/'.$record->code.'.pdf'))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success'),
                 Tables\Columns\TextColumn::make('document_no')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nik')
@@ -124,7 +132,7 @@ class RequestResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rw_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('rt')
@@ -138,10 +146,38 @@ class RequestResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->action(function (Request $record) {
+                        $rt = User::rt()->where('rt',$record->rt)->first();
+                        $rw = User::rw()->first();
+                        Pdf::loadView('document', ['request'=>$record, 'rt' => $rt, 'rw' => $rw])->save('documents/'.$record->code.'.pdf');
+                        Notification::make()
+                            ->title('Surat pengantar berhasil diperbaharui')
+                            ->success()
+                            ->send();
+                    })
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('success')
+                    ->requiresConfirmation()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('update document')
+                        ->action(function (Collection $records) {
+                            foreach ($records as $record) {
+                                $rt = User::rt()->where('rt',$record->rt)->first();
+                                $rw = User::rw()->first();
+                                Pdf::loadView('document', ['request'=>$record, 'rt' => $rt, 'rw' => $rw])->save('documents/'.$record->code.'.pdf');
+                            }
+                            Notification::make()
+                                ->title('Surat pengantar berhasil diperbaharui')
+                                ->success()
+                                ->send();
+                        })
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('success')
+                        ->requiresConfirmation(),
                 ]),
             ]);
     }
