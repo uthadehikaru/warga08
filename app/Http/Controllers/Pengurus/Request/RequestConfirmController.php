@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Pengurus\Request;
 
 use App\Http\Controllers\Controller;
-use App\Mail\RequestApprovalRW;
-use App\Mail\RequestApprovedRT;
 use App\Models\Request;
-use App\Models\Sequence;
 use App\Models\User;
+use App\Notifications\RequestApprovedRT;
+use App\Notifications\RequestApprovedRW;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class RequestConfirmController extends Controller
 {
@@ -37,9 +35,9 @@ class RequestConfirmController extends Controller
 
         Pdf::loadView('document', ['request'=>$request, 'rt' => $rt, 'rw' => $rw])->save('documents/'.$request->code.'.pdf');
         if($request->status=='approve_rt'){
-            Mail::to($request->email)
-            ->cc($rw->email, $rw->name)
-            ->send(new RequestApprovedRT($request));
+            $request->user->notify(new RequestApprovedRT($request));
+        }elseif($request->status=='approve_rw'){
+            $rt->notify(new RequestApprovedRW($request));
         }
         DB::commit();
         return back()->with('message','Pengajuan disetujui.');

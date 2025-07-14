@@ -54,6 +54,24 @@
                 class="btn btn-warning w-full p-2">Ubah</a>
             </p>
             @endcan
+            @can('notif rw', $request)
+            <p class="py-2">
+                <a href="{{ route('pengurus.request.notif', [$request->id, 'rw']) }}"
+                class="btn btn-info w-full p-2">Kirim Notifikasi ke RW</a>
+            </p>
+            @endcan
+            @can('notif rt', $request)
+            <p class="py-2">
+                <a href="{{ route('pengurus.request.notif', [$request->id, 'rt']) }}"
+                class="btn btn-info w-full p-2">Kirim Notifikasi ke RT</a>
+            </p>
+            @endcan
+            @can('notif warga', $request)
+            <p class="py-2">
+                <a href="{{ route('pengurus.request.notif', [$request->id, 'warga']) }}"
+                class="btn btn-info w-full p-2">Kirim Notifikasi ke Warga</a>
+            </p>
+            @endcan
             @can('approve rt', $request)
             <p class="py-2 flex gap-2">
                 <a href="{{ route('pengurus.request.confirm', $request->id) }}" onclick="return confirm('Menyetujui Dokumen?')"

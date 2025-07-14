@@ -7,5 +7,8 @@
 <li><a href="{{ route('pengurus.warga.index') }}">Warga</a></li>
 <li><a href="{{ route('pengurus.request.index') }}">Pengajuan</a></li>
 <li><a href="{{ route('pengurus.arrival.index') }}">Pendatang</a></li>
+@can('config')
+<li><a href="{{ route('pengurus.config') }}">Pengaturan</a></li>
+@endcan
 <li><a href="{{ route('pengurus.logout') }}">Keluar</a></li>
 @endsection

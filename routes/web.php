@@ -5,8 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Pengurus\ArrivalController as PengurusArrivalController;
 use App\Http\Controllers\Pengurus\DashboardController;
 use App\Http\Controllers\Pengurus\Arrival\ArrivalConfirmController;
+use App\Http\Controllers\Pengurus\ConfigController;
 use App\Http\Controllers\Pengurus\Request\RequestCancelController;
 use App\Http\Controllers\Pengurus\Request\RequestConfirmController;
+use App\Http\Controllers\Pengurus\Request\RequestNotifyController;
 use App\Http\Controllers\Pengurus\RequestController as PengurusRequestController;
 use App\Http\Controllers\Pengurus\RtController;
 use App\Http\Controllers\Pengurus\SequenceController;
@@ -31,7 +33,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Svg\Tag\Rect;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,8 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
     Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');  
     Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');  
     Route::resource('request', PengurusRequestController::class); 
+    Route::get('config', ConfigController::class)->name('config');
+    Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif'); 
 
     Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');  
     Route::resource('arrival', PengurusArrivalController::class);

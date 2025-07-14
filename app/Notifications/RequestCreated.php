@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Request;
 use App\Models\User;
+use App\Notifications\Channels\WhatsAppChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -28,7 +29,7 @@ class RequestCreated extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', WhatsAppChannel::class];
     }
 
     /**
@@ -68,8 +69,23 @@ class RequestCreated extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        $message =  "Pengajuan surat pengantar baru sebagai berikut : \n\n";
+        $message .= "Kode Pengajuan : ".$this->request->code."\n";
+        $message .= "Nama : ".$this->request->name."\n";
+        $message .= "Jenis Kelamin : ".__('gender.'.$this->request->gender)."\n";
+        $message .= "Tempat, Tanggal Lahir : ".$this->request->birth_date.", ".$this->request->birth_place."\n";
+        $message .= "Agama : ".$this->request->religion."\n";
+        $message .= "Pekerjaan : ".$this->request->work."\n";
+        $message .= "Alamat : ".$this->request->address." Rt. ".$this->request->rt."\n";
+        $message .= "Telp : ".$this->request->phone."\n";
+        $message .= "Email : ".$this->request->email."\n";
+        $message .= "Keperluan : ".$this->request->description."\n";
+        $message .= "Status : ".__('status.'.$this->request->status)."\n\n";
+        $message .= 'Lihat pengajuan : '.route('pengurus.request.index')."\n\n";
+        
         return [
-            //
+            'message' => $message,
         ];
     }
 }
+ 
