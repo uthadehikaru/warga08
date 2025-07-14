@@ -29,7 +29,9 @@ use App\Models\Request as ModelsRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Svg\Tag\Rect;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,5 +115,18 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
     })->name('logout');
 });
 
+Route::post('callback', function(Request $request){
+    Log::channel('whatsapp')->info('Whatsapp Callback - All Request Data:', [
+        'method' => $request->method(),
+        'url' => $request->fullUrl(),
+        'body' => $request->all(),
+        'ip' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+    ]);
+
+    return response()->json([
+        'message' => 'Callback received',
+    ]);
+});
 
 Route::get('lara-logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
