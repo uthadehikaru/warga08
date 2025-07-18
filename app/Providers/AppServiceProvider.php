@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Notifications\Channels\WhatsAppChannel;
+use App\Notifications\Channels\WhatsappChannel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         $this->app->make(ChannelManager::class)->extend('whatsapp', function ($app) {
-            return new WhatsAppChannel();
+            return new WhatsappChannel();
         });
     }
 }

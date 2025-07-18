@@ -6,7 +6,7 @@ use App\Services\WhatsappService;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class WhatsAppChannel
+class WhatsappChannel
 {
     public function send(object $notifiable, Notification $notification)
     {
