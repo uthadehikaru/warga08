@@ -25,7 +25,7 @@
         </div>
         <div class="flex justify-center">
           <div class="w-full md:w-1/2 lg:w-2/5">
-            <form name='jali-jali-contact-form'>
+            <form name='jali-jali-contact-form' onsubmit="sendMessage()">
               <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
                 <input type="text" class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 bg-gray-200 focus:bg-white p-2" id="name" poppins-describedby="name" name="nama">
@@ -52,6 +52,25 @@
 @endsection
 
 @push('scripts')
+   <!-- Notifikasi WA-->
+   <script>
+  function sendMessage() {
+  const name = document.getElementById('name').value;
+  const alamat = document.getElementById('alamat').value;
+  const telepon = document.getElementById('telepon').value;
+  const pesan = document.getElementById('pesan').value;
+
+  const url = `https://api.whatsapp.com/send?phone=${telepon}&text=Halo%20${name}%2C%0A%0ATerimakasih%20telah%20mengisi%20form%20Jali-Jali%0ALayanan%20Jemput%20Antar%20Lansia%0AMohon%20tunggu,%20jemputan%20akan%20tiba%20`;
+
+  // Mainkan suara notifikasi sebelum alert
+  const sound = document.getElementById('alertSound');
+  sound.play();
+
+  alert("Terimakasih telah berkunjung ke Layanan Jali-Jali. Kami akan segera menghubungi Bapak/Ibu untuk konfirmasi penjemputan !");
+
+  window.open(url);
+    }
+   </script>
 <script>
   const scriptURL = 'https://script.google.com/macros/s/AKfycbxKHMrUOe_aqGplf0svJP8xAS-WWTZ8ChOHUs7qESc-jifDvSIpXis-1Q0eKl7goc_o3Q/exec'
   const form = document.forms['jali-jali-contact-form']
