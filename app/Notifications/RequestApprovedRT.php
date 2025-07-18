@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Mail\RequestApprovedRT as MailRequestApprovedRT;
 use App\Models\Request;
 use App\Models\User;
-use App\Notifications\Channels\WhatsAppChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -31,7 +30,7 @@ class RequestApprovedRT extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', WhatsAppChannel::class];
+        return ['mail', 'whatsapp'];
     }
 
     /**

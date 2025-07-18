@@ -13,6 +13,9 @@
 @task('deploy', ['on' => 'web'])
     cd /home/rwkelapa/warga08
     git pull origin main
+    composer dump-autoload
+    php artisan config:clear
+    php artisan cache:clear
     php artisan optimize
 @endtask
 
