@@ -25,25 +25,25 @@
         <div class="stat">
             <div class="stat-title text-primary">Menunggu Persetujuan RT</div>
             <div class="stat-value text-primary">{{ $approve_rt }}</div>
-            <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+            <a href="{{ route('pengurus.request.index',['status'=>'new']) }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
 
         <div class="stat">
             <div class="stat-title text-warning">Menunggu Persetujuan RW</div>
             <div class="stat-value text-warning">{{ $approve_rw }}</div>
-            <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+            <a href="{{ route('pengurus.request.index',['status'=>'approve_rt']) }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
 
         <div class="stat">
             <div class="stat-title text-success">Selesai</div>
             <div class="stat-value text-success">{{ $done }}</div>
-            <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+            <a href="{{ route('pengurus.request.index',['status'=>'approve_rw']) }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
 
         <div class="stat">
             <div class="stat-title text-error">Ditolak</div>
             <div class="stat-value text-error">{{ $canceled }}</div>
-            <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+            <a href="{{ route('pengurus.request.index',['status'=>'canceled']) }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
     </div>
 </div>

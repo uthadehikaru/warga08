@@ -1,7 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 <div class="p-2">
-    <h1 class="font-bold text-xl py-2">Daftar Pengajuan</h1>
+    <h1 class="font-bold text-xl py-2">Daftar Pengajuan @if($status) - @lang('status.'.$status) @endif</h1>
+    @if($status)
+    <a href="{{ route('pengurus.request.index') }}" class="btn btn-primary">Lihat Semua</a>
+    @endif
     <x-alert />
     @forelse ($requests as $request)
     <div @class([

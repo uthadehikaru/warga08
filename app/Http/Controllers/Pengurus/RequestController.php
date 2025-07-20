@@ -14,12 +14,16 @@ class RequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
         $request = ModelsRequest::latest();
+        if($req->status){
+            $request->where('status',$req->status);
+        }
         if(Auth::user()->role=='rt'){
             $request->where('rt',Auth::user()->rt);
         }
+        $data['status'] = $req->status;
         $data['requests'] = $request->paginate();
         return view('pengurus.request.index', $data);
     }
