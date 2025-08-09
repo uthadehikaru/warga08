@@ -51,7 +51,6 @@
                     <input type="number" wire:model.blur="weight" placeholder="Masukkan berat badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-                @if($warga->age >= 15)
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
                     <input type="number" wire:model="lingkar_perut" placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -71,7 +70,6 @@
                     <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
                     <input type="text" wire:model="tekanan_darah" placeholder="Tekanan darah akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
                 </div>
-                @endif
             </div>
             @elseif($step == 2)
             <h3 class="text-lg font-medium text-gray-900 my-4">Langkah 3</h3>
@@ -86,7 +84,6 @@
                     <input type="number" wire:model.blur="weight" readonly disabled placeholder="Masukkan berat badan" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
                     @error('weight') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-                @if($warga->age >= 15)
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Lingkar Perut (cm)</label>
                     <input type="number" wire:model="lingkar_perut" readonly disabled placeholder="Masukkan lingkar perut" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
@@ -106,7 +103,6 @@
                     <label class="block text-sm font-medium text-gray-700">Tekanan Darah</label>
                     <input type="text" wire:model="tekanan_darah" readonly disabled placeholder="Tekanan darah akan terisi otomatis" class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
                 </div>
-                @endif
                 <div>
                     <label class="block text-sm font-medium text-gray-700">IMT</label>
                     <input type="text" wire:model="imt" placeholder="IMT akan terisi otomatis" readonly disabled class="mt-1 block w-full rounded-md border border-gray-300 p-2 bg-gray-100 shadow-sm">
@@ -315,6 +311,9 @@
         @endif
 
         <div class="flex justify-start gap-2 mt-4">
+            <button type="button" wire:click="back" class="btn btn-sm btn-info" onclick="return confirm('Yakin ingin kembali ke posisi sebelumnya?')">
+                Kembali Pos {{ $step }}
+            </button>
             <button type="submit" class="btn btn-sm btn-primary">
                 <div wire:loading.remove wire:target="save">
                     Simpan Data

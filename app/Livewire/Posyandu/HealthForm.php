@@ -132,6 +132,20 @@ class HealthForm extends Component
         $this->checkRujukan();
     }
 
+    public function back()
+    {
+        if(!$this->id){
+            return redirect()->route('posyandu.pos', ['type' => $this->type, 'step' => $this->step]);
+        }
+
+        $healthHistory = HealthHistory::find($this->id);
+        $healthHistory->update([
+            'step' => $this->step-1,
+        ]);
+        session()->flash('message', 'Data berhasil dikembalikan.');
+        return redirect()->route('posyandu.pos', ['type' => $this->type, 'step' => $this->step]);
+    }
+
     public function calculateKadarHb()
     {
         if ($this->kadar_hb) {
