@@ -52,11 +52,11 @@
             <p class="text-white text-sm">Posyandu {{ $type }}</p>
         </a>
         @foreach($steps as $step=>$value)
-        <a href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
+        <a wire:click="selectStep({{ $step }})" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
             {{ $step }}. {{ $value }}
         </a>
         @endforeach
-        <a wire:click="summary" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
+        <a href="{{ route('posyandu.summary', $type) }}" class="items-center text-center bg-[#28C76F] p-2 text-white">
             Rekapitulasi
         </a>
 

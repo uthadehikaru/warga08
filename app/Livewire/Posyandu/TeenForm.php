@@ -68,7 +68,7 @@ class TeenForm extends Component
     public function selectTeen($nik)
     {
         $this->check_date = now()->format('Y-m-d');
-        $user = User::warga()->where('nik', $nik)->first();
+        $user = User::warga()->where('nik', 'like', '%'.$nik.'%')->first();
         $this->rt = $user->rt;
         $this->nik = $user->nik;
         $this->name = $user->name;

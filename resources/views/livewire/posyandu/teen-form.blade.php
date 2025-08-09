@@ -34,7 +34,7 @@
         
         @foreach($teens as $teen)
             <div class="mt-2">
-                <button wire:click="selectTeen('{{ $teen->nik }}')" class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
+                <button wire:click="selectTeen('{{ preg_replace('/[^0-9]/', '', $teen->nik) }}')" class="w-full text-primary hover:text-blue-200 p-4 flex justify-between items-center gap-2">
                 @if($teen->gender == 'p')
                     <img src="{{ asset('images/male.gif') }}" class="w-6 h-6">
                 @else

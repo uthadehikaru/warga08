@@ -24,6 +24,7 @@ use App\Livewire\Posyandu\HealthRecords;
 use App\Livewire\Posyandu\Laporan;
 use App\Livewire\Posyandu\LoginForm as PosyanduLoginForm;
 use App\Livewire\Posyandu\PosyanduPos;
+use App\Livewire\Posyandu\Summary;
 use App\Livewire\Posyandu\TeenForm;
 use App\Livewire\Posyandu\TeenRecords;
 use App\Livewire\RequestForm;
@@ -57,6 +58,7 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         Route::get('/pos/{type}/{step}', PosyanduPos::class)->name('pos');
         Route::get('/laporan/{type}', Laporan::class)->name('laporan');
         Route::get('/laporan/{type}/download', LaporanController::class)->name('laporan.download');
+        Route::get('/summary/{type}', Summary::class)->name('summary');
     });
 
     Route::get('logout', function(Request $request){
