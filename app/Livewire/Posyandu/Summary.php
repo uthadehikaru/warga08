@@ -22,7 +22,7 @@ class Summary extends Component
     public function render()
     {
         $healthHistory = HealthHistory::with('healthRecord.user')->whereDate('check_date', $this->check_date)
-        ->oldest()->paginate(10);
+        ->latest()->paginate(10);
         return view('livewire.posyandu.summary')
         ->extends('layouts.posyandu')
         ->with('healthHistory', $healthHistory);
