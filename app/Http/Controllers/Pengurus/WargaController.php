@@ -12,9 +12,16 @@ class WargaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::warga();
+        if($request->search){
+            $users->where('name','like','%'.$request->search.'%')
+            ->orWhere('nik','like','%'.$request->search.'%')
+            ->orWhere('email','like','%'.$request->search.'%')
+            ->orWhere('phone','like','%'.$request->search.'%');
+        }
+        $data['search'] = $request->search;
         if(Auth::user()->role=='rt'){
             $users->where('rt',Auth::user()->rt);
         }
