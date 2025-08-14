@@ -19,7 +19,7 @@
         <div class="collapse-content">
             <p>NIK : {{ $row->nik }}</p>
             <p>jenis kelamin : @lang('gender.'.$row->gender)</p>
-        <p>TTL : {{ $row->birth_place }}, {{ $row->birth_date->format('d F Y') }}</p>
+        <p>TTL : {{ $row->birth_place }}, {{ $row->birth_date?->format('d F Y') }}</p>
             <p>email : {{ $row->email }}</p>
             <p>telp : {{ $row->phone }}</p>
             <p>agama : {{ $row->religion }}</p>
