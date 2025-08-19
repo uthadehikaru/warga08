@@ -4,6 +4,7 @@ namespace App\Livewire\Posyandu;
 
 use App\Models\HealthRecord;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -31,6 +32,9 @@ class Dashboard extends Component
 
     public function selectType($type)
     {
+        if(!Auth::check()){
+            return redirect()->route('login');
+        }
         $this->type = $type;
         if($this->menu == 'laporan'){
             return redirect()->route('posyandu.laporan', ['type' => $type]);

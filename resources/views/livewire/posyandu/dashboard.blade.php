@@ -12,7 +12,7 @@
                 </div>
             </form>
         </div>
-        <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full" />
+        <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full h-[200px] object-cover" />
     </div>
     <div class="grid grid-cols-1 gap-1">
         @if($menu && !$type)
