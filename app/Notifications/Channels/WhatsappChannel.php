@@ -14,6 +14,9 @@ class WhatsappChannel
         Log::channel('whatsapp')->info('Whatsapp Channel: Data', $data);
         $message = $data['message'];
         $phone = $notifiable->phone;
+        if(config('whatsapp.local_phone')){
+            $phone = config('whatsapp.local_phone');
+        }
         if(!$phone){
             return null;
         }

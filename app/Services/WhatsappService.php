@@ -18,14 +18,13 @@ class WhatsappService
 
     public function checkStatus()
     {
-        $url = $this->endpoint . '/device';
+        $url = $this->endpoint . '/qr/status';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token,
         ])
-        ->asForm()
-        ->post($url, [
-            'token' => $this->token,
-        ]);
+        ->get($url);
+
         $result = $response->json();
         Log::channel('whatsapp')->info('Whatsapp Status', $result);
         return $result;
@@ -33,51 +32,92 @@ class WhatsappService
 
     public function getQrcode()
     {
-        $url = $this->endpoint . '/qrcode';
+        $url = $this->endpoint . '/qr/image/base64';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token,
         ])
-        ->asForm()
-        ->post($url, [
-            'token' => $this->token,
-        ]);
+        ->get($url);
 
         $qrcode = $response->json();
-        Log::channel('whatsapp')->info('Whatsapp QR Code', $qrcode);
+        Log::channel('whatsapp')->info('Whatsapp QR Code Response', $qrcode);
         return $qrcode;
+    }
+
+    /**
+     * Get QR code as data URL for direct use in HTML img tag
+     */
+    public function getQrcodeAsDataUrl()
+    {
+        $qrcode = $this->getQrcode();
+        
+        // Check if the response is successful and contains the base64 data
+        if (isset($qrcode['success']) && $qrcode['success'] && isset($qrcode['data']['qrCodeBase64'])) {
+            $base64Data = $qrcode['data']['qrCodeBase64'];
+            return 'data:image/png;base64,' . $base64Data;
+        }
+        
+        // Fallback: if it's already a data URL, return as is
+        if (isset($qrcode['data']['qrCodeBase64']) && strpos($qrcode['data']['qrCodeBase64'], 'data:') === 0) {
+            return $qrcode['data']['qrCodeBase64'];
+        }
+        
+        // If no valid data, return empty string or placeholder
+        return '';
+    }
+
+    /**
+     * Get QR code base64 string only (without data URL prefix)
+     */
+    public function getQrcodeBase64()
+    {
+        $qrcode = $this->getQrcode();
+        
+        if (isset($qrcode['success']) && $qrcode['success'] && isset($qrcode['data']['qrCodeBase64'])) {
+            return $qrcode['data']['qrCodeBase64'];
+        }
+        
+        return '';
     }
 
     public function sendMessage($phone, $message)
     {
-        $url = $this->endpoint . '/send_message';
+        $url = $this->endpoint . '/message';
+        $message = "*".config('app.name')."*\n\n".$message
+        ."\n\n*pesan ini dikirim otomatis*";
         $data = [
-            'token' => $this->token,
-            'number' => $phone,
+            'phoneNumber' => $phone,
             'message' => $message
         ];
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token,
         ])
-        ->asForm()
         ->post($url, $data);
         $result = $response->json();
         Log::channel('whatsapp')->info('Whatsapp Send Message', $result);
         return $result;
     }
 
-    public function sendDocument($phone, $caption, $document)
+    public function sendDocument($phone, $caption, $documentPath)
     {
-        $url = $this->endpoint . '/send_document';
+        $url = $this->endpoint . '/document';
+        
+        $caption = "*".config('app.name')."*\n\n".$caption
+        ."\n\n*pesan ini dikirim otomatis*";
+        $filename = basename($documentPath);
+        $base64 = base64_encode(file_get_contents($documentPath));
         $data = [
-            'token' => $this->token,
-            'number' => $phone,
-            'file' => $document,
+            'phoneNumber' => $phone,
+            'file' => $base64,
+            'filename' => $filename,
+            'mimetype' => 'application/pdf',
             'caption' => $caption,
         ];
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token,
         ])
-        ->asForm()
         ->post($url, $data);
         $result = $response->json();
         Log::channel('whatsapp')->info('Whatsapp Send Document', $result);
@@ -87,15 +127,12 @@ class WhatsappService
 
     public function logout()
     {
-        $url = $this->endpoint . '/logout';
-        $data = [
-            'token' => $this->token,
-        ];
+        $url = $this->endpoint . '/qr/clear-auth';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token,
         ])
-        ->asForm()
-        ->post($url, $data);
+        ->post($url);
         $result = $response->json();
         Log::channel('whatsapp')->info('Whatsapp Logout', $result);
         return $result;

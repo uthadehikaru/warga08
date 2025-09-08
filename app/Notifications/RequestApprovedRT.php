@@ -61,8 +61,8 @@ class RequestApprovedRT extends Notification implements ShouldQueue
         
         return [
             'message' => $message,
-            'caption' => 'Surat Pengantar '.$this->request->code,
-            'document' => asset('documents/'.$this->request->code.'.pdf'),
+            'caption' => 'Silahkan unduh dokumen dan lakukan pencetakan mandiri kemudian dapatkan tanda tangan dan stempel dari ketua RT setempat.',
+            'document' => public_path('documents/'.$this->request->code.'.pdf'),
         ];
     }
 }

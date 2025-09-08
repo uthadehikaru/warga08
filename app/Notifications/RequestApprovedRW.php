@@ -61,8 +61,6 @@ class RequestApprovedRW extends Notification implements ShouldQueue
         
         return [
             'message' => $message,
-            'caption' => 'Surat Pengantar '.$this->request->code,
-            'document' => public_path('documents/'.$this->request->code.'.pdf'),
         ];
     }
 }

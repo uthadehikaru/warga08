@@ -6,6 +6,7 @@ use App\Http\Controllers\Pengurus\ArrivalController as PengurusArrivalController
 use App\Http\Controllers\Pengurus\DashboardController;
 use App\Http\Controllers\Pengurus\Arrival\ArrivalConfirmController;
 use App\Http\Controllers\Pengurus\ConfigController;
+use App\Http\Controllers\Pengurus\LogoutWhatsapp;
 use App\Http\Controllers\Pengurus\Request\RequestCancelController;
 use App\Http\Controllers\Pengurus\Request\RequestConfirmController;
 use App\Http\Controllers\Pengurus\Request\RequestNotifyController;
@@ -112,6 +113,7 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
 
     Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');  
     Route::resource('arrival', PengurusArrivalController::class);
+    Route::get('logout-whatsapp', LogoutWhatsapp::class)->name('whatsapp.logout');
     Route::get('logout', function(Request $request){
         Auth::logout();
         $request->session()->invalidate();

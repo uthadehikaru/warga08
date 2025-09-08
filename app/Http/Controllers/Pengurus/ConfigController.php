@@ -13,7 +13,7 @@ class ConfigController extends Controller
             'status' => $service->checkStatus(),
             'qrcode' => null,
         ];
-        if($data['status']['result'] == "false"){
+        if($data['status']['success'] == true && $data['status']['data']['connectionStatus'] == "qr_ready"){
             $data['qrcode'] = $service->getQrcode();
         }
         return view('pengurus.config', $data);
