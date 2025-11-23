@@ -95,6 +95,9 @@ class WhatsappService
         ])
         ->post($url, $data);
         $result = $response->json();
+        if(!$result['success']){
+            throw new \Exception($result['message']);
+        }
         Log::channel('whatsapp')->info('Whatsapp Send Message', $result);
         return $result;
     }
@@ -120,6 +123,9 @@ class WhatsappService
         ])
         ->post($url, $data);
         $result = $response->json();
+        if(!$result['success']){
+            throw new \Exception($result['message']);
+        }
         Log::channel('whatsapp')->info('Whatsapp Send Document', $result);
         return $result;
     }
