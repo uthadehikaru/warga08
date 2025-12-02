@@ -44,30 +44,41 @@
                 {{ $key }}
             </div>
             <div class="collapse-content text-sm flex flex-col gap-2" onclick="event.stopPropagation()">
-                <p>Target 6-14 : {{ $row['target_6_14'] }}</p>
-                <p>Target 15-18 : {{ $row['target_15_18'] }}</p>
-                <p>Hadir 6-14 : {{ $row['present_6_14'] }}</p>
-                <p>Hadir 15-18 : {{ $row['present_15_18'] }}</p>
-                <p>Tidak Hadir 6-14 : {{ $row['not_present_6_14'] }}</p>
-                <p>Tidak Hadir 15-18 : {{ $row['not_present_15_18'] }}</p>
-                <p>IMT Sangat Kurus : {{ $row['imt_sangat_kurus'] }}</p>
-                <p>IMT Kurus : {{ $row['imt_kurus'] }}</p>
-                <p>IMT Normal : {{ $row['imt_normal'] }}</p>
-                <p>IMT Gemuk : {{ $row['imt_gemuk'] }}</p>
-                <p>IMT Obesitas : {{ $row['imt_obesitas'] }}</p>
-                <p>Lingkar Perut : {{ $row['lingkar_perut'] }}</p>
-                <p>Tekanan Darah Rendah : {{ $row['tekanan_darah_rendah'] }}</p>
-                <p>Tekanan Darah Tinggi : {{ $row['tekanan_darah_tinggi'] }}</p>
-                <p>Tekanan Darah Normal : {{ $row['tekanan_darah_normal'] }}</p>
-                <p>Gula Darah Rendah : {{ $row['gula_darah_rendah'] }}</p>
-                <p>Gula Darah Tinggi : {{ $row['gula_darah_tinggi'] }}</p>
-                <p>Gula Darah Normal : {{ $row['gula_darah_normal'] }}</p>
-                <p>Anemia : {{ $row['anemia'] }}</p>
-                <p>Non Anemia : {{ $row['non_anemia'] }}</p>
-                <p>Gejala TBC : {{ $row['gejala_tbc'] }}</p>
-                <p>Masalah Kesehatan : {{ $row['masalah_kesehatan'] }}</p>
-                <p>Edukasi : {{ $row['edukasi'] }}</p>
-                <p>Rujukan : {{ $row['rujukan'] }}</p>
+                <h3 class="font-semibold mt-2">Usia 6-14 tahun</h3>
+                <p>Target : {{ $row['target_6_14'] }}</p>
+                <p>Hadir : {{ $row['present_6_14'] }}</p>
+                <p>Tidak Hadir : {{ $row['not_present_6_14'] }}</p>
+                <h3 class="font-semibold mt-2">Usia 15-18 tahun</h3>
+                <p>Target : {{ $row['target_15_18'] }}</p>
+                <p>Hadir : {{ $row['present_15_18'] }}</p>
+                <p>Tidak Hadir : {{ $row['not_present_15_18'] }}</p>
+                <h3 class="font-semibold mt-2">IMT</h3>
+                <p>Sangat Kurus : {{ $row['imt_sangat_kurus'] }}</p>
+                <p>Kurus : {{ $row['imt_kurus'] }}</p>
+                <p>Normal : {{ $row['imt_normal'] }}</p>
+                <p>Gemuk : {{ $row['imt_gemuk'] }}</p>
+                <p>Obesitas : {{ $row['imt_obesitas'] }}</p>
+                <h3 class="font-semibold mt-2">Lingkar Perut</h3>
+                <p>{{ $row['lingkar_perut'] }}</p>
+                <h3 class="font-semibold mt-2">Tekanan Darah</h3>
+                <p>Rendah : {{ $row['tekanan_darah_rendah'] }}</p>
+                <p>Tinggi : {{ $row['tekanan_darah_tinggi'] }}</p>
+                <p>Normal : {{ $row['tekanan_darah_normal'] }}</p>
+                <h3 class="font-semibold mt-2">Gula Darah</h3>
+                <p>Rendah : {{ $row['gula_darah_rendah'] }}</p>
+                <p>Tinggi : {{ $row['gula_darah_tinggi'] }}</p>
+                <p>Normal : {{ $row['gula_darah_normal'] }}</p>
+                <h3 class="font-semibold mt-2">Anemia</h3>
+                <p>Ya : {{ $row['anemia'] }}</p>
+                <p>Tidak : {{ $row['non_anemia'] }}</p>
+                <h3 class="font-semibold mt-2">Gejala TBC</h3>
+                <p>{{ $row['gejala_tbc'] }}</p>
+                <h3 class="font-semibold mt-2">Masalah Kesehatan</h3>
+                <p>{{ $row['masalah_kesehatan'] }}</p>
+                <h3 class="font-semibold mt-2">Edukasi</h3>
+                <p>{{ $row['edukasi'] }}</p>
+                <h3 class="font-semibold mt-2">Rujukan</h3>
+                <p>{{ $row['rujukan'] }}</p>
             </div>    
         </div>
         @endforeach

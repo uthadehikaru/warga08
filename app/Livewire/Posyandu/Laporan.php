@@ -68,7 +68,7 @@ class Laporan extends Component
         ];
         $monthYear = null;
         foreach ($healthHistories as $record) {
-            if($record->check_date->format('Y-m') != $monthYear){
+            if($record->check_date->format('d-M-Y') != $monthYear){
                 $row['target_6_14'] = $target_6_14;
                 $row['target_15_18'] = $target_15_18;   
                 $row['present_6_14'] = 0;
@@ -93,7 +93,7 @@ class Laporan extends Component
                 $row['masalah_kesehatan'] = 0;
                 $row['edukasi'] = 0;
                 $row['rujukan'] = 0;
-                $monthYear = $record->check_date->format('Y-m');
+                $monthYear = $record->check_date->format('d-M-Y');
             }
 
             if($record->age >= 6 && $record->age <= 14){
@@ -102,15 +102,15 @@ class Laporan extends Component
                 $row['present_15_18']++;
             }
 
-            if($record->imt == 'sk'){
+            if($record->imt == 'Sangat Kurus'){
                 $row['imt_sangat_kurus']++;
-            }elseif($record->imt == 'k'){
+            }elseif($record->imt == 'Kurus'){
                 $row['imt_kurus']++;
-            }elseif($record->imt == 'n'){
+            }elseif($record->imt == 'Normal'){
                 $row['imt_normal']++;
-            }elseif($record->imt == 'g'){
+            }elseif($record->imt == 'Gemuk'){
                 $row['imt_gemuk']++;
-            }elseif($record->imt == 'o'){
+            }elseif($record->imt == 'Obesitas'){
                 $row['imt_obesitas']++;
             }
 
