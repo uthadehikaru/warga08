@@ -1,4 +1,5 @@
 <div>
+    @if(!$menu)
     <div class="relative">
         <div class="absolute inset-0 flex items-center justify-center z-10">
             <form action="{{ route('posyandu.teens.index') }}" method="GET" class="w-3/4 max-w-lg">
@@ -14,6 +15,7 @@
         </div>
         <img src="{{ asset('images/kelapa-dua.jpg') }}" class="w-full h-[200px] object-cover" />
     </div>
+    @endif
     <div class="grid grid-cols-1 gap-1">
         @if($menu && !$type)
         <a wire:click="resetMenu()" href="#" class="items-center text-center bg-warning p-2">
@@ -47,16 +49,16 @@
         <a wire:click="resetType()" href="#" class="items-center text-center bg-warning p-2">
             <p class="text-white text-sm">Kembali</p>
         </a>
-        <a href="#" class="items-center text-center bg-[#28C76F] p-2">
+        <a href="#" class="items-center text-center bg-gray-500 p-2">
             <img src="{{ asset('images/'.$type.'.png') }}" class="h-24 mx-auto">
             <p class="text-white text-sm">Posyandu {{ $type }}</p>
         </a>
         @foreach($steps as $step=>$value)
-        <a wire:click="selectStep({{ $step }})" href="#" class="items-center text-center bg-[#28C76F] p-2 text-white">
-            {{ $step }}. {{ $value }}
+        <a wire:click="selectStep({{ $step }})" href="#" class="items-center text-center bg-[#28C76F] p-4 text-white">
+            Pos {{ $step }}. {{ $value }}
         </a>
         @endforeach
-        <a href="{{ route('posyandu.summary', $type) }}" class="items-center text-center bg-[#28C76F] p-2 text-white">
+        <a href="{{ route('posyandu.summary', $type) }}" class="items-center text-center bg-[#28C76F] p-4 text-white">
             Rekapitulasi
         </a>
 
