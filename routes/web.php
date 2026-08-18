@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\ArrivalController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Pengurus\ArrivalController as PengurusArrivalController;
-use App\Http\Controllers\Pengurus\DashboardController;
+use App\Http\Controllers\JumantikController;
 use App\Http\Controllers\Pengurus\Arrival\ArrivalConfirmController;
+use App\Http\Controllers\Pengurus\ArrivalController as PengurusArrivalController;
 use App\Http\Controllers\Pengurus\ConfigController;
+use App\Http\Controllers\Pengurus\DashboardController;
+use App\Http\Controllers\Pengurus\JumantikController as PengurusJumantikController;
 use App\Http\Controllers\Pengurus\LogoutWhatsapp;
 use App\Http\Controllers\Pengurus\Request\RequestCancelController;
 use App\Http\Controllers\Pengurus\Request\RequestConfirmController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Posyandu\LaporanController;
 use App\Http\Controllers\RequestCheck;
 use App\Http\Controllers\RequestController;
 use App\Livewire\ArrivalForm;
+use App\Livewire\JumantikForm;
 use App\Livewire\LoginForm;
 use App\Livewire\Posyandu\Dashboard;
 use App\Livewire\Posyandu\HealthForm;
@@ -50,7 +53,7 @@ use Illuminate\Support\Facades\Route;
 // Posyandu subdomain routes
 Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
-    Route::middleware(['posyandu.role'])->group(function(){
+    Route::middleware(['posyandu.role'])->group(function () {
         Route::get('/teens', TeenRecords::class)->name('teens.index');
         Route::get('/teens/form/{nik?}', TeenForm::class)->name('teens.form');
         Route::get('/teens/records/{nik}', HealthRecords::class)->name('teens.records');
@@ -62,15 +65,16 @@ Route::domain(config('app.posyandu_domain'))->name('posyandu.')->group(function 
         Route::get('/summary/{type}', Summary::class)->name('summary');
     });
 
-    Route::get('logout', function(Request $request){
+    Route::get('logout', function (Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/login')->with('error', 'Logout berhasil');
     })->name('logout');
 
     Route::get('login', PosyanduLoginForm::class)->name('login');
-    
+
     Route::fallback(function () {
         abort(404);
     });
@@ -88,41 +92,46 @@ Route::post('check-request', RequestCheck::class);
 Route::get('form-arrival', ArrivalForm::class)->name('arrival.create');
 Route::get('arrival/{nik}', ArrivalController::class)->name('arrival.show');
 
-Route::get('document', function(){
+Route::get('jumantik', JumantikForm::class)->name('jumantik.create');
+Route::get('jumantik/{id}', JumantikController::class)->name('jumantik.show');
+
+Route::get('document', function () {
     $data['request'] = ModelsRequest::first();
+
     return view('document', $data);
 });
-Route::get('document/pdf', function(){
+Route::get('document/pdf', function () {
     $data['request'] = ModelsRequest::first();
     $pdf = Pdf::loadView('document', $data);
- 
+
     return $pdf->download();
 });
 
-
-Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function(){
-    Route::get('dashboard', DashboardController::class)->name('dashboard');  
+Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function () {
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
     Route::resource('rt', RtController::class);
     Route::resource('sequence', SequenceController::class);
     Route::resource('warga', WargaController::class);
-    Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');  
-    Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');  
-    Route::resource('request', PengurusRequestController::class); 
+    Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');
+    Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');
+    Route::resource('request', PengurusRequestController::class);
     Route::get('config', ConfigController::class)->name('config');
-    Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif'); 
+    Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif');
 
-    Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');  
+    Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');
     Route::resource('arrival', PengurusArrivalController::class);
+    Route::get('jumantik', [PengurusJumantikController::class, 'index'])->name('jumantik.index');
     Route::get('logout-whatsapp', LogoutWhatsapp::class)->name('whatsapp.logout');
-    Route::get('logout', function(Request $request){
+    Route::get('logout', function (Request $request) {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     })->name('logout');
 });
 
-Route::post('callback', function(Request $request){
+Route::post('callback', function (Request $request) {
     Log::channel('whatsapp')->info('Whatsapp Callback - All Request Data:', [
         'method' => $request->method(),
         'url' => $request->fullUrl(),

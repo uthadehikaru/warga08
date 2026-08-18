@@ -17,6 +17,12 @@
         </div>
 
         <div class="stat">
+            <div class="stat-title text-info">Laporan Jumantik</div>
+            <div class="stat-value text-info">{{ $jumantik_reports }}</div>
+            <a href="{{ route('pengurus.jumantik.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+        </div>
+
+        <div class="stat">
             <div class="stat-title text-gray-800">Total Pengajuan</div>
             <div class="stat-value">{{ $total }}</div>
             <a href="{{ route('pengurus.request.index') }}" class="stat-desc underline">lihat selengkapnya</a>
