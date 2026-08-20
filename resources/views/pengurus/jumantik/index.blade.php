@@ -12,6 +12,7 @@
             <p>Nama : {{ $report->name }}</p>
             <p>Telp : {{ $report->phone }}</p>
             <p>Alamat : {{ $report->address }}</p>
+            <p>Ditemukan jentik : {{ $report->has_jentik ? 'Ya' : 'Tidak' }}</p>
             @if($report->photo)
             <p>Foto : <img src="{{ asset('storage/'.$report->photo) }}" width="300px" /></p>
             @endif

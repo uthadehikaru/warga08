@@ -26,6 +26,7 @@ class JumantikForm extends Component
             'name' => '',
             'phone' => '',
             'address' => '',
+            'has_jentik' => '',
         ];
     }
 
@@ -36,6 +37,7 @@ class JumantikForm extends Component
             'form.name' => 'required|min:3|max:255',
             'form.phone' => 'required|numeric',
             'form.address' => 'required|min:3|max:255',
+            'form.has_jentik' => 'required|in:ya,tidak',
         ];
 
         if ($this->step >= 1) {
@@ -62,6 +64,7 @@ class JumantikForm extends Component
     {
         $data = $this->valid();
         $jumantik = $data['form'];
+        $jumantik['has_jentik'] = $jumantik['has_jentik'] === 'ya';
         $jumantik['photo'] = $this->photo->store('jumantik', 'public');
 
         $jumantik = Jumantik::create($jumantik);

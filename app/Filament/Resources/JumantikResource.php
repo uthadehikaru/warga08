@@ -43,6 +43,11 @@ class JumantikResource extends Resource
                     ->label('Alamat')
                     ->required()
                     ->rows(3),
+                Forms\Components\Radio::make('has_jentik')
+                    ->label('Apakah ditemukan jentik?')
+                    ->boolean('Ya', 'Tidak')
+                    ->inline()
+                    ->required(),
                 Forms\Components\FileUpload::make('photo')
                     ->label('Foto')
                     ->image()
@@ -74,6 +79,9 @@ class JumantikResource extends Resource
                     ->label('Alamat')
                     ->searchable()
                     ->limit(40),
+                Tables\Columns\IconColumn::make('has_jentik')
+                    ->label('Jentik')
+                    ->boolean(),
                 Tables\Columns\ImageColumn::make('photo')
                     ->label('Foto')
                     ->disk('public'),

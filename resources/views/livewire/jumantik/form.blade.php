@@ -55,6 +55,26 @@
             </label>
             <label class="form-control">
                 <div class="label">
+                    <span class="label-text">Apakah ditemukan jentik?</span>
+                </div>
+                <div class="flex gap-4">
+                    <label class="label cursor-pointer gap-2">
+                        <input type="radio" name="has_jentik" wire:model="form.has_jentik" value="ya" class="radio" />
+                        <span class="label-text">Ya</span>
+                    </label>
+                    <label class="label cursor-pointer gap-2">
+                        <input type="radio" name="has_jentik" wire:model="form.has_jentik" value="tidak" class="radio" />
+                        <span class="label-text">Tidak</span>
+                    </label>
+                </div>
+                @error('form.has_jentik')
+                <div class="label">
+                    <span class="label-text-alt text-error">{{ $message }}</span>
+                </div>
+                @enderror
+            </label>
+            <label class="form-control">
+                <div class="label">
                     <span class="label-text">Foto</span>
                 </div>
                 <input type="file" accept="image/*" class="input input-bordered w-full" wire:model="photo" />
@@ -87,6 +107,10 @@
                 <tr>
                     <td width="5%" class="align-top">Alamat</td>
                     <td>: {{ $form['address'] }}</td>
+                </tr>
+                <tr>
+                    <td width="5%" class="align-top">Ditemukan jentik</td>
+                    <td>: {{ $form['has_jentik'] == 'ya' ? 'Ya' : 'Tidak' }}</td>
                 </tr>
                 @if($photo)
                 <tr>

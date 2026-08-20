@@ -27,6 +27,9 @@ it('shows the jumantik form', function () {
         ->assertDontSee('NIK')
         ->assertSee('No. Telepon')
         ->assertSee('Alamat')
+        ->assertSee('Apakah ditemukan jentik?')
+        ->assertSee('Ya')
+        ->assertSee('Tidak')
         ->assertSee('Foto');
 });
 
@@ -38,6 +41,7 @@ it('lets a resident submit jumantik information', function () {
         ->set('form.name', 'Siti Aminah')
         ->set('form.phone', '081234567890')
         ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'ya')
         ->set('photo', $photo)
         ->call('next')
         ->assertHasNoErrors()
@@ -51,6 +55,7 @@ it('lets a resident submit jumantik information', function () {
     expect($jumantik->name)->toBe('Siti Aminah')
         ->and($jumantik->phone)->toBe('081234567890')
         ->and($jumantik->address)->toBe('Jl. Haji Kelik No. 10')
+        ->and($jumantik->has_jentik)->toBeTrue()
         ->and($jumantik->rt)->toBe(1)
         ->and($jumantik->nik)->toBeNull();
 
@@ -60,7 +65,7 @@ it('lets a resident submit jumantik information', function () {
 it('requires phone, address, and photo', function () {
     Livewire::test(JumantikForm::class)
         ->call('next')
-        ->assertHasErrors(['form.rt', 'form.name', 'form.phone', 'form.address', 'photo'])
+        ->assertHasErrors(['form.rt', 'form.name', 'form.phone', 'form.address', 'form.has_jentik', 'photo'])
         ->assertHasNoErrors(['form.nik']);
 });
 
@@ -83,6 +88,7 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
         ->assertOk()
         ->assertSee('Laporan Mandiri Jumantik')
         ->assertSee('Siti Aminah')
+        ->assertSee('Ditemukan jentik')
         ->assertDontSee('NIK');
 });
 

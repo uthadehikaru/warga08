@@ -7,6 +7,7 @@
     <p>Nama : {{ $jumantik->name }}</p>
     <p>Telp : {{ $jumantik->phone }}</p>
     <p>Alamat : {{ $jumantik->address }}</p>
+    <p>Ditemukan jentik : {{ $jumantik->has_jentik ? 'Ya' : 'Tidak' }}</p>
     @if($jumantik->photo)
     <p>Foto : <img src="{{ asset('storage/'.$jumantik->photo) }}" width="300px" /></p>
     @endif
