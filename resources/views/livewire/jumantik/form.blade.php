@@ -1,7 +1,6 @@
 <div>
     <div class="w-full text-center py-4">
-        <h1 class="font-bold text-lg">Form Jumantik</h1>
-        <p class="text-sm px-4">Laporan Juru Pemantau Jentik RW 08</p>
+        <h1 class="font-bold text-lg">Laporan Mandiri Jumantik</h1>
         <ul class="steps my-4">
             <li class="step {{ $step>=1?'step-primary':'' }}"><span class="px-4">Data Laporan</span></li>
             <li class="step {{ $step>=2?'step-primary':'' }}">Konfirmasi</li>
@@ -20,17 +19,6 @@
                     <option value="{{ $row->rt }}">RT. {{ $row->rt }} - {{ $row->name }}</option>
                     @endforeach
                 </select>
-            </label>
-            <label class="form-control">
-                <div class="label">
-                    <span class="label-text">NIK</span>
-                </div>
-                <input type="text" name="nik" placeholder="Masukkan NIK" wire:model="form.nik" class="input input-bordered w-full placeholder-gray-500" required />
-                @error('form.nik')
-                <div class="label">
-                    <span class="label-text-alt text-error">{{ $message }}</span>
-                </div>
-                @enderror
             </label>
             <label class="form-control">
                 <div class="label">
@@ -82,15 +70,11 @@
             @endif
             <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4">Lanjut</button>
         @else
-            <h3>Konfirmasi Data Jumantik</h3>
+            <h3>Konfirmasi Laporan Mandiri Jumantik</h3>
             <table>
                 <tr>
                     <td width="5%" class="align-top">RT</td>
                     <td>: {{ $form['rt'] }}</td>
-                </tr>
-                <tr>
-                    <td width="5%" class="align-top">NIK</td>
-                    <td>: {{ $form['nik'] }}</td>
                 </tr>
                 <tr>
                     <td width="5%" class="align-top">Nama</td>

@@ -16,11 +16,11 @@ class JumantikResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-camera';
 
-    protected static ?string $navigationLabel = 'Jumantik';
+    protected static ?string $navigationLabel = 'Laporan Mandiri Jumantik';
 
-    protected static ?string $modelLabel = 'Laporan Jumantik';
+    protected static ?string $modelLabel = 'Laporan Mandiri Jumantik';
 
-    protected static ?string $pluralModelLabel = 'Laporan Jumantik';
+    protected static ?string $pluralModelLabel = 'Laporan Mandiri Jumantik';
 
     public static function form(Form $form): Form
     {
@@ -30,11 +30,6 @@ class JumantikResource extends Resource
                     ->label('RT')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('nik')
-                    ->label('NIK')
-                    ->required()
-                    ->length(16)
-                    ->maxLength(16),
                 Forms\Components\TextInput::make('name')
                     ->label('Nama')
                     ->required()
@@ -69,9 +64,6 @@ class JumantikResource extends Resource
                     ->label('RT')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('nik')
-                    ->label('NIK')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),

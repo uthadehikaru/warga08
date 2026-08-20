@@ -23,8 +23,8 @@ it('shows jumantik on the public menu', function () {
 it('shows the jumantik form', function () {
     $this->get(route('jumantik.create'))
         ->assertOk()
-        ->assertSee('Form Jumantik')
-        ->assertSee('NIK')
+        ->assertSee('Laporan Mandiri Jumantik')
+        ->assertDontSee('NIK')
         ->assertSee('No. Telepon')
         ->assertSee('Alamat')
         ->assertSee('Foto');
@@ -35,7 +35,6 @@ it('lets a resident submit jumantik information', function () {
 
     Livewire::test(JumantikForm::class)
         ->set('form.rt', 1)
-        ->set('form.nik', '3174010101010001')
         ->set('form.name', 'Siti Aminah')
         ->set('form.phone', '081234567890')
         ->set('form.address', 'Jl. Haji Kelik No. 10')
@@ -49,26 +48,26 @@ it('lets a resident submit jumantik information', function () {
     expect(Jumantik::count())->toBe(1);
 
     $jumantik = Jumantik::first();
-    expect($jumantik->nik)->toBe('3174010101010001')
-        ->and($jumantik->name)->toBe('Siti Aminah')
+    expect($jumantik->name)->toBe('Siti Aminah')
         ->and($jumantik->phone)->toBe('081234567890')
         ->and($jumantik->address)->toBe('Jl. Haji Kelik No. 10')
-        ->and($jumantik->rt)->toBe(1);
+        ->and($jumantik->rt)->toBe(1)
+        ->and($jumantik->nik)->toBeNull();
 
     Storage::disk('public')->assertExists($jumantik->photo);
 });
 
-it('requires nik, phone, address, and photo', function () {
+it('requires phone, address, and photo', function () {
     Livewire::test(JumantikForm::class)
         ->call('next')
-        ->assertHasErrors(['form.rt', 'form.nik', 'form.name', 'form.phone', 'form.address', 'photo']);
+        ->assertHasErrors(['form.rt', 'form.name', 'form.phone', 'form.address', 'photo'])
+        ->assertHasNoErrors(['form.nik']);
 });
 
 it('lets pengurus view jumantik reports on the dashboard', function () {
     Jumantik::factory()->create([
         'rt' => 1,
         'name' => 'Siti Aminah',
-        'nik' => '3174010101010001',
     ]);
 
     $rw = User::rw()->first();
@@ -76,14 +75,15 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
     $this->actingAs($rw)
         ->get(route('pengurus.dashboard'))
         ->assertOk()
-        ->assertSee('Laporan Jumantik')
+        ->assertSee('Laporan Mandiri Jumantik')
         ->assertSee('1');
 
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.index'))
         ->assertOk()
+        ->assertSee('Laporan Mandiri Jumantik')
         ->assertSee('Siti Aminah')
-        ->assertSee('3174010101010001');
+        ->assertDontSee('NIK');
 });
 
 it('lets rt pengurus see only jumantik reports from their rt', function () {

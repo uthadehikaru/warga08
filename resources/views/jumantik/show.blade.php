@@ -1,10 +1,9 @@
 @extends('layouts.web')
 @section('content')
 <div class="grid grid-col-1 gap-2 p-4">
-    <h1 class="font-bold text-lg">Laporan Jumantik</h1>
+    <h1 class="font-bold text-lg">Laporan Mandiri Jumantik</h1>
     <p class="text-success font-bold">Data berhasil dikirim.</p>
     <p>RT : {{ $jumantik->rt }}</p>
-    <p>NIK : {{ $jumantik->nik }}</p>
     <p>Nama : {{ $jumantik->name }}</p>
     <p>Telp : {{ $jumantik->phone }}</p>
     <p>Alamat : {{ $jumantik->address }}</p>

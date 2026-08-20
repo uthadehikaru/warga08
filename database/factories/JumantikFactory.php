@@ -18,7 +18,6 @@ class JumantikFactory extends Factory
     {
         return [
             'rt' => fake()->numberBetween(1, 8),
-            'nik' => fake()->unique()->numerify('################'),
             'name' => fake()->name(),
             'phone' => fake()->numerify('08##########'),
             'address' => fake()->address(),

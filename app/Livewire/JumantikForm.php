@@ -23,7 +23,6 @@ class JumantikForm extends Component
     {
         $this->form = [
             'rt' => '',
-            'nik' => '',
             'name' => '',
             'phone' => '',
             'address' => '',
@@ -34,7 +33,6 @@ class JumantikForm extends Component
     {
         $params = [
             'form.rt' => 'required|numeric',
-            'form.nik' => 'required|numeric|digits:16',
             'form.name' => 'required|min:3|max:255',
             'form.phone' => 'required|numeric',
             'form.address' => 'required|min:3|max:255',
