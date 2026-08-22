@@ -3,14 +3,17 @@
 use App\Livewire\JumantikForm;
 use App\Models\Jumantik;
 use App\Models\User;
+use App\Notifications\JumantikCreated;
 use Database\Seeders\UserSeeder;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 beforeEach(function () {
     $this->seed(UserSeeder::class);
     Storage::fake('public');
+    Notification::fake();
 });
 
 it('shows jumantik on the public menu', function () {
@@ -60,6 +63,31 @@ it('lets a resident submit jumantik information', function () {
         ->and($jumantik->nik)->toBeNull();
 
     Storage::disk('public')->assertExists($jumantik->photo);
+});
+
+it('notifies assigned rt after jumantik is submitted and cc rw', function () {
+    $photo = UploadedFile::fake()->image('jentik.jpg');
+    $rt = User::rt()->where('rt', 1)->first();
+    $otherRt = User::rt()->where('rt', 2)->first();
+    $rw = User::rw()->first();
+
+    Livewire::test(JumantikForm::class)
+        ->set('form.rt', 1)
+        ->set('form.name', 'Siti Aminah')
+        ->set('form.phone', '081234567890')
+        ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'ya')
+        ->set('photo', $photo)
+        ->call('next')
+        ->call('submit');
+
+    Notification::assertSentTo($rt, JumantikCreated::class, function (JumantikCreated $notification) use ($rt, $rw) {
+        $mail = $notification->toMail($rt);
+
+        return collect($mail->cc)->contains(fn ($cc) => $cc[0] === $rw->email);
+    });
+    Notification::assertNotSentTo($rw, JumantikCreated::class);
+    Notification::assertNotSentTo($otherRt, JumantikCreated::class);
 });
 
 it('requires phone, address, and photo', function () {

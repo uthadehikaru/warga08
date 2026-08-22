@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Jumantik;
 use App\Models\User;
+use App\Notifications\JumantikCreated;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -68,6 +69,12 @@ class JumantikForm extends Component
         $jumantik['photo'] = $this->photo->store('jumantik', 'public');
 
         $jumantik = Jumantik::create($jumantik);
+
+        $rt = User::rt()->where('rt', $jumantik->rt)->first();
+        if ($rt) {
+            $rt->notify(new JumantikCreated($jumantik));
+        }
+
         $this->redirect(route('jumantik.show', $jumantik->id));
     }
 

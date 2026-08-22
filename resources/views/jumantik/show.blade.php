@@ -9,7 +9,7 @@
     <p>Alamat : {{ $jumantik->address }}</p>
     <p>Ditemukan jentik : {{ $jumantik->has_jentik ? 'Ya' : 'Tidak' }}</p>
     @if($jumantik->photo)
-    <p>Foto : <img src="{{ asset('storage/'.$jumantik->photo) }}" width="300px" /></p>
+    <p>Foto : <img src="{{ Storage::disk('public')->url($jumantik->photo) }}" width="300px" /></p>
     @endif
     <a href="{{ route('jumantik.create') }}" class="btn btn-outline btn-primary mt-2">Kirim Laporan Lain</a>
 </div>

@@ -14,7 +14,7 @@
             <p>Alamat : {{ $report->address }}</p>
             <p>Ditemukan jentik : {{ $report->has_jentik ? 'Ya' : 'Tidak' }}</p>
             @if($report->photo)
-            <p>Foto : <img src="{{ asset('storage/'.$report->photo) }}" width="300px" /></p>
+            <p>Foto : <img src="{{ Storage::disk('public')->url($report->photo) }}" width="300px" /></p>
             @endif
         </div>
     </div>
