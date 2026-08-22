@@ -16,6 +16,13 @@
             @if($report->photo)
             <p>Foto : <img src="{{ Storage::disk('public')->url($report->photo) }}" width="300px" /></p>
             @endif
+            <p class="py-2">
+                <form action="{{ route('pengurus.jumantik.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Hapus laporan ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-error w-full p-2">Hapus</button>
+                </form>
+            </p>
         </div>
     </div>
     @empty

@@ -138,3 +138,42 @@ it('lets rt pengurus see only jumantik reports from their rt', function () {
         ->assertSee('Warga RT 1')
         ->assertDontSee('Warga RT 2');
 });
+
+it('lets pengurus delete a jumantik report', function () {
+    Storage::disk('public')->put('jumantik/sample.jpg', 'fake');
+
+    $report = Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Siti Aminah',
+        'photo' => 'jumantik/sample.jpg',
+    ]);
+
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Hapus');
+
+    $this->actingAs($rw)
+        ->delete(route('pengurus.jumantik.destroy', $report->id))
+        ->assertRedirect(route('pengurus.jumantik.index'));
+
+    expect(Jumantik::count())->toBe(0);
+    Storage::disk('public')->assertMissing('jumantik/sample.jpg');
+});
+
+it('does not let rt pengurus delete jumantik reports from another rt', function () {
+    $report = Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Warga RT 2',
+    ]);
+
+    $rt = User::rt()->where('rt', 1)->first();
+
+    $this->actingAs($rt)
+        ->delete(route('pengurus.jumantik.destroy', $report->id))
+        ->assertForbidden();
+
+    expect(Jumantik::find($report->id))->not->toBeNull();
+});
