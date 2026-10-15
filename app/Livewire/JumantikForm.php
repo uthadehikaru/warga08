@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Jumantik;
 use App\Models\User;
 use App\Notifications\JumantikCreated;
+use App\Services\ImageCompressor;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -66,7 +68,7 @@ class JumantikForm extends Component
         $data = $this->valid();
         $jumantik = $data['form'];
         $jumantik['has_jentik'] = $jumantik['has_jentik'] === 'ya';
-        $jumantik['photo'] = $this->photo->store('jumantik', 'public');
+        $jumantik['photo'] = $this->storePhoto();
 
         $jumantik = Jumantik::create($jumantik);
 
@@ -76,6 +78,15 @@ class JumantikForm extends Component
         }
 
         $this->redirect(route('jumantik.show', $jumantik->id));
+    }
+
+    private function storePhoto(): string
+    {
+        $directory = 'jumantik';
+        $path = $this->photo->store($directory, 'public');
+        $compressed = (new ImageCompressor)->compress(Storage::disk('public')->path($path));
+
+        return $directory.'/'.basename($compressed);
     }
 
     public function render()

@@ -1,4 +1,54 @@
-<div>
+<div x-data="{ compressing: false }">
+    @assets
+    <script>
+        window.compressJumantikPhoto = function (file) {
+            const maxEdge = 1600;
+
+            return createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bitmap) {
+                return new Promise(function (resolve, reject) {
+                    const scale = Math.min(maxEdge / bitmap.width, maxEdge / bitmap.height, 1);
+                    const width = Math.max(1, Math.round(bitmap.width * scale));
+                    const height = Math.max(1, Math.round(bitmap.height * scale));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(bitmap, 0, 0, width, height);
+                    bitmap.close();
+                    canvas.toBlob(function (blob) {
+                        if (!blob) {
+                            reject(new Error('compress failed'));
+                            return;
+                        }
+                        if (blob.size >= file.size && scale === 1 && file.type === 'image/jpeg') {
+                            resolve(file);
+                            return;
+                        }
+                        const name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+                        resolve(new File([blob], name, { type: 'image/jpeg', lastModified: Date.now() }));
+                    }, 'image/jpeg', 0.75);
+                });
+            });
+        };
+
+        window.uploadJumantikPhoto = function (input, wire) {
+            const file = input.files && input.files[0];
+            if (!file) {
+                return Promise.resolve();
+            }
+
+            return window.compressJumantikPhoto(file)
+                .catch(function () { return file; })
+                .then(function (photo) {
+                    return new Promise(function (resolve, reject) {
+                        wire.upload('photo', photo, resolve, reject);
+                    });
+                })
+                .finally(function () {
+                    input.value = '';
+                });
+        };
+    </script>
+    @endassets
     <div class="w-full text-center py-4">
         <h1 class="font-bold text-lg">Laporan Mandiri Jumantik</h1>
         <ul class="steps my-4">
@@ -77,18 +127,27 @@
                 <div class="label">
                     <span class="label-text">Foto</span>
                 </div>
-                <input type="file" accept="image/*" class="input input-bordered w-full" wire:model="photo" />
+                <input
+                    type="file"
+                    accept="image/*"
+                    class="input input-bordered w-full"
+                    x-on:change="compressing = true; window.uploadJumantikPhoto($event.target, $wire).finally(() => compressing = false)"
+                    x-bind:disabled="compressing"
+                />
+                <div class="label">
+                    <span class="label-text-alt" x-show="compressing" style="display: none">Mengompres foto...</span>
+                </div>
                 @error('photo')
                 <div class="label">
                     <span class="label-text-alt text-error">{{ $message }}</span>
                 </div>
                 @enderror
             </label>
-            <div wire:loading><x-loading /></div>
+            <div wire:loading wire:target="photo"><x-loading /></div>
             @if ($photo)
                 <img src="{{ $photo->temporaryUrl() }}" width="300px">
             @endif
-            <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4">Lanjut</button>
+            <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4" x-bind:disabled="compressing" wire:loading.attr="disabled" wire:target="photo">Lanjut</button>
         @else
             <h3>Konfirmasi Laporan Mandiri Jumantik</h3>
             <table>

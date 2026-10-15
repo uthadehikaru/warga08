@@ -33,7 +33,9 @@ it('shows the jumantik form', function () {
         ->assertSee('Apakah ditemukan jentik?')
         ->assertSee('Ya')
         ->assertSee('Tidak')
-        ->assertSee('Foto');
+        ->assertSee('Foto')
+        ->assertSee('compressJumantikPhoto', false)
+        ->assertSee('Mengompres foto', false);
 });
 
 it('lets a resident submit jumantik information', function () {
@@ -88,6 +90,29 @@ it('notifies assigned rt after jumantik is submitted and cc rw', function () {
     });
     Notification::assertNotSentTo($rw, JumantikCreated::class);
     Notification::assertNotSentTo($otherRt, JumantikCreated::class);
+});
+
+it('compresses large jumantik photos before storing them', function () {
+    $photo = UploadedFile::fake()->image('jentik.png', 2400, 1800);
+
+    Livewire::test(JumantikForm::class)
+        ->set('form.rt', 1)
+        ->set('form.name', 'Siti Aminah')
+        ->set('form.phone', '081234567890')
+        ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'ya')
+        ->set('photo', $photo)
+        ->call('next')
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    $jumantik = Jumantik::first();
+    [$width, $height, $type] = getimagesize(Storage::disk('public')->path($jumantik->photo));
+
+    expect($width)->toBe(1600)
+        ->and($height)->toBe(1200)
+        ->and($type)->toBe(IMAGETYPE_JPEG)
+        ->and($jumantik->photo)->toEndWith('.jpg');
 });
 
 it('requires phone, address, and photo', function () {
