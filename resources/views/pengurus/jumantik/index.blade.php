@@ -23,6 +23,13 @@
         </label>
     </form>
     @endif
+    <div class="stats shadow w-full mb-2">
+        <div class="stat">
+            <div class="stat-title">Total data</div>
+            <div class="stat-value text-info">{{ $reports->total() }}</div>
+            <div class="stat-desc">{{ $selectedRt ? 'RT. '.$selectedRt : ($rts->isEmpty() ? 'RT. '.auth()->user()->rt : 'Semua RT') }}</div>
+        </div>
+    </div>
     <x-alert />
     @forelse ($reports as $report)
     <div class="collapse border mt-1 border-blue-500">

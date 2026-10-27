@@ -170,7 +170,9 @@ it('lets rw pengurus filter jumantik reports by rt', function () {
         ->assertSee('Semua RT')
         ->assertSee('RT. 2 - '.$rtTwo->name, false)
         ->assertSee('Warga RT 1')
-        ->assertSee('Warga RT 2');
+        ->assertSee('Warga RT 2')
+        ->assertSee('Total data')
+        ->assertSee('stat-value text-info">17', false);
 
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.index', ['rt' => 2]))
@@ -179,7 +181,15 @@ it('lets rw pengurus filter jumantik reports by rt', function () {
         ->assertSee('value="2" selected', false)
         ->assertSee('Warga RT 2')
         ->assertDontSee('Warga RT 1')
-        ->assertSee('rt=2', false);
+        ->assertSee('rt=2', false)
+        ->assertSee('stat-value text-info">16', false)
+        ->assertSee('stat-desc">RT. 2', false);
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['rt' => 3]))
+        ->assertOk()
+        ->assertSee('Belum ada laporan untuk RT. 3')
+        ->assertSee('stat-value text-info">0', false);
 
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.index', ['rt' => 99]))
@@ -226,7 +236,10 @@ it('lets rt pengurus see only jumantik reports from their rt', function () {
         ->assertSee('Warga RT 1')
         ->assertDontSee('Warga RT 2')
         ->assertDontSee('Tampilkan data per RT')
-        ->assertDontSee('Semua RT');
+        ->assertDontSee('Semua RT')
+        ->assertSee('Total data')
+        ->assertSee('stat-value text-info">1', false)
+        ->assertSee('stat-desc">RT. 1', false);
 });
 
 it('lets pengurus delete a jumantik report', function () {
