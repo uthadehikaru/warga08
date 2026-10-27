@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Resources\JumantikResource\Pages\ListJumantiks;
 use App\Livewire\JumantikForm;
 use App\Models\Jumantik;
 use App\Models\User;
@@ -9,6 +10,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->seed(UserSeeder::class);
@@ -145,6 +148,66 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
         ->assertDontSee('NIK');
 });
 
+it('lets rw pengurus filter jumantik reports by rt', function () {
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Warga RT 1',
+        'created_at' => now(),
+    ]);
+    Jumantik::factory()->count(16)->create([
+        'rt' => 2,
+        'name' => 'Warga RT 2',
+        'created_at' => now()->subMinute(),
+    ]);
+
+    $rw = User::rw()->first();
+    $rtTwo = User::rt()->where('rt', 2)->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Tampilkan data per RT')
+        ->assertSee('Semua RT')
+        ->assertSee('RT. 2 - '.$rtTwo->name, false)
+        ->assertSee('Warga RT 1')
+        ->assertSee('Warga RT 2');
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['rt' => 2]))
+        ->assertOk()
+        ->assertSee('Laporan Mandiri Jumantik - RT. 2')
+        ->assertSee('value="2" selected', false)
+        ->assertSee('Warga RT 2')
+        ->assertDontSee('Warga RT 1')
+        ->assertSee('rt=2', false);
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['rt' => 99]))
+        ->assertOk()
+        ->assertSee('Warga RT 1')
+        ->assertSee('Warga RT 2')
+        ->assertDontSee('RT. 99');
+});
+
+it('lets admin filter the jumantik table by rt', function () {
+    $rtOne = Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Warga RT 1',
+    ]);
+    $rtTwo = Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Warga RT 2',
+    ]);
+
+    $this->actingAs(User::where('role', 'admin')->first());
+
+    livewire(ListJumantiks::class)
+        ->assertCanSeeTableRecords([$rtOne, $rtTwo])
+        ->filterTable('rt', '2')
+        ->assertCanSeeTableRecords([$rtTwo])
+        ->assertCanNotSeeTableRecords([$rtOne]);
+});
+
 it('lets rt pengurus see only jumantik reports from their rt', function () {
     Jumantik::factory()->create([
         'rt' => 1,
@@ -158,10 +221,12 @@ it('lets rt pengurus see only jumantik reports from their rt', function () {
     $rt = User::rt()->where('rt', 1)->first();
 
     $this->actingAs($rt)
-        ->get(route('pengurus.jumantik.index'))
+        ->get(route('pengurus.jumantik.index', ['rt' => 2]))
         ->assertOk()
         ->assertSee('Warga RT 1')
-        ->assertDontSee('Warga RT 2');
+        ->assertDontSee('Warga RT 2')
+        ->assertDontSee('Tampilkan data per RT')
+        ->assertDontSee('Semua RT');
 });
 
 it('lets pengurus delete a jumantik report', function () {
