@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\JumantikResource\Pages;
 use App\Models\Jumantik;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -88,7 +89,13 @@ class JumantikResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('rt')
+                    ->label('RT')
+                    ->options(fn (): array => User::rt()
+                        ->orderBy('rt')
+                        ->get()
+                        ->mapWithKeys(fn (User $user) => [$user->rt => 'RT. '.$user->rt.' - '.$user->name])
+                        ->all()),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
