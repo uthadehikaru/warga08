@@ -219,6 +219,105 @@ it('lets rw pengurus filter jumantik reports by rt', function () {
         ->assertDontSee('RT. 99');
 });
 
+it('shows jentik totals and filters the list when a total is selected', function () {
+    Jumantik::factory()->count(2)->create([
+        'rt' => 1,
+        'name' => 'Ada Jentik',
+        'has_jentik' => true,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Tanpa Jentik',
+        'has_jentik' => false,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Jentik RT 2',
+        'has_jentik' => true,
+    ]);
+
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Ditemukan jentik')
+        ->assertSee('Tidak ditemukan')
+        ->assertSee('stat-value text-info">4', false)
+        ->assertSee('stat-value text-error">3', false)
+        ->assertSee('stat-value">1', false)
+        ->assertSee(route('pengurus.jumantik.index', ['jentik' => 'ya']), false)
+        ->assertSee(route('pengurus.jumantik.index', ['jentik' => 'tidak']), false)
+        ->assertSee('Ada Jentik')
+        ->assertSee('Tanpa Jentik')
+        ->assertSee('Jentik RT 2');
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['jentik' => 'ya']))
+        ->assertOk()
+        ->assertSee('Ada Jentik')
+        ->assertSee('Jentik RT 2')
+        ->assertDontSee('Tanpa Jentik')
+        ->assertSee('stat-value text-info">4', false)
+        ->assertSee('stat-value text-error">3', false)
+        ->assertSee('sedang ditampilkan')
+        ->assertSee('name="jentik" value="ya"', false);
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['jentik' => 'tidak']))
+        ->assertOk()
+        ->assertSee('Tanpa Jentik')
+        ->assertDontSee('Ada Jentik')
+        ->assertDontSee('Jentik RT 2');
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['rt' => 2, 'jentik' => 'ya']))
+        ->assertOk()
+        ->assertSee('Jentik RT 2')
+        ->assertDontSee('Ada Jentik')
+        ->assertDontSee('Tanpa Jentik')
+        ->assertSee('stat-value text-info">1', false)
+        ->assertSee('stat-value text-error">1', false)
+        ->assertSee('stat-value">0', false)
+        ->assertSee(route('pengurus.jumantik.index', ['rt' => 2]), false);
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index', ['jentik' => 'semua']))
+        ->assertOk()
+        ->assertSee('Ada Jentik')
+        ->assertSee('Tanpa Jentik');
+});
+
+it('filters an rt pengurus jumantik list by jentik within their rt', function () {
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Jentik RT 1',
+        'has_jentik' => true,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Bersih RT 1',
+        'has_jentik' => false,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Jentik RT 2',
+        'has_jentik' => true,
+    ]);
+
+    $rt = User::rt()->where('rt', 1)->first();
+
+    $this->actingAs($rt)
+        ->get(route('pengurus.jumantik.index', ['jentik' => 'ya']))
+        ->assertOk()
+        ->assertSee('Jentik RT 1')
+        ->assertDontSee('Bersih RT 1')
+        ->assertDontSee('Jentik RT 2')
+        ->assertSee('stat-value text-info">2', false)
+        ->assertSee('stat-value text-error">1', false)
+        ->assertSee('stat-value">1', false);
+});
+
 it('lets admin filter the jumantik table by rt', function () {
     $rtOne = Jumantik::factory()->create([
         'rt' => 1,

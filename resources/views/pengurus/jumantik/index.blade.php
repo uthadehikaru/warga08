@@ -15,20 +15,37 @@
                     <option value="{{ $row->rt }}" @selected($selectedRt === (int) $row->rt)>RT. {{ $row->rt }} - {{ $row->name }}</option>
                     @endforeach
                 </select>
+                @if($selectedJentik)
+                <input type="hidden" name="jentik" value="{{ $selectedJentik }}">
+                @endif
                 <button type="submit" class="btn btn-primary join-item">Tampilkan</button>
                 @if($selectedRt)
-                <a href="{{ route('pengurus.jumantik.index') }}" class="btn btn-outline join-item">Reset</a>
+                <a href="{{ route('pengurus.jumantik.index', array_filter(['jentik' => $selectedJentik])) }}" class="btn btn-outline join-item">Reset</a>
                 @endif
             </div>
         </label>
     </form>
     @endif
+    @php
+        $rtQuery = $selectedRt ? ['rt' => $selectedRt] : [];
+        $scopeLabel = $selectedRt ? 'RT. '.$selectedRt : ($rts->isEmpty() ? 'RT. '.auth()->user()->rt : 'Semua RT');
+    @endphp
     <div class="stats shadow w-full mb-2">
-        <div class="stat">
+        <a href="{{ route('pengurus.jumantik.index', $rtQuery) }}" @class(['stat no-underline', 'bg-base-200' => $selectedJentik === null])>
             <div class="stat-title">Total data</div>
-            <div class="stat-value text-info">{{ $reports->total() }}</div>
-            <div class="stat-desc">{{ $selectedRt ? 'RT. '.$selectedRt : ($rts->isEmpty() ? 'RT. '.auth()->user()->rt : 'Semua RT') }}</div>
-        </div>
+            <div class="stat-value text-info">{{ $totalReports }}</div>
+            <div class="stat-desc">{{ $scopeLabel }}</div>
+        </a>
+        <a href="{{ route('pengurus.jumantik.index', $rtQuery + ['jentik' => 'ya']) }}" @class(['stat no-underline', 'bg-base-200' => $selectedJentik === 'ya'])>
+            <div class="stat-title text-error">Ditemukan jentik</div>
+            <div class="stat-value text-error">{{ $totalWithJentik }}</div>
+            <div class="stat-desc">{{ $selectedJentik === 'ya' ? 'sedang ditampilkan' : 'klik untuk filter' }}</div>
+        </a>
+        <a href="{{ route('pengurus.jumantik.index', $rtQuery + ['jentik' => 'tidak']) }}" @class(['stat no-underline', 'bg-base-200' => $selectedJentik === 'tidak'])>
+            <div class="stat-title">Tidak ditemukan</div>
+            <div class="stat-value">{{ $totalWithoutJentik }}</div>
+            <div class="stat-desc">{{ $selectedJentik === 'tidak' ? 'sedang ditampilkan' : 'klik untuk filter' }}</div>
+        </a>
     </div>
     <x-alert />
     @forelse ($reports as $report)
@@ -63,7 +80,21 @@
         </div>
     </div>
     @empty
-    <p class="italic text-primary">{{ $selectedRt ? 'Belum ada laporan untuk RT. '.$selectedRt : 'Belum ada Laporan Mandiri Jumantik' }}</p>
+    <p class="italic text-primary">
+        @if($selectedJentik === 'ya' && $selectedRt)
+        Belum ada laporan ditemukan jentik untuk RT. {{ $selectedRt }}
+        @elseif($selectedJentik === 'tidak' && $selectedRt)
+        Belum ada laporan tanpa jentik untuk RT. {{ $selectedRt }}
+        @elseif($selectedJentik === 'ya')
+        Belum ada laporan ditemukan jentik
+        @elseif($selectedJentik === 'tidak')
+        Belum ada laporan tanpa jentik
+        @elseif($selectedRt)
+        Belum ada laporan untuk RT. {{ $selectedRt }}
+        @else
+        Belum ada Laporan Mandiri Jumantik
+        @endif
+    </p>
     @endforelse
     {!! $reports->links() !!}
 </div>

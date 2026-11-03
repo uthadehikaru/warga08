@@ -31,9 +31,25 @@ class JumantikController extends Controller
             }
         }
 
+        $selectedJentik = match ($request->query('jentik')) {
+            'ya', 'tidak' => $request->query('jentik'),
+            default => null,
+        };
+
+        $data['totalReports'] = (clone $reports)->count();
+        $data['totalWithJentik'] = (clone $reports)->where('has_jentik', true)->count();
+        $data['totalWithoutJentik'] = (clone $reports)->where('has_jentik', false)->count();
+
+        if ($selectedJentik === 'ya') {
+            $reports->where('has_jentik', true);
+        } elseif ($selectedJentik === 'tidak') {
+            $reports->where('has_jentik', false);
+        }
+
         $data['reports'] = $reports->paginate()->withQueryString();
         $data['rts'] = $rts;
         $data['selectedRt'] = $selectedRt;
+        $data['selectedJentik'] = $selectedJentik;
 
         return view('pengurus.jumantik.index', $data);
     }
