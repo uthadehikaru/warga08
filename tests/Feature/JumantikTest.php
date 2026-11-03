@@ -129,6 +129,7 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
     Jumantik::factory()->create([
         'rt' => 1,
         'name' => 'Siti Aminah',
+        'has_jentik' => true,
     ]);
 
     $rw = User::rw()->first();
@@ -145,7 +146,26 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
         ->assertSee('Laporan Mandiri Jumantik')
         ->assertSee('Siti Aminah')
         ->assertSee('Ditemukan jentik')
+        ->assertSee('badge-error', false)
+        ->assertSee('border-error', false)
         ->assertDontSee('NIK');
+});
+
+it('does not mark jumantik reports without jentik in red', function () {
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Budi Santoso',
+        'has_jentik' => false,
+    ]);
+
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Budi Santoso')
+        ->assertSee('Ditemukan jentik : Tidak', false)
+        ->assertDontSee('badge-error', false);
 });
 
 it('lets rw pengurus filter jumantik reports by rt', function () {

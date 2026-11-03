@@ -80,9 +80,11 @@ class JumantikResource extends Resource
                     ->label('Alamat')
                     ->searchable()
                     ->limit(40),
-                Tables\Columns\IconColumn::make('has_jentik')
+                Tables\Columns\TextColumn::make('has_jentik')
                     ->label('Jentik')
-                    ->boolean(),
+                    ->badge()
+                    ->formatStateUsing(fn (bool $state): string => $state ? 'Ditemukan jentik' : 'Tidak')
+                    ->color(fn (bool $state): string => $state ? 'danger' : 'gray'),
                 Tables\Columns\ImageColumn::make('photo')
                     ->label('Foto')
                     ->disk('public'),

@@ -32,15 +32,24 @@
     </div>
     <x-alert />
     @forelse ($reports as $report)
-    <div class="collapse border mt-1 border-blue-500">
+    <div @class([
+        'collapse border mt-1',
+        'border-error' => $report->has_jentik,
+        'border-blue-500' => ! $report->has_jentik,
+    ])>
         <input type="radio" name="my-accordion-1" />
-        <div class="collapse-title text-md">{{ $report->created_at->format('d M Y') }} - RT. {{ $report->rt }} - {{ $report->name }}</div>
+        <div class="collapse-title text-md">
+            {{ $report->created_at->format('d M Y') }} - RT. {{ $report->rt }} - {{ $report->name }}
+            @if($report->has_jentik)
+            <span class="badge badge-error badge-sm ml-1">Ditemukan jentik</span>
+            @endif
+        </div>
         <div class="collapse-content">
             <p>RT : {{ $report->rt }}</p>
             <p>Nama : {{ $report->name }}</p>
             <p>Telp : {{ $report->phone }}</p>
             <p>Alamat : {{ $report->address }}</p>
-            <p>Ditemukan jentik : {{ $report->has_jentik ? 'Ya' : 'Tidak' }}</p>
+            <p @class(['text-error font-semibold' => $report->has_jentik])>Ditemukan jentik : {{ $report->has_jentik ? 'Ya' : 'Tidak' }}</p>
             @if($report->photo)
             <p>Foto : <img src="{{ Storage::disk('public')->url($report->photo) }}" width="300px" /></p>
             @endif
