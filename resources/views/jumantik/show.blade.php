@@ -8,6 +8,9 @@
     <p>Telp : {{ $jumantik->phone }}</p>
     <p>Alamat : {{ $jumantik->address }}</p>
     <p>Ditemukan jentik : {{ $jumantik->has_jentik ? 'Ya' : 'Tidak' }}</p>
+    @if($jumantik->latitude !== null && $jumantik->longitude !== null)
+    <p>Koordinat : {{ $jumantik->latitude }}, {{ $jumantik->longitude }}</p>
+    @endif
     @if($jumantik->photo)
     <p>Foto : <img src="{{ Storage::disk('public')->url($jumantik->photo) }}" width="300px" /></p>
     @endif

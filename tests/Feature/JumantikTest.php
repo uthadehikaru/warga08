@@ -65,7 +65,9 @@ it('lets a resident submit jumantik information', function () {
         ->and($jumantik->address)->toBe('Jl. Haji Kelik No. 10')
         ->and($jumantik->has_jentik)->toBeTrue()
         ->and($jumantik->rt)->toBe(1)
-        ->and($jumantik->nik)->toBeNull();
+        ->and($jumantik->nik)->toBeNull()
+        ->and($jumantik->latitude)->toBeNull()
+        ->and($jumantik->longitude)->toBeNull();
 
     Storage::disk('public')->assertExists($jumantik->photo);
 });
@@ -398,4 +400,110 @@ it('does not let rt pengurus delete jumantik reports from another rt', function 
         ->assertForbidden();
 
     expect(Jumantik::find($report->id))->not->toBeNull();
+});
+
+it('requests a device location and stores the coordinate before submit', function () {
+    $this->get(route('jumantik.create'))
+        ->assertOk()
+        ->assertSee('navigator.geolocation', false)
+        ->assertSee('Ambil lokasi')
+        ->assertSee('Koordinat')
+        ->assertSee('Lokasi belum tersedia');
+
+    $photo = UploadedFile::fake()->image('jentik.jpg');
+
+    Livewire::test(JumantikForm::class)
+        ->set('form.rt', 1)
+        ->set('form.name', 'Siti Aminah')
+        ->set('form.phone', '081234567890')
+        ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'tidak')
+        ->set('form.latitude', -6.5)
+        ->set('form.longitude', 106.5)
+        ->set('photo', $photo)
+        ->call('next')
+        ->assertHasNoErrors()
+        ->assertSee('-6.5000000', false)
+        ->assertSee('106.5000000', false)
+        ->call('submit')
+        ->assertHasNoErrors()
+        ->assertRedirect();
+
+    $jumantik = Jumantik::first();
+    expect($jumantik->latitude)->toBe('-6.5000000')
+        ->and($jumantik->longitude)->toBe('106.5000000');
+
+    $this->get(route('jumantik.show', $jumantik))
+        ->assertOk()
+        ->assertSee('-6.5000000');
+});
+
+it('rejects an invalid or incomplete jumantik coordinate', function () {
+    $photo = UploadedFile::fake()->image('jentik.jpg');
+
+    Livewire::test(JumantikForm::class)
+        ->set('form.rt', 1)
+        ->set('form.name', 'Siti Aminah')
+        ->set('form.phone', '081234567890')
+        ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'ya')
+        ->set('form.latitude', 120)
+        ->set('form.longitude', 106.5)
+        ->set('photo', $photo)
+        ->call('next')
+        ->assertHasErrors(['form.latitude']);
+
+    Livewire::test(JumantikForm::class)
+        ->set('form.rt', 1)
+        ->set('form.name', 'Siti Aminah')
+        ->set('form.phone', '081234567890')
+        ->set('form.address', 'Jl. Haji Kelik No. 10')
+        ->set('form.has_jentik', 'ya')
+        ->set('form.latitude', -6.5)
+        ->set('form.longitude', null)
+        ->set('photo', $photo)
+        ->call('next')
+        ->assertHasErrors(['form.longitude']);
+});
+
+it('lets pengurus save a default coordinate for an rt', function () {
+    $rt = User::rt()->where('rt', 1)->first();
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.rt.edit', $rt))
+        ->assertOk()
+        ->assertSee('Latitude')
+        ->assertSee('Longitude')
+        ->assertSee('Koordinat default RT')
+        ->assertSee('navigator.geolocation', false);
+
+    $this->actingAs($rw)
+        ->put(route('pengurus.rt.update', $rt), [
+            'name' => $rt->name,
+            'email' => $rt->email,
+            'phone' => $rt->phone,
+            'address' => $rt->address,
+            'latitude' => -6.5,
+            'longitude' => 106.5,
+        ])
+        ->assertRedirect(route('pengurus.rt.index'));
+
+    expect($rt->refresh()->latitude)->toBe('-6.5000000')
+        ->and($rt->longitude)->toBe('106.5000000');
+
+    $this->actingAs($rw)
+        ->put(route('pengurus.rt.update', $rt), [
+            'name' => $rt->name,
+            'email' => $rt->email,
+            'phone' => $rt->phone,
+            'address' => $rt->address,
+            'latitude' => -6.5,
+        ])
+        ->assertSessionHasErrors('longitude');
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.rt.index'))
+        ->assertOk()
+        ->assertSee('-6.5000000');
 });

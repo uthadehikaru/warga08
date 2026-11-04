@@ -15,7 +15,8 @@ class RtController extends Controller
     {
         $data['rw'] = User::rw()->first();
         $data['rt'] = User::rt()->orderBy('rt')->get();
-        return view('pengurus.rt.index',$data);
+
+        return view('pengurus.rt.index', $data);
     }
 
     /**
@@ -49,6 +50,7 @@ class RtController extends Controller
     {
         $user = User::findOrFail($user_id);
         $data['user'] = $user;
+
         return view('pengurus.rt.form', $data);
     }
 
@@ -58,15 +60,28 @@ class RtController extends Controller
     public function update(Request $request, string $user_id)
     {
         $user = User::findOrFail($user_id);
-        $data = $request->validate([
+        $rules = [
             'name' => 'required|min:3|max:255',
             'email' => 'required|email',
             'phone' => 'required|numeric',
             'address' => 'required',
-        ]);
+        ];
+
+        if ($user->role === 'rt') {
+            $rules['latitude'] = 'nullable|required_with:longitude|numeric|between:-90,90';
+            $rules['longitude'] = 'nullable|required_with:latitude|numeric|between:-180,180';
+        }
+
+        $data = $request->validate($rules);
+
+        if ($user->role === 'rt') {
+            $data['latitude'] = $request->filled('latitude') ? round((float) $request->input('latitude'), 7) : null;
+            $data['longitude'] = $request->filled('longitude') ? round((float) $request->input('longitude'), 7) : null;
+        }
 
         $user->update($data);
-        return redirect()->route('pengurus.rt.index')->with('message','Data diperbaharui');
+
+        return redirect()->route('pengurus.rt.index')->with('message', 'Data diperbaharui');
     }
 
     /**

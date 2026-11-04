@@ -1,4 +1,27 @@
-<div x-data="{ compressing: false }">
+<div x-data="{
+    compressing: false,
+    locating: false,
+    locationMessage: '',
+    requestLocation() {
+        if (!navigator.geolocation) {
+            this.locating = false;
+            this.locationMessage = 'Peramban tidak mendukung lokasi.';
+            return;
+        }
+
+        this.locating = true;
+        this.locationMessage = 'Meminta izin lokasi...';
+        navigator.geolocation.getCurrentPosition((position) => {
+            $wire.set('form.latitude', Number(position.coords.latitude.toFixed(7)));
+            $wire.set('form.longitude', Number(position.coords.longitude.toFixed(7)));
+            this.locating = false;
+            this.locationMessage = '';
+        }, () => {
+            this.locating = false;
+            this.locationMessage = 'Lokasi tidak diizinkan. Laporan tetap bisa dikirim.';
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+    }
+}" x-init="requestLocation()">
     @assets
     <script>
         window.compressJumantikPhoto = function (file) {
@@ -147,6 +170,7 @@
             @if ($photo)
                 <img src="{{ $photo->temporaryUrl() }}" width="300px">
             @endif
+            @include('livewire.jumantik.location')
             <button type="button" wire:click="next" class="btn btn-outline btn-primary mb-4" x-bind:disabled="compressing" wire:loading.attr="disabled" wire:target="photo">Lanjut</button>
         @else
             <h3>Konfirmasi Laporan Mandiri Jumantik</h3>
@@ -171,6 +195,16 @@
                     <td width="5%" class="align-top">Ditemukan jentik</td>
                     <td>: {{ $form['has_jentik'] == 'ya' ? 'Ya' : 'Tidak' }}</td>
                 </tr>
+                <tr>
+                    <td width="5%" class="align-top">Koordinat</td>
+                    <td>:
+                        @if(filled($form['latitude']) && filled($form['longitude']))
+                            {{ number_format((float) $form['latitude'], 7, '.', '') }}, {{ number_format((float) $form['longitude'], 7, '.', '') }}
+                        @else
+                            belum tersedia
+                        @endif
+                    </td>
+                </tr>
                 @if($photo)
                 <tr>
                     <td width="5%" class="align-top">Foto</td>
@@ -178,6 +212,7 @@
                 </tr>
                 @endif
             </table>
+            @include('livewire.jumantik.location')
             <button type="submit" class="btn btn-outline btn-primary">Kirim Data
                 <div wire:loading>
                 <span class="loading loading-spinner loading-xs"></span>

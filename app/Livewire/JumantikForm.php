@@ -30,6 +30,8 @@ class JumantikForm extends Component
             'phone' => '',
             'address' => '',
             'has_jentik' => '',
+            'latitude' => null,
+            'longitude' => null,
         ];
     }
 
@@ -41,6 +43,8 @@ class JumantikForm extends Component
             'form.phone' => 'required|numeric',
             'form.address' => 'required|min:3|max:255',
             'form.has_jentik' => 'required|in:ya,tidak',
+            'form.latitude' => 'nullable|required_with:form.longitude|numeric|between:-90,90',
+            'form.longitude' => 'nullable|required_with:form.latitude|numeric|between:-180,180',
         ];
 
         if ($this->step >= 1) {
@@ -69,6 +73,13 @@ class JumantikForm extends Component
         $jumantik = $data['form'];
         $jumantik['has_jentik'] = $jumantik['has_jentik'] === 'ya';
         $jumantik['photo'] = $this->storePhoto();
+        $jumantik['latitude'] = $this->coordinate($jumantik['latitude'] ?? null);
+        $jumantik['longitude'] = $this->coordinate($jumantik['longitude'] ?? null);
+
+        if ($jumantik['latitude'] === null || $jumantik['longitude'] === null) {
+            $jumantik['latitude'] = null;
+            $jumantik['longitude'] = null;
+        }
 
         $jumantik = Jumantik::create($jumantik);
 
@@ -78,6 +89,15 @@ class JumantikForm extends Component
         }
 
         $this->redirect(route('jumantik.show', $jumantik->id));
+    }
+
+    private function coordinate(mixed $value): ?float
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return round((float) $value, 7);
     }
 
     private function storePhoto(): string

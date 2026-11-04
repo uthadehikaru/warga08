@@ -19,6 +19,13 @@
             <p>email : {{ $row->email }}</p>
             <p>telp : {{ $row->phone }}</p>
             <p>sekretariat : {{ $row->address }}</p>
+            <p>koordinat :
+                @if($row->latitude !== null && $row->longitude !== null)
+                {{ $row->latitude }}, {{ $row->longitude }}
+                @else
+                belum diatur
+                @endif
+            </p>
             <a href="{{ route('pengurus.rt.edit', $row->id) }}" class="text-warning underline">Ubah data</a>
         </div>
     </div>

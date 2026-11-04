@@ -22,6 +22,8 @@ class JumantikFactory extends Factory
             'phone' => fake()->numerify('08##########'),
             'address' => fake()->address(),
             'has_jentik' => fake()->boolean(),
+            'latitude' => null,
+            'longitude' => null,
             'photo' => 'jumantik/sample.jpg',
         ];
     }

@@ -12,5 +12,7 @@ class Jumantik extends Model
     protected $casts = [
         'rt' => 'integer',
         'has_jentik' => 'boolean',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 }

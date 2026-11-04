@@ -25,6 +25,8 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'latitude',
+        'longitude',
     ];
 
     /**
@@ -46,44 +48,46 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'birth_date' => 'date',
         'password' => 'hashed',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 
-    public static function religion():array
+    public static function religion(): array
     {
-        return ['islam','kristen','protestan','hindu','budha','konghucu'];
+        return ['islam', 'kristen', 'protestan', 'hindu', 'budha', 'konghucu'];
     }
 
-    public function scopeRt($query):void
+    public function scopeRt($query): void
     {
-        $query->where('role','rt');
+        $query->where('role', 'rt');
     }
 
-    public function scopeWarga($query):void
+    public function scopeWarga($query): void
     {
         $query->whereNotNull('nik');
     }
 
-    public function scopeRw($query):void
+    public function scopeRw($query): void
     {
-        $query->where('role','rw');
+        $query->where('role', 'rw');
     }
 
-    public function scopePosyandu($query):void
+    public function scopePosyandu($query): void
     {
         $query->where('role', 'posyandu');
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role=='admin';
+        return $this->role == 'admin';
     }
 
-    public function getAgeAttribute():int
+    public function getAgeAttribute(): int
     {
         return now()->diffInYears($this->birth_date);
     }
 
-    public function healthRecord():HasOne
+    public function healthRecord(): HasOne
     {
         return $this->hasOne(HealthRecord::class);
     }
