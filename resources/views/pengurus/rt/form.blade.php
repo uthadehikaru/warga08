@@ -58,7 +58,7 @@
         </div>
         @enderror
     </label>
-    <p class="text-sm max-w-xs mt-1">Koordinat default RT. Laporan jumantik tanpa lokasi akan memakai titik ini di peta.</p>
+    <p class="text-sm max-w-xs mt-1">Rumah RT. Laporan jumantik tanpa lokasi akan memakai titik ini di peta.</p>
     <button type="button" class="btn btn-outline btn-sm mt-2" onclick="fillRtLocation(this)">Gunakan lokasi saat ini</button>
     <p id="rt-location-status" class="text-sm mt-1"></p>
     <script>

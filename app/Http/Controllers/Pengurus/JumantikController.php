@@ -52,7 +52,6 @@ class JumantikController extends Controller
         });
 
         $data['points'] = $rows->pluck('point')->filter()->values();
-        $data['unmapped'] = $rows->filter(fn (array $row) => $row['point'] === null)->pluck('report');
         $data['totalReports'] = $rows->count();
         $data['rts'] = $rts;
         $data['selectedRt'] = $selectedRt;

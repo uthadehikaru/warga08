@@ -475,7 +475,7 @@ it('lets pengurus save a default coordinate for an rt', function () {
         ->assertOk()
         ->assertSee('Latitude')
         ->assertSee('Longitude')
-        ->assertSee('Koordinat default RT')
+        ->assertSee('Rumah RT')
         ->assertSee('navigator.geolocation', false);
 
     $this->actingAs($rw)
@@ -571,8 +571,11 @@ it('shows jumantik on a map and uses the rt coordinate when a report has none', 
         ->assertSee('Titik RT Lain')
         ->assertSee('-6.5', false)
         ->assertSee('-6.25', false)
-        ->assertSee('Koordinat default RT', false)
-        ->assertSee('Tanpa Titik Sama Sekali');
+        ->assertSee('Rumah RT', false)
+        ->assertDontSee('Angka pada peta adalah jumlah laporan')
+        ->assertSee('majorityJentik', false)
+        ->assertDontSee('Tanpa koordinat')
+        ->assertDontSee('Tanpa Titik Sama Sekali');
 
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.map', ['rt' => 1, 'jentik' => 'ya']))

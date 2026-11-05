@@ -33,23 +33,12 @@
     <div class="flex flex-wrap gap-3 text-sm pb-2">
         <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#dc2626"></span> Ditemukan jentik</span>
         <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full" style="background:#2563eb"></span> Tidak ditemukan</span>
-        <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full border border-base-content" style="background:#2563eb;opacity:.45"></span> Koordinat default RT</span>
-        <span>Angka pada peta adalah jumlah laporan saat tampilan dijauhkan.</span>
+        <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full border border-base-content" style="background:#2563eb;opacity:.45"></span> Rumah RT</span>
     </div>
     @if($points->isEmpty())
     <p class="italic text-primary pb-2">Belum ada laporan dengan koordinat.</p>
     @endif
     <div id="jumantik-map" class="jumantik-map rounded-lg border border-base-300"></div>
-    @if($unmapped->isNotEmpty())
-    <div class="pt-3">
-        <p class="font-semibold text-sm">Tanpa koordinat</p>
-        <ul class="text-sm list-disc pl-5">
-            @foreach($unmapped as $report)
-            <li>{{ $report->name }} - RT. {{ $report->rt }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
 </div>
 @endsection
 @push('scripts')
@@ -95,7 +84,7 @@
 
     function popupHtml(point) {
         const jentik = point.has_jentik ? 'Ditemukan jentik' : 'Tidak ditemukan jentik';
-        const source = point.source === 'rt' ? 'Koordinat default RT' : 'Koordinat laporan';
+        const source = point.source === 'rt' ? 'Rumah RT' : 'Koordinat laporan';
         return '<strong>' + escapeHtml(point.name) + '</strong><br>RT. ' + escapeHtml(point.rt)
             + '<br>' + escapeHtml(point.address)
             + '<br>' + escapeHtml(point.created_at)
@@ -120,13 +109,15 @@
         iconCreateFunction: function (group) {
             const children = group.getAllChildMarkers();
             const total = children.length;
-            const hasJentik = children.some(function (marker) {
+            const withJentik = children.filter(function (marker) {
                 return marker.options.jumantikJentik;
-            });
+            }).length;
+            const withoutJentik = total - withJentik;
+            const majorityJentik = withJentik > withoutJentik;
             const size = total >= 100 ? 52 : (total >= 10 ? 44 : 36);
 
             return L.divIcon({
-                html: '<div class="jumantik-cluster' + (hasJentik ? ' has-jentik' : '') + '" style="width:' + size + 'px;height:' + size + 'px;font-size:' + (total >= 100 ? 16 : 14) + 'px"><span>' + total + '</span></div>',
+                html: '<div class="jumantik-cluster' + (majorityJentik ? ' has-jentik' : '') + '" style="width:' + size + 'px;height:' + size + 'px;font-size:' + (total >= 100 ? 16 : 14) + 'px"><span>' + total + '</span></div>',
                 className: 'jumantik-cluster-wrap',
                 iconSize: [size, size],
             });
