@@ -507,3 +507,112 @@ it('lets pengurus save a default coordinate for an rt', function () {
         ->assertOk()
         ->assertSee('-6.5000000');
 });
+
+it('shows jumantik on a map and uses the rt coordinate when a report has none', function () {
+    User::rt()->where('rt', 1)->first()->update([
+        'latitude' => -6.25,
+        'longitude' => 106.25,
+    ]);
+
+    $own = Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Titik Sendiri',
+        'latitude' => -6.5,
+        'longitude' => 106.5,
+        'has_jentik' => true,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Titik RT',
+        'latitude' => null,
+        'longitude' => null,
+        'has_jentik' => false,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Titik RT Lain',
+        'latitude' => -6.8,
+        'longitude' => 106.8,
+        'has_jentik' => false,
+    ]);
+    User::rt()->where('rt', 3)->first()->update([
+        'latitude' => null,
+        'longitude' => null,
+    ]);
+    Jumantik::factory()->create([
+        'rt' => 3,
+        'name' => 'Tanpa Titik Sama Sekali',
+        'latitude' => null,
+        'longitude' => null,
+    ]);
+
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Lihat di peta')
+        ->assertSee('-6.5000000')
+        ->assertSee('-6.2500000')
+        ->assertSee('(default RT)', false)
+        ->assertSee('belum ada')
+        ->assertSee(route('pengurus.jumantik.map', ['focus' => $own->id]), false);
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.map'))
+        ->assertOk()
+        ->assertSee('Peta Laporan Jumantik')
+        ->assertSee('leaflet.js', false)
+        ->assertSee('leaflet.markercluster', false)
+        ->assertSee('jumantik-cluster', false)
+        ->assertSee('tile.openstreetmap.org', false)
+        ->assertSee('Titik Sendiri')
+        ->assertSee('Titik RT')
+        ->assertSee('Titik RT Lain')
+        ->assertSee('-6.5', false)
+        ->assertSee('-6.25', false)
+        ->assertSee('Koordinat default RT', false)
+        ->assertSee('Tanpa Titik Sama Sekali');
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik.map', ['rt' => 1, 'jentik' => 'ya']))
+        ->assertOk()
+        ->assertSee('Titik Sendiri')
+        ->assertDontSee('Titik RT')
+        ->assertDontSee('Titik RT Lain');
+
+    $this->actingAs(User::rt()->where('rt', 1)->first())
+        ->get(route('pengurus.jumantik.map'))
+        ->assertOk()
+        ->assertSee('Titik Sendiri')
+        ->assertSee('Titik RT')
+        ->assertDontSee('Titik RT Lain')
+        ->assertDontSee('Tanpa Titik Sama Sekali');
+});
+
+it('seeds sample coordinates and jumantik reports for the map', function () {
+    $this->seed(\Database\Seeders\JumantikSeeder::class);
+
+    $rt = User::rt()->where('rt', 1)->first();
+    expect($rt->latitude)->toBe('-6.2069385')
+        ->and($rt->longitude)->toBe('106.7692954');
+
+    foreach (range(1, 8) as $number) {
+        expect(Jumantik::where('rt', $number)->where('name', 'like', '% RT '.$number)->count())->toBe(10);
+    }
+
+    $own = Jumantik::where('name', 'Siti Aminah RT 1')->first();
+    expect($own)->not->toBeNull()
+        ->and($own->latitude)->not->toBeNull()
+        ->and($own->longitude)->not->toBeNull()
+        ->and($own->has_jentik)->toBeTrue();
+
+    Storage::disk('public')->assertExists('jumantik/sample.jpg');
+
+    $rt->update(['latitude' => -6.5, 'longitude' => 106.5]);
+    $this->seed(\Database\Seeders\JumantikSeeder::class);
+
+    expect($rt->refresh()->latitude)->toBe('-6.5000000')
+        ->and(Jumantik::where('name', 'Siti Aminah RT 1')->count())->toBe(1)
+        ->and(Jumantik::where('rt', 1)->where('name', 'like', '% RT 1')->count())->toBe(10);
+});

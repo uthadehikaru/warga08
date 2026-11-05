@@ -121,6 +121,7 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
     Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');
     Route::resource('arrival', PengurusArrivalController::class);
     Route::get('jumantik', [PengurusJumantikController::class, 'index'])->name('jumantik.index');
+    Route::get('jumantik/peta', [PengurusJumantikController::class, 'map'])->name('jumantik.map');
     Route::delete('jumantik/{id}', [PengurusJumantikController::class, 'destroy'])->name('jumantik.destroy');
     Route::get('logout-whatsapp', LogoutWhatsapp::class)->name('whatsapp.logout');
     Route::get('logout', function (Request $request) {

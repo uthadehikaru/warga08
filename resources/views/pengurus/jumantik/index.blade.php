@@ -47,8 +47,12 @@
             <div class="stat-desc">{{ $selectedJentik === 'tidak' ? 'sedang ditampilkan' : 'klik untuk filter' }}</div>
         </a>
     </div>
+    <a href="{{ route('pengurus.jumantik.map', array_filter(['rt' => $selectedRt, 'jentik' => $selectedJentik])) }}" class="btn btn-outline btn-primary w-full mb-2">Lihat di peta</a>
     <x-alert />
     @forelse ($reports as $report)
+    @php
+        $point = $report->mapPoint($rtUsers->get((int) $report->rt));
+    @endphp
     <div @class([
         'collapse border mt-1',
         'border-error' => $report->has_jentik,
@@ -67,6 +71,16 @@
             <p>Telp : {{ $report->phone }}</p>
             <p>Alamat : {{ $report->address }}</p>
             <p @class(['text-error font-semibold' => $report->has_jentik])>Ditemukan jentik : {{ $report->has_jentik ? 'Ya' : 'Tidak' }}</p>
+            @if($point)
+            <p>Koordinat : {{ number_format($point['latitude'], 7, '.', '') }}, {{ number_format($point['longitude'], 7, '.', '') }}
+                @if($point['source'] === 'rt')
+                <span>(default RT)</span>
+                @endif
+            </p>
+            <a href="{{ route('pengurus.jumantik.map', array_filter(['rt' => $selectedRt, 'jentik' => $selectedJentik, 'focus' => $report->id])) }}" class="btn btn-outline btn-primary w-full mt-2">Lihat di peta</a>
+            @else
+            <p>Koordinat : belum ada</p>
+            @endif
             @if($report->photo)
             <p>Foto : <img src="{{ Storage::disk('public')->url($report->photo) }}" width="300px" /></p>
             @endif
