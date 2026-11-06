@@ -66,6 +66,7 @@ class JumantikOfficerController extends Controller
     {
         $this->editor();
         $officer = $this->officer($user);
+        $this->protectCoordinatorAccount($officer);
 
         return view('pengurus.jumantik-officer.form', [
             'officer' => $officer,
@@ -80,6 +81,7 @@ class JumantikOfficerController extends Controller
     {
         $this->editor();
         $officer = $this->officer($user);
+        $this->protectCoordinatorAccount($officer);
         $data = $request->validate($this->rules($officer));
 
         if (blank($data['password'] ?? null)) {
@@ -100,7 +102,9 @@ class JumantikOfficerController extends Controller
     public function destroy(User $user)
     {
         $this->editor();
-        $this->officer($user)->delete();
+        $officer = $this->officer($user);
+        $this->protectCoordinatorAccount($officer);
+        $officer->delete();
 
         return redirect()
             ->route('pengurus.jumantik-officer.index')
@@ -110,7 +114,7 @@ class JumantikOfficerController extends Controller
     private function manager(): User
     {
         $user = Auth::user();
-        abort_unless(in_array($user->role, ['rt', 'rw'], true), 403);
+        abort_unless(in_array($user->role, ['rt', 'rw'], true) || $user->coversAllJumantikRts(), 403);
 
         return $user;
     }
@@ -118,9 +122,15 @@ class JumantikOfficerController extends Controller
     private function editor(): User
     {
         $user = Auth::user();
-        abort_unless($user->role === 'rw', 403);
+        abort_unless($user->canManageJumantikOfficers(), 403);
 
         return $user;
+    }
+
+    private function protectCoordinatorAccount(User $officer): void
+    {
+        $user = Auth::user();
+        abort_if($user->coversAllJumantikRts() && $user->id === $officer->id, 403);
     }
 
     private function officer(User $user): User
@@ -147,14 +157,12 @@ class JumantikOfficerController extends Controller
             'password' => [$officer ? 'nullable' : 'required', 'string', 'min:6'],
         ];
 
-        if (Auth::user()->role === 'rw') {
-            $rules['rt'] = [
-                'required',
-                Rule::in(array_merge(
-                    ['semua'],
-                    $this->rtOptions()->pluck('rt')->map(fn ($rt) => (int) $rt)->all(),
-                )),
-            ];
+        $rtIds = $this->rtOptions()->pluck('rt')->map(fn ($rt) => (int) $rt)->all();
+
+        if (Auth::user()->coversAllJumantikRts()) {
+            $rules['rt'] = ['required', 'integer', Rule::in($rtIds)];
+        } elseif (Auth::user()->role === 'rw') {
+            $rules['rt'] = ['required', Rule::in(array_merge(['semua'], $rtIds))];
         }
 
         return $rules;

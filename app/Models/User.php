@@ -90,6 +90,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->role === 'jumantik' && $this->rt === null;
     }
 
+    public function canManageJumantikOfficers(): bool
+    {
+        return $this->role === 'rw' || $this->coversAllJumantikRts();
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->role == 'admin';

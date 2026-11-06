@@ -35,7 +35,7 @@
         <textarea class="textarea textarea-bordered h-24" name="address" required
         placeholder="masukkan alamat">{{ old('address', $officer->address) }}</textarea>
     </label>
-    @if(auth()->user()->role === 'rw')
+    @if(auth()->user()->role === 'rw' || auth()->user()->coversAllJumantikRts())
     <label class="form-control w-full max-w-xs">
         <div class="label">
             <span class="label-text">RT</span>
@@ -45,14 +45,22 @@
         @endphp
         <select name="rt" class="select select-bordered w-full max-w-xs" required>
             <option value="" disabled @selected($selectedRt === null || $selectedRt === '')>Pilih RT</option>
+            @if(auth()->user()->role === 'rw')
             <option value="semua" @selected((string) $selectedRt === 'semua')>Semua RT</option>
+            @endif
             @foreach ($rts as $rt)
             <option value="{{ $rt->rt }}" @selected((string) $selectedRt === (string) $rt->rt)>RT. {{ $rt->rt }} - {{ $rt->name }}</option>
             @endforeach
         </select>
+        @if(auth()->user()->role === 'rw')
         <div class="label">
             <span class="label-text-alt">Semua RT mengosongkan data RT. Pengurus itu dapat mengakses data jumantik seluruh RT.</span>
         </div>
+        @else
+        <div class="label">
+            <span class="label-text-alt">RT wajib dipilih. Pengurus baru hanya melihat data jumantik RT itu.</span>
+        </div>
+        @endif
     </label>
     @else
     <p class="mt-3 text-sm">RT. {{ auth()->user()->rt }}</p>
@@ -65,7 +73,7 @@
         class="input input-bordered w-full max-w-xs" @unless($officer->exists) required @endunless />
     </label>
     @unless($officer->exists)
-    <p class="text-sm max-w-xs mt-1">Password dipakai pengurus jumantik untuk masuk. RT tertentu hanya melihat data RT itu. Semua RT melihat data seluruh RT.</p>
+    <p class="text-sm max-w-xs mt-1">Password dipakai pengurus jumantik untuk masuk. @if(auth()->user()->role === 'rw')RT tertentu hanya melihat data RT itu. Semua RT melihat data seluruh RT.@else Pengurus ini hanya melihat data jumantik RT yang dipilih.@endif</p>
     @endunless
     <button type="submit" class="btn btn-primary mt-2 text-sm">Simpan</button>
     <a href="{{ route('pengurus.jumantik-officer.index') }}" class="ml-2 btn border border-warning text-warning mt-2 text-sm">Kembali</a>

@@ -210,8 +210,10 @@ it('lets a jumantik officer open only jumantik data for their rt', function () {
         ->assertSee('Input data')
         ->assertSee(route('pengurus.jumantik.create'), false)
         ->assertDontSee('RT/RW')
+        ->assertDontSee('Pengurus Jumantik')
         ->assertDontSee('Total Pengajuan')
         ->assertDontSee(route('pengurus.warga.index'), false)
+        ->assertDontSee(route('pengurus.jumantik-officer.index'), false)
         ->assertSee('stat-value text-info">1', false);
 
     $this->actingAs($officer)
@@ -535,6 +537,8 @@ it('lets a jumantik officer with an empty rt open and record data for every rt',
         ->get(route('pengurus.dashboard'))
         ->assertOk()
         ->assertSee('stat-value text-info">2', false)
+        ->assertSee('Pengurus Jumantik')
+        ->assertSee(route('pengurus.jumantik-officer.index'), false)
         ->assertDontSee('RT/RW')
         ->assertDontSee(route('pengurus.warga.index'), false);
 
@@ -590,6 +594,122 @@ it('lets a jumantik officer with an empty rt open and record data for every rt',
     $this->actingAs($coordinator)
         ->get(route('pengurus.warga.index'))
         ->assertForbidden();
+});
+
+it('lets a coordinator add a jumantik officer only when an rt is chosen', function () {
+    User::factory()->create([
+        'role' => 'jumantik',
+        'rt' => 1,
+        'name' => 'Petugas RT 1',
+        'email' => 'petugas.rt1@example.com',
+    ]);
+    User::factory()->create([
+        'role' => 'jumantik',
+        'rt' => 2,
+        'name' => 'Petugas RT 2',
+        'email' => 'petugas.rt2@example.com',
+    ]);
+
+    $coordinator = User::factory()->create([
+        'role' => 'jumantik',
+        'rt' => null,
+        'name' => 'Koordinator',
+    ]);
+    $existing = User::where('email', 'petugas.rt1@example.com')->first();
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik-officer.index'))
+        ->assertOk()
+        ->assertSee('Petugas RT 1')
+        ->assertSee('Petugas RT 2')
+        ->assertSee('Tambah')
+        ->assertSee('Ubah data')
+        ->assertSee('Hapus')
+        ->assertDontSee(route('pengurus.jumantik-officer.edit', $coordinator), false)
+        ->assertDontSee(route('pengurus.jumantik-officer.destroy', $coordinator), false);
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik-officer.create'))
+        ->assertOk()
+        ->assertSee('name="rt"', false)
+        ->assertSee('RT. 8')
+        ->assertSee('RT wajib dipilih', false)
+        ->assertDontSee('value="semua"', false)
+        ->assertDontSee('Semua RT');
+
+    $this->actingAs($coordinator)
+        ->post(route('pengurus.jumantik-officer.store'), [
+            'name' => 'Tanpa RT',
+            'email' => 'tanpa.rt@example.com',
+            'phone' => '081234567890',
+            'address' => 'Jl. Melati',
+            'rt' => 'semua',
+            'password' => 'rahasia',
+        ])
+        ->assertSessionHasErrors('rt');
+
+    $this->actingAs($coordinator)
+        ->post(route('pengurus.jumantik-officer.store'), [
+            'name' => 'Pengurus RT 3',
+            'email' => 'pengurus.rt3@example.com',
+            'phone' => '081234567891',
+            'address' => 'Jl. Melati No. 3',
+            'rt' => 3,
+            'password' => 'rahasia',
+        ])
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    $created = User::where('email', 'pengurus.rt3@example.com')->first();
+
+    expect($created)->not->toBeNull()
+        ->and($created->role)->toBe('jumantik')
+        ->and((int) $created->rt)->toBe(3);
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik-officer.edit', $existing))
+        ->assertOk()
+        ->assertSee('Ubah Pengurus Jumantik')
+        ->assertSee('RT wajib dipilih', false)
+        ->assertDontSee('value="semua"', false);
+
+    $this->actingAs($coordinator)
+        ->put(route('pengurus.jumantik-officer.update', $existing), [
+            'name' => 'Petugas RT 1 Baru',
+            'email' => $existing->email,
+            'phone' => '081111111111',
+            'address' => 'Jl. Diganti',
+            'rt' => 'semua',
+        ])
+        ->assertSessionHasErrors('rt');
+
+    $this->actingAs($coordinator)
+        ->put(route('pengurus.jumantik-officer.update', $existing), [
+            'name' => 'Petugas RT 1 Baru',
+            'email' => $existing->email,
+            'phone' => '081111111111',
+            'address' => 'Jl. Diganti',
+            'rt' => 4,
+        ])
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    expect($existing->refresh()->name)->toBe('Petugas RT 1 Baru')
+        ->and((int) $existing->rt)->toBe(4);
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik-officer.edit', $coordinator))
+        ->assertForbidden();
+
+    $this->actingAs($coordinator)
+        ->delete(route('pengurus.jumantik-officer.destroy', $coordinator))
+        ->assertForbidden();
+
+    expect(User::find($coordinator->id))->not->toBeNull();
+
+    $this->actingAs($coordinator)
+        ->delete(route('pengurus.jumantik-officer.destroy', $existing))
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    expect(User::find($existing->id))->toBeNull();
 });
 
 it('seeds jumantik officers and a coordinator with an empty rt', function () {

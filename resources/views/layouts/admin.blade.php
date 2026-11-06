@@ -15,6 +15,9 @@
 <li><a href="{{ route('pengurus.request.index') }}">Pengajuan</a></li>
 <li><a href="{{ route('pengurus.arrival.index') }}">Pendatang</a></li>
 @endcan
+@if(auth()->user()->coversAllJumantikRts())
+<li><a href="{{ route('pengurus.jumantik-officer.index') }}">Pengurus Jumantik</a></li>
+@endif
 @if(in_array(auth()->user()->role, ['rt', 'rw', 'jumantik']))
 <li><a href="{{ route('pengurus.jumantik.index') }}">Data Jumantik</a></li>
 @endif

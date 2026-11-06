@@ -14,7 +14,7 @@
             <p>email : {{ $row->email }}</p>
             <p>telp : {{ $row->phone }}</p>
             <p>alamat : {{ $row->address }}</p>
-            @if(auth()->user()->role === 'rw')
+            @if(auth()->user()->canManageJumantikOfficers() && ! (auth()->user()->coversAllJumantikRts() && auth()->id() === $row->id))
             <a href="{{ route('pengurus.jumantik-officer.edit', $row) }}" class="text-warning underline">Ubah data</a>
             <form action="{{ route('pengurus.jumantik-officer.destroy', $row) }}" method="POST" class="mt-2" onsubmit="return confirm('Hapus pengurus jumantik ini?')">
                 @csrf

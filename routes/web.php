@@ -138,6 +138,9 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
         Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif');
         Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');
         Route::resource('arrival', PengurusArrivalController::class);
+    });
+
+    Route::middleware('role:rt,rw,jumantik')->group(function () {
         Route::resource('pengurus-jumantik', JumantikOfficerController::class)
             ->except(['show'])
             ->names('jumantik-officer')
