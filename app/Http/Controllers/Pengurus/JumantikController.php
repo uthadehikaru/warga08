@@ -70,7 +70,8 @@ class JumantikController extends Controller
     {
         $report = Jumantik::findOrFail($id);
 
-        if (in_array(Auth::user()->role, ['rt', 'jumantik'], true) && $report->rt != Auth::user()->rt) {
+        $user = Auth::user();
+        if (in_array($user->role, ['rt', 'jumantik'], true) && ! $user->coversAllJumantikRts() && (int) $report->rt !== (int) $user->rt) {
             abort(403);
         }
 
@@ -92,7 +93,7 @@ class JumantikController extends Controller
 
         return view('pengurus.jumantik.form', [
             'report' => new Jumantik(['rt' => $user->rt]),
-            'rts' => collect(),
+            'rts' => $user->coversAllJumantikRts() ? User::rt()->orderBy('rt')->get() : collect(),
         ]);
     }
 
@@ -105,7 +106,7 @@ class JumantikController extends Controller
 
         return view('pengurus.jumantik.form', [
             'report' => $report,
-            'rts' => Auth::user()->role === 'rw' ? User::rt()->orderBy('rt')->get() : collect(),
+            'rts' => $this->canAssignReportRt(Auth::user()) ? User::rt()->orderBy('rt')->get() : collect(),
         ]);
     }
 
@@ -126,7 +127,7 @@ class JumantikController extends Controller
             'longitude' => 'nullable|required_with:latitude|numeric|between:-180,180',
         ];
 
-        if ($user->role === 'rw') {
+        if ($this->canAssignReportRt($user)) {
             $rules['rt'] = ['required', 'integer', Rule::in($this->rtUsers()->keys()->map(fn ($rt) => (int) $rt)->all())];
         }
 
@@ -148,7 +149,7 @@ class JumantikController extends Controller
             'longitude' => $longitude,
         ];
 
-        if ($user->role === 'rw') {
+        if ($this->canAssignReportRt($user)) {
             $payload['rt'] = (int) $data['rt'];
         }
 
@@ -170,7 +171,7 @@ class JumantikController extends Controller
     public function store(Request $request)
     {
         $user = $this->officer();
-        $data = $request->validate([
+        $rules = [
             'name' => 'required|min:3|max:255',
             'phone' => 'required|numeric',
             'address' => 'required|min:3|max:255',
@@ -178,7 +179,13 @@ class JumantikController extends Controller
             'photo' => 'required|image|max:15024',
             'latitude' => 'nullable|required_with:longitude|numeric|between:-90,90',
             'longitude' => 'nullable|required_with:latitude|numeric|between:-180,180',
-        ]);
+        ];
+
+        if ($user->coversAllJumantikRts()) {
+            $rules['rt'] = ['required', 'integer', Rule::in($this->rtUsers()->keys()->map(fn ($rt) => (int) $rt)->all())];
+        }
+
+        $data = $request->validate($rules);
 
         $latitude = $request->filled('latitude') ? round((float) $request->input('latitude'), 7) : null;
         $longitude = $request->filled('longitude') ? round((float) $request->input('longitude'), 7) : null;
@@ -189,7 +196,7 @@ class JumantikController extends Controller
         }
 
         $report = Jumantik::create([
-            'rt' => $user->rt,
+            'rt' => $user->coversAllJumantikRts() ? (int) $data['rt'] : $user->rt,
             'user_id' => $user->id,
             'name' => $data['name'],
             'phone' => $data['phone'],
@@ -212,8 +219,9 @@ class JumantikController extends Controller
         $rts = User::rt()->orderBy('rt')->get();
         $selectedRt = null;
 
-        if (in_array(Auth::user()->role, ['rt', 'jumantik'], true)) {
-            $reports->where('rt', Auth::user()->rt);
+        $user = Auth::user();
+        if (in_array($user->role, ['rt', 'jumantik'], true) && ! $user->coversAllJumantikRts()) {
+            $reports->where('rt', $user->rt);
             $rts = collect();
         } elseif ($request->filled('rt')) {
             $requestedRt = $request->integer('rt');
@@ -243,6 +251,11 @@ class JumantikController extends Controller
     private function rtUsers(): Collection
     {
         return User::rt()->get()->keyBy(fn (User $user) => (int) $user->rt);
+    }
+
+    private function canAssignReportRt(User $user): bool
+    {
+        return $user->role === 'rw' || $user->coversAllJumantikRts();
     }
 
     private function officer(): User

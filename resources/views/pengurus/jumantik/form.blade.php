@@ -11,7 +11,11 @@
     @endif
     <h1 class="font-bold text-lg">{{ $editing ? 'Ubah' : 'Input' }} Data Jumantik</h1>
     @unless($editing)
+    @if($rts->isNotEmpty())
+    <p class="text-sm mt-1">Pilih RT untuk laporan ini. Data dicatat sebagai input pengurus.</p>
+    @else
     <p class="text-sm mt-1">RT. {{ $report->rt }}. Data ini dicatat sebagai input pengurus.</p>
+    @endif
     @endunless
     <x-alert />
     <label class="form-control w-full max-w-xs">
@@ -35,7 +39,7 @@
         <textarea class="textarea textarea-bordered h-24" name="address" required
         placeholder="masukkan alamat">{{ old('address', $report->address) }}</textarea>
     </label>
-    @if($editing && auth()->user()->role === 'rw')
+    @if($rts->isNotEmpty())
     <label class="form-control w-full max-w-xs">
         <div class="label">
             <span class="label-text">RT</span>

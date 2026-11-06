@@ -50,7 +50,7 @@ class JumantikOfficerController extends Controller
         $auth = $this->manager();
         $data = $request->validate($this->rules());
         $data['role'] = 'jumantik';
-        $data['rt'] = $auth->role === 'rt' ? $auth->rt : (int) $data['rt'];
+        $data['rt'] = $auth->role === 'rt' ? $auth->rt : $this->rtValue($data['rt']);
 
         User::create($data);
 
@@ -86,7 +86,7 @@ class JumantikOfficerController extends Controller
             unset($data['password']);
         }
 
-        $data['rt'] = (int) $data['rt'];
+        $data['rt'] = $this->rtValue($data['rt']);
         $officer->update($data);
 
         return redirect()
@@ -150,8 +150,10 @@ class JumantikOfficerController extends Controller
         if (Auth::user()->role === 'rw') {
             $rules['rt'] = [
                 'required',
-                'integer',
-                Rule::in($this->rtOptions()->pluck('rt')->map(fn ($rt) => (int) $rt)->all()),
+                Rule::in(array_merge(
+                    ['semua'],
+                    $this->rtOptions()->pluck('rt')->map(fn ($rt) => (int) $rt)->all(),
+                )),
             ];
         }
 
@@ -161,5 +163,10 @@ class JumantikOfficerController extends Controller
     private function rtOptions()
     {
         return User::rt()->orderBy('rt')->get();
+    }
+
+    private function rtValue(mixed $rt): ?int
+    {
+        return $rt === 'semua' ? null : (int) $rt;
     }
 }

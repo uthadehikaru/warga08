@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            PengurusJumantikSeeder::class,
             JumantikSeeder::class,
             HealthRecordSeeder::class,
             HealthHistorySeeder::class,

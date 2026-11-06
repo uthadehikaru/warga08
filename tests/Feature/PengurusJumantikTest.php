@@ -2,6 +2,7 @@
 
 use App\Models\Jumantik;
 use App\Models\User;
+use Database\Seeders\PengurusJumantikSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
@@ -448,4 +449,164 @@ it('lets jumantik edit only their own reports, rt edit their rt, and rw edit eve
     expect($otherRt->refresh()->name)->toBe('Diedit RW')
         ->and((int) $otherRt->rt)->toBe(3)
         ->and($otherRt->has_jentik)->toBeTrue();
+});
+
+it('lets rw leave a jumantik officer rt empty so they cover every rt', function () {
+    $rw = User::rw()->first();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik-officer.create'))
+        ->assertOk()
+        ->assertSee('Semua RT')
+        ->assertSee('mengosongkan data RT', false);
+
+    $this->actingAs($rw)
+        ->post(route('pengurus.jumantik-officer.store'), [
+            'name' => 'Indah Astrida',
+            'email' => 'indahastrida11@gmail.com',
+            'phone' => '089531636293',
+            'address' => 'RW 08',
+            'rt' => 'semua',
+            'password' => 'jumantik123',
+        ])
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    $coordinator = User::where('email', 'indahastrida11@gmail.com')->first();
+
+    expect($coordinator)->not->toBeNull()
+        ->and($coordinator->role)->toBe('jumantik')
+        ->and($coordinator->rt)->toBeNull()
+        ->and($coordinator->coversAllJumantikRts())->toBeTrue();
+
+    $this->actingAs($rw)
+        ->get(route('pengurus.jumantik-officer.index'))
+        ->assertOk()
+        ->assertSee('Semua RT : Indah Astrida');
+
+    $this->actingAs($rw)
+        ->put(route('pengurus.jumantik-officer.update', $coordinator), [
+            'name' => 'Indah Astrida',
+            'email' => 'indahastrida11@gmail.com',
+            'phone' => '089531636293',
+            'address' => 'RW 08',
+            'rt' => 4,
+        ])
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    expect((int) $coordinator->refresh()->rt)->toBe(4);
+
+    $this->actingAs($rw)
+        ->put(route('pengurus.jumantik-officer.update', $coordinator), [
+            'name' => 'Indah Astrida',
+            'email' => 'indahastrida11@gmail.com',
+            'phone' => '089531636293',
+            'address' => 'RW 08',
+            'rt' => 'semua',
+        ])
+        ->assertRedirect(route('pengurus.jumantik-officer.index'));
+
+    expect($coordinator->refresh()->rt)->toBeNull();
+});
+
+it('lets a jumantik officer with an empty rt open and record data for every rt', function () {
+    Storage::fake('public');
+    Notification::fake();
+
+    Jumantik::factory()->create([
+        'rt' => 1,
+        'name' => 'Laporan RT 1',
+        'latitude' => -6.2,
+        'longitude' => 106.7,
+    ]);
+    $other = Jumantik::factory()->create([
+        'rt' => 2,
+        'name' => 'Laporan RT 2',
+        'latitude' => -6.3,
+        'longitude' => 106.8,
+    ]);
+
+    $coordinator = User::factory()->create([
+        'role' => 'jumantik',
+        'rt' => null,
+        'name' => 'Koordinator',
+    ]);
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.dashboard'))
+        ->assertOk()
+        ->assertSee('stat-value text-info">2', false)
+        ->assertDontSee('RT/RW')
+        ->assertDontSee(route('pengurus.warga.index'), false);
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik.index'))
+        ->assertOk()
+        ->assertSee('Tampilkan data per RT')
+        ->assertSee('Semua RT')
+        ->assertSee('Laporan RT 1')
+        ->assertSee('Laporan RT 2');
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik.index', ['rt' => 2]))
+        ->assertOk()
+        ->assertSee('Laporan RT 2')
+        ->assertDontSee('Laporan RT 1');
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik.map'))
+        ->assertOk()
+        ->assertSee('Laporan RT 1')
+        ->assertSee('Laporan RT 2');
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.jumantik.create'))
+        ->assertOk()
+        ->assertSee('name="rt"', false)
+        ->assertSee('RT. 8');
+
+    $this->actingAs($coordinator)
+        ->post(route('pengurus.jumantik.store'), [
+            'name' => 'Warga RT 6',
+            'phone' => '081234567890',
+            'address' => 'Jl. Melati No. 6',
+            'has_jentik' => 'tidak',
+            'rt' => 6,
+            'photo' => UploadedFile::fake()->image('jentik.jpg'),
+        ])
+        ->assertRedirect(route('pengurus.jumantik.index'));
+
+    $created = Jumantik::where('name', 'Warga RT 6')->first();
+
+    expect($created)->not->toBeNull()
+        ->and((int) $created->rt)->toBe(6)
+        ->and($created->user_id)->toBe($coordinator->id);
+
+    $this->actingAs($coordinator)
+        ->delete(route('pengurus.jumantik.destroy', $other->id))
+        ->assertRedirect(route('pengurus.jumantik.index'));
+
+    expect(Jumantik::find($other->id))->toBeNull();
+
+    $this->actingAs($coordinator)
+        ->get(route('pengurus.warga.index'))
+        ->assertForbidden();
+});
+
+it('seeds jumantik officers and a coordinator with an empty rt', function () {
+    $this->seed(PengurusJumantikSeeder::class);
+    $this->seed(PengurusJumantikSeeder::class);
+
+    expect(User::jumantik()->count())->toBe(11);
+
+    $coordinator = User::where('email', 'indahastrida11@gmail.com')->first();
+    $rtFour = User::where('email', 'yunaniyunani1978@gmail.com')->first();
+
+    expect($coordinator->name)->toBe('Indah Astrida')
+        ->and($coordinator->phone)->toBe('089531636293')
+        ->and($coordinator->rt)->toBeNull()
+        ->and($coordinator->role)->toBe('jumantik')
+        ->and(Hash::check('jumantik123', $coordinator->password))->toBeTrue()
+        ->and($rtFour->name)->toBe('Yunani')
+        ->and((int) $rtFour->rt)->toBe(4)
+        ->and((int) User::where('email', 'sitif3037@gmail.com')->first()->rt)->toBe(3);
 });

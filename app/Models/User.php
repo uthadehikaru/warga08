@@ -82,6 +82,14 @@ class User extends Authenticatable implements FilamentUser
         $query->where('role', 'jumantik');
     }
 
+    /**
+     * A jumantik officer with an empty RT covers every RT.
+     */
+    public function coversAllJumantikRts(): bool
+    {
+        return $this->role === 'jumantik' && $this->rt === null;
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->role == 'admin';

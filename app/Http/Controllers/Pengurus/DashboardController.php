@@ -45,7 +45,11 @@ class DashboardController extends Controller
             $data['unapproved_arrivals'] = Arrival::invalid()->where('rt', $user->rt)->count();
             $data['jumantik_reports'] = Jumantik::where('rt', $user->rt)->count();
         } elseif ($user->role == 'jumantik') {
-            $data['jumantik_reports'] = Jumantik::where('rt', $user->rt)->count();
+            $reports = Jumantik::query();
+            if (! $user->coversAllJumantikRts()) {
+                $reports->where('rt', $user->rt);
+            }
+            $data['jumantik_reports'] = $reports->count();
         }
 
         return view('pengurus.dashboard', $data);

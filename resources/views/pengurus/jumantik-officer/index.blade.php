@@ -9,7 +9,7 @@
     @forelse ($officers as $row)
     <div class="collapse bg-base-200 mt-1">
         <input type="radio" name="jumantik-officer" />
-        <div class="collapse-title text-xl font-medium">RT. {{ $row->rt }} : {{ $row->name }}</div>
+        <div class="collapse-title text-xl font-medium">{{ $row->rt === null ? 'Semua RT' : 'RT. '.$row->rt }} : {{ $row->name }}</div>
         <div class="collapse-content">
             <p>email : {{ $row->email }}</p>
             <p>telp : {{ $row->phone }}</p>

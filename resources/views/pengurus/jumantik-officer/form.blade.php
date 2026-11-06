@@ -40,12 +40,19 @@
         <div class="label">
             <span class="label-text">RT</span>
         </div>
+        @php
+            $selectedRt = old('rt', $officer->exists ? ($officer->rt === null ? 'semua' : $officer->rt) : '');
+        @endphp
         <select name="rt" class="select select-bordered w-full max-w-xs" required>
-            <option value="">Pilih RT</option>
+            <option value="" disabled @selected($selectedRt === null || $selectedRt === '')>Pilih RT</option>
+            <option value="semua" @selected((string) $selectedRt === 'semua')>Semua RT</option>
             @foreach ($rts as $rt)
-            <option value="{{ $rt->rt }}" @selected((string) old('rt', $officer->rt) === (string) $rt->rt)>RT. {{ $rt->rt }} - {{ $rt->name }}</option>
+            <option value="{{ $rt->rt }}" @selected((string) $selectedRt === (string) $rt->rt)>RT. {{ $rt->rt }} - {{ $rt->name }}</option>
             @endforeach
         </select>
+        <div class="label">
+            <span class="label-text-alt">Semua RT mengosongkan data RT. Pengurus itu dapat mengakses data jumantik seluruh RT.</span>
+        </div>
     </label>
     @else
     <p class="mt-3 text-sm">RT. {{ auth()->user()->rt }}</p>
@@ -58,7 +65,7 @@
         class="input input-bordered w-full max-w-xs" @unless($officer->exists) required @endunless />
     </label>
     @unless($officer->exists)
-    <p class="text-sm max-w-xs mt-1">Password dipakai pengurus jumantik untuk masuk dan melihat data jumantik RT-nya.</p>
+    <p class="text-sm max-w-xs mt-1">Password dipakai pengurus jumantik untuk masuk. RT tertentu hanya melihat data RT itu. Semua RT melihat data seluruh RT.</p>
     @endunless
     <button type="submit" class="btn btn-primary mt-2 text-sm">Simpan</button>
     <a href="{{ route('pengurus.jumantik-officer.index') }}" class="ml-2 btn border border-warning text-warning mt-2 text-sm">Kembali</a>
