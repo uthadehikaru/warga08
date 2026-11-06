@@ -27,34 +27,37 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('list rt', function (User $user) {
-            return $user->role=='rw';
+            return $user->role == 'rw';
+        });
+        Gate::define('list pengurus', function (User $user) {
+            return in_array($user->role, ['rt', 'rw']);
         });
         Gate::define('config', function (User $user) {
-            return $user->role=='rw';
+            return $user->role == 'rw';
         });
         Gate::define('notif rw', function (User $user, Request $request) {
-            return $user->role=='rt' && $request->status=='approve_rw';
+            return $user->role == 'rt' && $request->status == 'approve_rw';
         });
         Gate::define('notif rt', function (User $user, Request $request) {
-            return $user->role=='rw' && $request->status=='new';
+            return $user->role == 'rw' && $request->status == 'new';
         });
         Gate::define('notif warga', function (User $user, Request $request) {
-            return in_array($user->role, ['rt','rw']) && in_array($request->status, ['approve_rt','approve_rw']);
+            return in_array($user->role, ['rt', 'rw']) && in_array($request->status, ['approve_rt', 'approve_rw']);
         });
         Gate::define('edit request', function (User $user, Request $request) {
-            return $user->role=='rw' || ($user->role=='rt' && $request->rt==$user->rt);
+            return $user->role == 'rw' || ($user->role == 'rt' && $request->rt == $user->rt);
         });
         Gate::define('approve rt', function (User $user, Request $request) {
-            return $user->role=='rt' && $request->rt==$user->rt && $request->status=='new';
+            return $user->role == 'rt' && $request->rt == $user->rt && $request->status == 'new';
         });
         Gate::define('approve rw', function (User $user, Request $request) {
-            return $user->role=='rw' && $request->status=='approve_rt';
+            return $user->role == 'rw' && $request->status == 'approve_rt';
         });
         Gate::define('cancel', function (User $user, Request $request) {
-            return $user->role=='rt' && $request->status=='new' && $request->rt==$user->rt;
+            return $user->role == 'rt' && $request->status == 'new' && $request->rt == $user->rt;
         });
         Gate::define('approve arrival', function (User $user, Arrival $arrival) {
-            return !$arrival->is_valid && ($user->role=='rw' || ($user->role=='rt' && $arrival->rt==$user->rt));
+            return ! $arrival->is_valid && ($user->role == 'rw' || ($user->role == 'rt' && $arrival->rt == $user->rt));
         });
     }
 }

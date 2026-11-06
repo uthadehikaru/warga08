@@ -67,7 +67,8 @@ it('lets a resident submit jumantik information', function () {
         ->and($jumantik->rt)->toBe(1)
         ->and($jumantik->nik)->toBeNull()
         ->and($jumantik->latitude)->toBeNull()
-        ->and($jumantik->longitude)->toBeNull();
+        ->and($jumantik->longitude)->toBeNull()
+        ->and($jumantik->user_id)->toBeNull();
 
     Storage::disk('public')->assertExists($jumantik->photo);
 });
@@ -145,7 +146,8 @@ it('lets pengurus view jumantik reports on the dashboard', function () {
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.index'))
         ->assertOk()
-        ->assertSee('Laporan Mandiri Jumantik')
+        ->assertSee('Data Jumantik')
+        ->assertSee('Diinput : Mandiri')
         ->assertSee('Siti Aminah')
         ->assertSee('Ditemukan jentik')
         ->assertSee('badge-error', false)
@@ -199,7 +201,7 @@ it('lets rw pengurus filter jumantik reports by rt', function () {
     $this->actingAs($rw)
         ->get(route('pengurus.jumantik.index', ['rt' => 2]))
         ->assertOk()
-        ->assertSee('Laporan Mandiri Jumantik - RT. 2')
+        ->assertSee('Data Jumantik - RT. 2')
         ->assertSee('value="2" selected', false)
         ->assertSee('Warga RT 2')
         ->assertDontSee('Warga RT 1')

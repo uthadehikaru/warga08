@@ -8,6 +8,7 @@ use App\Http\Controllers\Pengurus\ArrivalController as PengurusArrivalController
 use App\Http\Controllers\Pengurus\ConfigController;
 use App\Http\Controllers\Pengurus\DashboardController;
 use App\Http\Controllers\Pengurus\JumantikController as PengurusJumantikController;
+use App\Http\Controllers\Pengurus\JumantikOfficerController;
 use App\Http\Controllers\Pengurus\LogoutWhatsapp;
 use App\Http\Controllers\Pengurus\Request\RequestCancelController;
 use App\Http\Controllers\Pengurus\Request\RequestConfirmController;
@@ -109,21 +110,6 @@ Route::get('document/pdf', function () {
 
 Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
-    Route::resource('rt', RtController::class);
-    Route::resource('sequence', SequenceController::class);
-    Route::resource('warga', WargaController::class);
-    Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');
-    Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');
-    Route::resource('request', PengurusRequestController::class);
-    Route::get('config', ConfigController::class)->name('config');
-    Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif');
-
-    Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');
-    Route::resource('arrival', PengurusArrivalController::class);
-    Route::get('jumantik', [PengurusJumantikController::class, 'index'])->name('jumantik.index');
-    Route::get('jumantik/peta', [PengurusJumantikController::class, 'map'])->name('jumantik.map');
-    Route::delete('jumantik/{id}', [PengurusJumantikController::class, 'destroy'])->name('jumantik.destroy');
-    Route::get('logout-whatsapp', LogoutWhatsapp::class)->name('whatsapp.logout');
     Route::get('logout', function (Request $request) {
         Auth::logout();
         $request->session()->invalidate();
@@ -131,6 +117,37 @@ Route::middleware('auth')->prefix('pengurus')->name('pengurus.')->group(function
 
         return redirect('/');
     })->name('logout');
+
+    Route::middleware('role:rt,rw,jumantik')->group(function () {
+        Route::get('jumantik', [PengurusJumantikController::class, 'index'])->name('jumantik.index');
+        Route::get('jumantik/peta', [PengurusJumantikController::class, 'map'])->name('jumantik.map');
+        Route::get('jumantik/tambah', [PengurusJumantikController::class, 'create'])->name('jumantik.create');
+        Route::post('jumantik', [PengurusJumantikController::class, 'store'])->name('jumantik.store');
+        Route::get('jumantik/{id}/edit', [PengurusJumantikController::class, 'edit'])->name('jumantik.edit');
+        Route::put('jumantik/{id}', [PengurusJumantikController::class, 'update'])->name('jumantik.update');
+        Route::delete('jumantik/{id}', [PengurusJumantikController::class, 'destroy'])->name('jumantik.destroy');
+    });
+
+    Route::middleware('role:rt,rw')->group(function () {
+        Route::resource('rt', RtController::class);
+        Route::resource('sequence', SequenceController::class);
+        Route::resource('warga', WargaController::class);
+        Route::get('request/{id}/confirm', RequestConfirmController::class)->name('request.confirm');
+        Route::get('request/{id}/cancel', RequestCancelController::class)->name('request.cancel');
+        Route::resource('request', PengurusRequestController::class);
+        Route::get('request/{id}/notif/{type}', RequestNotifyController::class)->name('request.notif');
+        Route::get('arrival/{id}/confirm', ArrivalConfirmController::class)->name('arrival.confirm');
+        Route::resource('arrival', PengurusArrivalController::class);
+        Route::resource('pengurus-jumantik', JumantikOfficerController::class)
+            ->except(['show'])
+            ->names('jumantik-officer')
+            ->parameters(['pengurus-jumantik' => 'user']);
+    });
+
+    Route::middleware('role:rw')->group(function () {
+        Route::get('config', ConfigController::class)->name('config');
+        Route::get('logout-whatsapp', LogoutWhatsapp::class)->name('whatsapp.logout');
+    });
 });
 
 Route::post('callback', function (Request $request) {

@@ -73,6 +73,10 @@ class JumantikResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('officer.name')
+                    ->label('Penginput')
+                    ->placeholder('Diinput : Mandiri')
+                    ->formatStateUsing(fn (string $state): string => 'Diinput : '.$state),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Telp')
                     ->searchable(),

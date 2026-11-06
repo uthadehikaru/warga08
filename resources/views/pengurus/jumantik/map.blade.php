@@ -86,6 +86,7 @@
         const jentik = point.has_jentik ? 'Ditemukan jentik' : 'Tidak ditemukan jentik';
         const source = point.source === 'rt' ? 'Rumah RT' : 'Koordinat laporan';
         return '<strong>' + escapeHtml(point.name) + '</strong><br>RT. ' + escapeHtml(point.rt)
+            + '<br>' + escapeHtml(point.input_label)
             + '<br>' + escapeHtml(point.address)
             + '<br>' + escapeHtml(point.created_at)
             + '<br>' + jentik

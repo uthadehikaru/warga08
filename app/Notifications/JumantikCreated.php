@@ -46,6 +46,7 @@ class JumantikCreated extends Notification implements ShouldQueue
             ->line('Telp : '.$this->jumantik->phone)
             ->line('Alamat : '.$this->jumantik->address)
             ->line('Ditemukan jentik : '.($this->jumantik->has_jentik ? 'Ya' : 'Tidak'))
+            ->line($this->jumantik->inputLabel())
             ->action('Lihat Laporan', route('pengurus.jumantik.index'));
 
         if ($this->jumantik->photo) {
@@ -72,7 +73,8 @@ class JumantikCreated extends Notification implements ShouldQueue
         $message .= 'Nama : '.$this->jumantik->name."\n";
         $message .= 'Telp : '.$this->jumantik->phone."\n";
         $message .= 'Alamat : '.$this->jumantik->address."\n";
-        $message .= 'Ditemukan jentik : '.($this->jumantik->has_jentik ? 'Ya' : 'Tidak')."\n\n";
+        $message .= 'Ditemukan jentik : '.($this->jumantik->has_jentik ? 'Ya' : 'Tidak')."\n";
+        $message .= $this->jumantik->inputLabel()."\n\n";
         $message .= 'Lihat laporan : '.route('pengurus.jumantik.index')."\n\n";
 
         $data = [

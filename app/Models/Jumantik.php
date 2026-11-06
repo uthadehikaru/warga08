@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Jumantik extends Model
 {
@@ -16,10 +17,34 @@ class Jumantik extends Model
         'longitude' => 'decimal:7',
     ];
 
+    public function officer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function inputLabel(): string
+    {
+        if ($this->officer) {
+            return 'Diinput : '.$this->officer->name;
+        }
+
+        return 'Diinput : Mandiri';
+    }
+
+    public function editableBy(User $user): bool
+    {
+        return match ($user->role) {
+            'rw' => true,
+            'rt' => (int) $this->rt === (int) $user->rt,
+            'jumantik' => (int) $this->user_id === (int) $user->id,
+            default => false,
+        };
+    }
+
     /**
      * Coordinate stored on the report, or the RT user's default coordinate.
      *
-     * @return array{id: int, name: string, rt: int, address: string, phone: string, has_jentik: bool, created_at: string|null, latitude: float, longitude: float, source: string}|null
+     * @return array{id: int, name: string, rt: int, address: string, phone: string, has_jentik: bool, created_at: string|null, latitude: float, longitude: float, source: string, input_label: string}|null
      */
     public function mapPoint(?User $rt = null): ?array
     {
@@ -50,6 +75,7 @@ class Jumantik extends Model
             'latitude' => (float) $latitude,
             'longitude' => (float) $longitude,
             'source' => $source,
+            'input_label' => $this->inputLabel(),
         ];
     }
 }

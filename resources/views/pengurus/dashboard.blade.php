@@ -10,18 +10,24 @@
         </div>
         @endcan
 
+        @unless(auth()->user()->role === 'jumantik')
         <div class="stat">
             <div class="stat-title text-warning">Pendatang belum dikonfirmasi</div>
             <div class="stat-value text-warning">{{ $unapproved_arrivals }}</div>
             <a href="{{ route('pengurus.arrival.index') }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
+        @endunless
 
         <div class="stat">
             <div class="stat-title text-info">Laporan Mandiri Jumantik</div>
             <div class="stat-value text-info">{{ $jumantik_reports }}</div>
             <a href="{{ route('pengurus.jumantik.index') }}" class="stat-desc underline">lihat selengkapnya</a>
+            @if(auth()->user()->role === 'jumantik')
+            <a href="{{ route('pengurus.jumantik.create') }}" class="btn btn-primary btn-sm mt-3">Input data</a>
+            @endif
         </div>
 
+        @unless(auth()->user()->role === 'jumantik')
         <div class="stat">
             <div class="stat-title text-gray-800">Total Pengajuan</div>
             <div class="stat-value">{{ $total }}</div>
@@ -51,6 +57,7 @@
             <div class="stat-value text-error">{{ $canceled }}</div>
             <a href="{{ route('pengurus.request.index',['status'=>'canceled']) }}" class="stat-desc underline">lihat selengkapnya</a>
         </div>
+        @endunless
     </div>
 </div>
 @endsection
