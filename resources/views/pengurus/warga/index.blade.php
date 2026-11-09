@@ -25,6 +25,7 @@
             <p>agama : {{ $row->religion }}</p>
             <p>pekerjaan : {{ $row->work }}</p>
             <p>alamat : {{ $row->address }}</p>
+            <p>terakhir masuk : {{ $row->last_login_at?->format('d F Y H:i') ?? '-' }}</p>
         </div>
     </div>
     @endforeach

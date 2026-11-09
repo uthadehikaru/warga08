@@ -75,6 +75,11 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rt')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('last_login_at')
+                    ->label('Terakhir masuk')
+                    ->dateTime()
+                    ->sortable()
+                    ->placeholder('—'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
